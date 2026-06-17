@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lisa Sweet Corner – Cakes & Cupcakes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink-light:  #FFF0F5;
+      --pink-mid:    #FFD6E7;
+      --pink-hot:    #FF6B9D;
+      --pink-deep:   #E8437A;
+      --rose-dark:   #5C2D3C;
+      --cream:       #FFF8FA;
+      --text-body:   #7A4055;
+      --white:       #FFFFFF;
+      --shadow:      rgba(255, 107, 157, 0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--pink-light);
+      color: var(--rose-dark);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(255, 240, 245, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--pink-mid);
+      box-shadow: 0 2px 20px var(--shadow);
+    }
+
+    /* ── ANIMATED LOGO WRAP ── */
+    .nav-logo-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      isolation: isolate;
+    }
+
+    /* Orbiting flower petals */
+    .lf {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 0.62rem;
+      line-height: 1;
+      margin: -0.31em 0 0 -0.31em;
+      pointer-events: none;
+      z-index: 0;
+      animation: orbit-petal 7s linear infinite;
+      animation-delay: calc(var(--i) * -1.167s);
+    }
+
+    @keyframes orbit-petal {
+      from { transform: rotate(0deg)   translateX(42px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(42px) rotate(-360deg); }
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+      animation: logo-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes logo-glow {
+      0%, 100% {
+        text-shadow: 0 0 6px rgba(255,107,157,0.25);
+        filter: brightness(1);
+      }
+      50% {
+        text-shadow:
+          0 0 10px rgba(255,107,157,0.9),
+          0 0 22px rgba(255,107,157,0.55),
+          0 0 42px rgba(255,107,157,0.3),
+          0 0 60px rgba(232,67,122,0.18);
+        filter: brightness(1.18);
+      }
+    }
+
+    .nav-logo span { color: var(--rose-dark); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.6rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--rose-dark);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--pink-hot); }
+
+    .nav-cta {
+      background: var(--pink-hot) !important;
+      color: var(--white) !important;
+      padding: 0.48rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      transition: background 0.25s, transform 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--pink-deep) !important; transform: translateY(-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+      touch-action: manipulation;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--rose-dark);
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    /* ═══════════════════════════════════
+       HERO
+    ═══════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 6% 60px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #FFF0F5 0%, #FFD6E7 50%, #FFEEF5 100%);
+    }
+
+    .hero-blobs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .blob-1 { width: 460px; height: 460px; background: #FFB3CF; top: -100px; right: -80px; animation-delay: 0s; }
+    .blob-2 { width: 340px; height: 340px; background: #FECDD3; bottom: -60px; left: -60px; animation-delay: 3s; }
+    .blob-3 { width: 220px; height: 220px; background: #F4C2A1; top: 40%; left: 10%; animation-delay: 5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-22px) scale(1.04); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .hero-content { text-align: left; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--white);
+      color: var(--pink-hot);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 0.4rem 1.1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--pink-mid);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--pink-hot);
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      line-height: 1.18;
+      color: var(--rose-dark);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title em { font-style: italic; color: var(--pink-hot); display: block; }
+
+    .hero-sub {
+      font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+      color: var(--text-body);
+      font-weight: 300;
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.8rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      color: var(--white);
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(232,67,122,0.38);
+      transition: transform 0.25s, box-shadow 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      touch-action: manipulation;
+      min-height: 48px;
+    }
+
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(232,67,122,0.48); }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--pink-deep);
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid var(--pink-mid);
+      transition: transform 0.25s, border-color 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      touch-action: manipulation;
+      min-height: 48px;
+    }
+
+    .btn-secondary:hover { transform: translateY(-3px); border-color: var(--pink-hot); }
+
+    .hero-stats { display: flex; gap: 2.2rem; flex-wrap: wrap; }
+    .stat { text-align: left; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--pink-hot);
+      display: block;
+    }
+
+    .stat-label { font-size: 0.78rem; color: var(--text-body); font-weight: 500; }
+
+    .hero-image { position: relative; }
+
+    .hero-img-frame {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(232,67,122,0.32);
+    }
+
+    .hero-img-frame img { width: 100%; display: block; transition: transform 0.6s ease; }
+    .hero-img-frame:hover img { transform: scale(1.04); }
+
+    .hero-img-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(92,45,60,0.22) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-img-badge {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      z-index: 2;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--rose-dark);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    .hero-img-badge .icon { font-size: 1.3rem; }
+
+    /* ═══════════════════════════════════
+       SECTION COMMON
+    ═══════════════════════════════════ */
+    section { padding: 90px 6%; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--pink-hot);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 3.5vw, 2.7rem);
+      color: var(--rose-dark);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .section-desc {
+      color: var(--text-body);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    .section-header { margin-bottom: 3rem; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-desc { margin: 0 auto; }
+
+    /* ═══════════════════════════════════
+       MENU / PRODUCTS
+    ═══════════════════════════════════ */
+    #menu { background: var(--cream); }
+
+    .tabs {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.6rem;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      border: 2px solid var(--pink-mid);
+      background: var(--white);
+      color: var(--rose-dark);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s;
+      touch-action: manipulation;
+      min-height: 44px;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--pink-hot);
+      color: var(--white);
+      border-color: var(--pink-hot);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 28px var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 44px rgba(255,107,157,0.24);
+    }
+
+    .product-card.hidden { display: none; }
+
+    .product-img { height: 220px; overflow: hidden; position: relative; }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img img { transform: scale(1.07); }
+
+    .product-body { padding: 1.2rem 1.4rem 1.4rem; }
+
+    .product-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--pink-hot);
+      margin-bottom: 0.35rem;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--rose-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .product-desc {
+      font-size: 0.82rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .product-footer { display: flex; justify-content: flex-end; }
+
+    .add-btn {
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 0.55rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s;
+      font-family: 'Poppins', sans-serif;
+      touch-action: manipulation;
+      min-height: 40px;
+      box-shadow: 0 4px 14px rgba(232,67,122,0.3);
+    }
+
+    .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,67,122,0.45); }
+
+    .badge-new {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: var(--pink-hot);
+      color: var(--white);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: 50px;
+      z-index: 2;
+    }
+
+    /* ═══════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════ */
+    #about { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EF 100%); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-photo-frame {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 22px 60px rgba(255,107,157,0.3);
+      border: 4px solid var(--pink-mid);
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-photo-frame img { width: 100%; display: block; transition: transform 0.5s ease; }
+    .about-photo-frame:hover img { transform: scale(1.04); }
+
+    .about-float {
+      position: absolute;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 8px 24px var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--rose-dark);
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .about-float.f1 { top: 24px; right: -20px; }
+    .about-float.f2 { bottom: 40px; left: -24px; }
+    .about-float .icon { font-size: 1.3rem; }
+
+    .about-text .section-desc { max-width: 100%; margin-bottom: 1.5rem; }
+
+    .about-values {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .value-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1.1rem;
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+
+    .value-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .value-title { font-weight: 600; font-size: 0.9rem; color: var(--rose-dark); margin-bottom: 0.2rem; }
+    .value-desc { font-size: 0.78rem; color: var(--text-body); line-height: 1.5; }
+
+    /* ═══════════════════════════════════
+       GALLERY
+    ═══════════════════════════════════ */
+    #gallery { background: var(--cream); }
+
+    .gallery-grid { columns: 3; column-gap: 1.2rem; }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 1.2rem;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+
+    .gallery-item img { width: 100%; display: block; transition: transform 0.45s ease; }
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(92,45,60,0.42);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 2.2rem;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* ═══════════════════════════════════
+       VIDEOS
+    ═══════════════════════════════════ */
+    #videos { background: linear-gradient(155deg, var(--rose-dark) 0%, #8B3A5A 55%, #C0577A 100%); }
+    #videos .section-label { color: var(--pink-mid); }
+    #videos .section-title { color: var(--white); }
+    #videos .section-desc { color: rgba(255,255,255,0.72); }
+
+    .video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+
+    .video-item {
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 9 / 16;
+      background: #111;
+      position: relative;
+      box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+      transition: transform 0.3s;
+    }
+
+    .video-item:hover { transform: translateY(-6px); }
+
+    .video-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .video-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      border: 2px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════ */
+    #testimonials { background: var(--pink-light); }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .review-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 1.8rem;
+      box-shadow: 0 6px 28px var(--shadow);
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    .review-card:hover { transform: translateY(-5px); }
+
+    .review-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 14px; right: 22px;
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--pink-mid);
+      line-height: 1;
+    }
+
+    .stars { color: #FF8C42; font-size: 1.05rem; margin-bottom: 0.85rem; letter-spacing: 2px; }
+    .review-text { font-size: 0.9rem; color: var(--text-body); line-height: 1.75; margin-bottom: 1.4rem; font-style: italic; }
+
+    .reviewer { display: flex; align-items: center; gap: 0.85rem; }
+
+    .reviewer-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .reviewer-name { font-weight: 600; font-size: 0.9rem; color: var(--rose-dark); }
+    .reviewer-label { font-size: 0.75rem; color: var(--text-body); }
+
+    /* ═══════════════════════════════════
+       ORDER / CONTACT
+    ═══════════════════════════════════ */
+    #order {
+      background: linear-gradient(160deg, #5C2D3C 0%, #8B3A5A 50%, #C0577A 100%);
+      color: var(--white);
+    }
+
+    #order .section-label { color: var(--pink-mid); }
+    #order .section-title { color: var(--white); }
+    #order .section-desc { color: rgba(255,255,255,0.75); }
+
+    .order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+
+    .contact-items { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.3rem; }
+    .contact-item { display: flex; align-items: center; gap: 1rem; }
+
+    .contact-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info { font-size: 0.9rem; }
+    .contact-info strong { display: block; color: var(--white); font-weight: 600; margin-bottom: 0.15rem; }
+    .contact-info span { color: rgba(255,255,255,0.7); }
+
+    .order-form {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2.2rem;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .form-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--white); margin-bottom: 1.6rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group.half { margin-bottom: 0; }
+    .form-group label { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8); }
+
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      border-radius: 12px;
+      padding: 0.78rem 1rem;
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px; /* prevents iOS zoom */
+      outline: none;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+    }
+
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.45); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--pink-mid); }
+    .form-group select option { background: #5C2D3C; color: var(--white); }
+    .form-group textarea { resize: none; height: 100px; }
+
+    .btn-order {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      transition: transform 0.25s, box-shadow 0.25s;
+      margin-top: 0.5rem;
+      touch-action: manipulation;
+      min-height: 52px;
+    }
+
+    .btn-order:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.35); }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    footer {
+      background: var(--rose-dark);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 3rem 6% 2rem;
+    }
+
+    /* Animated Footer Logo */
+    .footer-logo-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 52px 80px;
+      margin-bottom: 0.2rem;
+    }
+
+    .lf-f {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 1rem;
+      line-height: 1;
+      margin: -0.5em 0 0 -0.5em;
+      pointer-events: none;
+      animation: orbit-petal-f 8s linear infinite;
+      animation-delay: calc(var(--i) * -1.333s);
+    }
+
+    @keyframes orbit-petal-f {
+      from { transform: rotate(0deg)   translateX(65px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(65px) rotate(-360deg); }
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      animation: logo-glow-footer 3.5s ease-in-out infinite;
+    }
+
+    @keyframes logo-glow-footer {
+      0%, 100% {
+        text-shadow: 0 0 8px rgba(255,107,157,0.3);
+      }
+      50% {
+        text-shadow:
+          0 0 14px rgba(255,107,157,0.9),
+          0 0 28px rgba(255,107,157,0.55),
+          0 0 52px rgba(255,107,157,0.3);
+      }
+    }
+
+    .footer-logo span { color: var(--pink-hot); }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      max-width: 400px;
+      margin: 0 auto 1rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      gap: 1.6rem;
+      justify-content: center;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--pink-hot); }
+
+    .footer-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 1.2rem auto;
+      max-width: 400px;
+    }
+
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+
+    .footer-creator {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 0.5rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .footer-creator a {
+      color: rgba(255,107,157,0.5);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .footer-creator a:hover { color: var(--pink-hot); }
+
+    /* ═══════════════════════════════════
+       SCROLL ANIMATIONS
+    ═══════════════════════════════════ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE — TABLET (≤1024px)
+    ═══════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { columns: 2; }
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE — SMALL TABLET (≤900px)
+    ═══════════════════════════════════ */
+    @media (max-width: 900px) {
+      section { padding: 72px 5%; }
+
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-content { text-align: center; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .stat { text-align: center; }
+      .hero-image { max-width: 420px; margin: 0 auto; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { display: none; }
+      .order-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE — MOBILE (≤700px)
+    ═══════════════════════════════════ */
+    @media (max-width: 700px) {
+      section { padding: 64px 4.5%; }
+
+      /* Nav */
+      nav { padding: 0 4.5%; height: 64px; }
+
+      .lf { display: none; } /* hide orbiting flowers on mobile nav */
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 64px;
+        left: 0; right: 0;
+        background: var(--pink-light);
+        flex-direction: column;
+        padding: 1.2rem 5%;
+        gap: 0;
+        border-bottom: 2px solid var(--pink-mid);
+        box-shadow: 0 8px 30px var(--shadow);
+        z-index: 99;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links li { border-bottom: 1px solid var(--pink-mid); }
+      .nav-links li:last-child { border-bottom: none; padding-top: 0.8rem; }
+
+      .nav-links a {
+        display: block;
+        padding: 0.9rem 0;
+        font-size: 1rem;
+      }
+
+      .nav-cta {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50px !important;
+        padding: 0.7rem 1.5rem !important;
+        margin-bottom: 0.5rem;
+      }
+
+      .hamburger { display: flex; }
+
+      /* Hero */
+      #hero { padding: 90px 4.5% 50px; }
+      .hero-title { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+      .hero-badge { font-size: 0.72rem; }
+      .hero-stats { gap: 1.2rem; }
+      .stat-num { font-size: 1.6rem; }
+      .hero-image { display: none; }
+
+      /* Menu */
+      .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .product-img { height: 160px; }
+      .product-body { padding: 0.9rem 1rem 1rem; }
+      .product-name { font-size: 0.95rem; }
+      .product-desc { font-size: 0.75rem; }
+      .tabs { gap: 0.5rem; }
+      .tab-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+      /* About */
+      .about-values { grid-template-columns: 1fr; }
+
+      /* Gallery */
+      .gallery-grid { columns: 2; column-gap: 0.8rem; }
+      .gallery-item { margin-bottom: 0.8rem; border-radius: 12px; }
+
+      /* Videos */
+      .video-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+
+      /* Reviews */
+      .reviews-grid { grid-template-columns: 1fr; }
+
+      /* Order form */
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .form-group.half { margin-bottom: 1rem; }
+      .order-form { padding: 1.5rem; }
+
+      /* Footer */
+      .footer-logo-wrap { padding: 40px 55px; }
+      .footer-logo { font-size: 1.6rem; }
+      .lf-f { font-size: 0.8rem; }
+      @keyframes orbit-petal-f {
+        from { transform: rotate(0deg)   translateX(50px) rotate(0deg); }
+        to   { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+      }
+      .footer-links { gap: 1rem; font-size: 0.8rem; }
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE — SMALL MOBILE (≤420px)
+    ═══════════════════════════════════ */
+    @media (max-width: 420px) {
+      section { padding: 56px 4%; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .product-img { height: 200px; }
+      .video-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+
+    /* ═══════════════════════════════════
+       TOAST
+    ═══════════════════════════════════ */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--rose-dark);
+      color: var(--white);
+      padding: 1rem 1.4rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.35s, transform 0.35s;
+      pointer-events: none;
+      z-index: 999;
+      max-width: 300px;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ═════════ NAVBAR ═════════ -->
+<nav id="navbar">
+  <div class="nav-logo-wrap">
+    <span class="lf" aria-hidden="true" style="--i:0">🌸</span>
+    <span class="lf" aria-hidden="true" style="--i:1">🌺</span>
+    <span class="lf" aria-hidden="true" style="--i:2">🌸</span>
+    <span class="lf" aria-hidden="true" style="--i:3">🌺</span>
+    <span class="lf" aria-hidden="true" style="--i:4">🌸</span>
+    <span class="lf" aria-hidden="true" style="--i:5">🌺</span>
+    <div class="nav-logo">Lisa <span>Sweet</span> Corner</div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#order" class="nav-cta">Order Now</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═════════ HERO ═════════ -->
+<section id="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span>Now taking custom orders</div>
+      <h1 class="hero-title">Every Bite is a<br><em>Sweet Celebration</em></h1>
+      <p class="hero-sub">Handcrafted cupcakes, cake pops &amp; sweet treats baked with love — made from the finest ingredients for every special moment in your life.</p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn-primary">🍰 Explore Our Menu</a>
+        <a href="#order" class="btn-secondary">📦 Place an Order</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Happy Customers</span></div>
+        <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Designs Available</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Made with Love</span></div>
+      </div>
+    </div>
+    <div class="hero-image fade-up delay-2">
+      <div class="hero-img-frame">
+        <img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Lisa Sweet Corner floral cupcakes" />
+        <div class="hero-img-badge"><span class="icon">🌸</span>Handcrafted with love</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ MENU ═════════ -->
+<section id="menu">
+  <div class="section-header center fade-up">
+    <span class="section-label">Our Menu</span>
+    <h2 class="section-title">Made with Love, Baked to Perfection</h2>
+    <p class="section-desc">From floral cupcakes to elegant cake pops — every piece is a tiny work of art.</p>
+  </div>
+
+  <div class="tabs fade-up delay-1">
+    <button class="tab-btn active" data-filter="all">All</button>
+    <button class="tab-btn" data-filter="cupcake">Cupcakes</button>
+    <button class="tab-btn" data-filter="cakepop">Cake Pops</button>
+    <button class="tab-btn" data-filter="special">Specials</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="product-card fade-up delay-1" data-category="cupcake">
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Pink Floral Cupcakes" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cupcakes</div>
+        <div class="product-name">Pink Floral Cupcakes</div>
+        <div class="product-desc">Stunning bouquet cupcakes with hand-piped roses, peonies &amp; mums in soft pink and peach — perfect for any celebration.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Pink Floral Cupcakes')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-2" data-category="cupcake">
+      <div class="badge-new">Best Seller</div>
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Blue Garden Cupcakes" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cupcakes</div>
+        <div class="product-name">Blue Garden Cupcakes</div>
+        <div class="product-desc">Elegant blue &amp; teal buttercream blooms — succulents, roses, dahlias and wildflowers in one stunning box of 12.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Blue Garden Cupcakes')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-3" data-category="cupcake">
+      <div class="badge-new">New</div>
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Cactus & Succulent Cupcakes" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cupcakes</div>
+        <div class="product-name">Cactus &amp; Succulent Cupcakes</div>
+        <div class="product-desc">Wildly creative garden cupcakes topped with realistic green cacti &amp; succulents in buttercream — a truly unique treat!</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Cactus & Succulent Cupcakes')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-1" data-category="cakepop">
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Sunflower & Pumpkin Cake Pops" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cake Pops</div>
+        <div class="product-name">Sunflower &amp; Pumpkin Pops</div>
+        <div class="product-desc">Adorable chocolate cake pops shaped as pumpkins and sunflowers — detailed, beautiful &amp; perfect for seasonal events.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Sunflower & Pumpkin Cake Pops')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-2" data-category="cakepop">
+      <div class="badge-new">Bestseller</div>
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Elegant Floral Cake Pops" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cake Pops</div>
+        <div class="product-name">Elegant Floral Cake Pops</div>
+        <div class="product-desc">Luxurious white cake pops adorned with navy blue &amp; gold flower decorations — individually boxed &amp; gift-ready.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Elegant Floral Cake Pops')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-3" data-category="cakepop">
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Sage Swirl Cake Pops" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Cake Pops</div>
+        <div class="product-name">Sage Swirl Cake Pops</div>
+        <div class="product-desc">Delicate sage green cake pops with swirl designs, wrapped in clear boxes and tied with white satin bows — perfect as event favors.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Sage Swirl Cake Pops')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-2" data-category="special">
+      <div class="badge-new">Special</div>
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Chocolate Strawberry Tower" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Special</div>
+        <div class="product-name">Chocolate Strawberry Tower</div>
+        <div class="product-desc">A showstopping tower of chocolate-dipped strawberries with gold-dusted tops and red heart accents — the ultimate romantic gift.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Chocolate Strawberry Tower')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up delay-3" data-category="special">
+      <div class="product-img">
+        <img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Decorated Chocolate Pretzels" />
+      </div>
+      <div class="product-body">
+        <div class="product-tag">Special</div>
+        <div class="product-name">Decorated Chocolate Pretzels</div>
+        <div class="product-desc">Hand-dipped pretzels in mint &amp; white chocolate with navy and gold flower decorations — sweet, salty &amp; absolutely stunning.</div>
+        <div class="product-footer">
+          <button class="add-btn" onclick="addToOrder('Decorated Chocolate Pretzels')">Inquire Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═════════ ABOUT ═════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-photo-frame">
+        <img src="photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg" alt="Lisa Sweet Corner creations" />
+      </div>
+      <div class="about-float f1"><span class="icon">⭐</span> 5-Star Rated Bakery</div>
+      <div class="about-float f2"><span class="icon">🎂</span> Custom Orders Welcome</div>
+    </div>
+    <div class="about-text">
+      <div class="section-header fade-up">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">Baked with Heart, Shared with Joy</h2>
+      </div>
+      <p class="section-desc fade-up delay-1">
+        Lisa Sweet Corner started as a passion project in a small home kitchen, driven by a love for baking and a desire to make people smile. Every cupcake, cake pop and sweet treat is handcrafted using premium ingredients — no shortcuts, no compromises.
+      </p>
+      <p class="section-desc fade-up delay-2" style="margin-top: 1rem;">
+        Whether it's a birthday, anniversary, baby shower or just a sweet craving — we pour warmth and creativity into every single order. We believe desserts don't just taste good, they create memories.
+      </p>
+      <div class="about-values">
+        <div class="value-item fade-up delay-1">
+          <div class="value-icon">🌸</div>
+          <div><div class="value-title">Fresh Ingredients</div><div class="value-desc">Only the finest local and premium ingredients used daily.</div></div>
+        </div>
+        <div class="value-item fade-up delay-2">
+          <div class="value-icon">🎨</div>
+          <div><div class="value-title">Custom Designs</div><div class="value-desc">Every piece is a canvas — bring your vision, we'll create it.</div></div>
+        </div>
+        <div class="value-item fade-up delay-3">
+          <div class="value-icon">💌</div>
+          <div><div class="value-title">Made with Love</div><div class="value-desc">Each treat is baked with genuine care and attention.</div></div>
+        </div>
+        <div class="value-item fade-up delay-4">
+          <div class="value-icon">🚀</div>
+          <div><div class="value-title">On-Time Delivery</div><div class="value-desc">We respect your celebration — always ready when you need us.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ GALLERY ═════════ -->
+<section id="gallery">
+  <div class="section-header center fade-up">
+    <span class="section-label">Our Creations</span>
+    <h2 class="section-title">A Feast for the Eyes</h2>
+    <p class="section-desc">Every piece tells a sweet story — browse our handcrafted creations below.</p>
+  </div>
+  <div class="gallery-grid fade-up delay-1">
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg" alt="Cupcake collage" /><div class="gallery-overlay">🌸</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg" alt="Succulent cupcakes" /><div class="gallery-overlay">🌵</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg" alt="Sunflower cake pop" /><div class="gallery-overlay">🌻</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg" alt="Navy cake pops" /><div class="gallery-overlay">✨</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg" alt="Holding succulent cupcake" /><div class="gallery-overlay">💚</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg" alt="Sage green cake pops" /><div class="gallery-overlay">🍃</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg" alt="Blue floral cupcakes" /><div class="gallery-overlay">💙</div></div>
+    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg" alt="Sprinkle cake pop" /><div class="gallery-overlay">🎉</div></div>
+  </div>
+</section>
+
+<!-- ═════════ VIDEOS ═════════ -->
+<section id="videos">
+  <div class="section-header center fade-up">
+    <span class="section-label">Behind the Sweetness</span>
+    <h2 class="section-title">Watch Us Create</h2>
+    <p class="section-desc">A glimpse into the love and artistry that goes into every single piece we make.</p>
+  </div>
+  <div class="video-grid fade-up delay-1">
+    <div class="video-item">
+      <video autoplay muted loop playsinline>
+        <source src="photos%20and%20videos/SnapInsta.to_AQN-zeKSjDXO53sIGqcbLfi5QGZHFA3F8ctM3vGwyZYMGABNQnOEpFRS2JsiS0ElD-HIvu6taeLNMLP5O4-buxK4-qkM1aE2jQfV8bM.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="video-item">
+      <video autoplay muted loop playsinline>
+        <source src="photos%20and%20videos/SnapInsta.to_AQNIwXqZOhFYcNlN0Yo8gvniCeWbBFjJtXpyj7x2tk82n_VHBoRdwczzHQEiZpKX9xzqWWliGYcS9-SFchp3zDerQvNG5sQTLAyzHzc.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="video-item">
+      <video autoplay muted loop playsinline>
+        <source src="photos%20and%20videos/SnapInsta.to_AQNIzuG6_JiBQ2nNuLcf4zeqk_M72-eqlF46bC0OMvRORv5bEGEWnhq1EkNtWWmVTD8IHviRGhcyF-RmWtm9YCkVympaMsj_sEzzD9o.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="video-item">
+      <video autoplay muted loop playsinline>
+        <source src="photos%20and%20videos/SnapInsta.to_AQNnzAAKjzJHqxtwxaHyBZO_uBJFaY8e-4pRRJ1gFLnlZIceycgOZq0JnsNzYjmk2-8QBm0tpV1ZeCS89CgvhF7GIsG1Im6MSz2eOE0.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ TESTIMONIALS ═════════ -->
+<section id="testimonials">
+  <div class="section-header center fade-up">
+    <span class="section-label">Customer Love</span>
+    <h2 class="section-title">What Our Customers Say</h2>
+    <p class="section-desc">Real words from real sweet lovers 💕</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card fade-up delay-1">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"The Blue Garden Cupcakes were absolutely stunning — each one looked like a real flower! My guests couldn't believe they were edible. Will definitely order again."</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#FFD6E7;">👩</div><div><div class="reviewer-name">Maria Santos</div><div class="reviewer-label">Ordered for Birthday</div></div></div>
+    </div>
+    <div class="review-card fade-up delay-2">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"The Elegant Floral Cake Pops were the perfect wedding favor — so beautiful in their little boxes! Everyone was impressed. Lisa really put her heart into every single one."</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#D4E6FF;">👨</div><div><div class="reviewer-name">Carlo &amp; Ana Reyes</div><div class="reviewer-label">Ordered for Wedding</div></div></div>
+    </div>
+    <div class="review-card fade-up delay-3">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Ordered the Cactus Cupcakes for a plant lover's birthday and they were a total hit! So creative and delicious. Packaging was beautiful too!"</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#D5F5E3;">👩</div><div><div class="reviewer-name">Joy Dela Cruz</div><div class="reviewer-label">Ordered for Birthday</div></div></div>
+    </div>
+    <div class="review-card fade-up delay-2">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Super responsive and very accommodating! The Chocolate Strawberry Tower was rich, gorgeous and absolutely perfect. My partner loved it for Valentine's Day!"</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#FFEAA7;">👧</div><div><div class="reviewer-name">Trisha Mendoza</div><div class="reviewer-label">Repeat Customer</div></div></div>
+    </div>
+    <div class="review-card fade-up delay-3">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"The Pink Floral Cupcakes looked like they came out of a magazine! Tasted even better than they looked. Ordered them for my mom's birthday and she cried happy tears."</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#C8E6C9;">👦</div><div><div class="reviewer-name">Nico Tan</div><div class="reviewer-label">First-time Customer</div></div></div>
+    </div>
+    <div class="review-card fade-up delay-4">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Ordered 4 times already! Every order is perfect. Lisa Sweet Corner is my absolute go-to for all celebrations — the quality and presentation never disappoint!"</p>
+      <div class="reviewer"><div class="reviewer-avatar" style="background:#F8BBD9;">👩</div><div><div class="reviewer-name">Diane Villanueva</div><div class="reviewer-label">Loyal Customer</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ ORDER / CONTACT ═════════ -->
+<section id="order">
+  <div class="order-grid">
+    <div>
+      <div class="section-header fade-up">
+        <span class="section-label">Get in Touch</span>
+        <h2 class="section-title">Ready to Order Something Sweet?</h2>
+        <p class="section-desc">Reach out and we'll get back to you within a few hours to confirm your order.</p>
+      </div>
+      <div class="contact-items">
+        <div class="contact-item fade-up delay-1">
+          <div class="contact-icon">📱</div>
+          <div class="contact-info"><strong>Call or Text</strong><span>+63 912 345 6789</span></div>
+        </div>
+        <div class="contact-item fade-up delay-2">
+          <div class="contact-icon">💬</div>
+          <div class="contact-info"><strong>Facebook Page</strong><span>Lisa Sweet Corner</span></div>
+        </div>
+        <div class="contact-item fade-up delay-3">
+          <div class="contact-icon">📍</div>
+          <div class="contact-info"><strong>Location</strong><span>Available for pick-up &amp; delivery</span></div>
+        </div>
+        <div class="contact-item fade-up delay-4">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-info"><strong>Order Lead Time</strong><span>2–3 days in advance recommended</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="order-form fade-up delay-2">
+      <div class="form-title">🛍️ Place Your Order</div>
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Your Name</label>
+          <input type="text" id="orderName" placeholder="e.g. Maria Santos" />
+        </div>
+        <div class="form-group half">
+          <label>Contact Number</label>
+          <input type="tel" id="orderPhone" placeholder="+63 9XX XXX XXXX" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>What would you like to order?</label>
+        <select id="orderItem">
+          <option value="">– Select a product –</option>
+          <option>Pink Floral Cupcakes</option>
+          <option>Blue Garden Cupcakes</option>
+          <option>Cactus &amp; Succulent Cupcakes</option>
+          <option>Sunflower &amp; Pumpkin Cake Pops</option>
+          <option>Elegant Floral Cake Pops</option>
+          <option>Sage Swirl Cake Pops</option>
+          <option>Chocolate Strawberry Tower</option>
+          <option>Decorated Chocolate Pretzels</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Special Requests / Message</label>
+        <textarea id="orderNote" placeholder="e.g. theme color, event date, custom message on packaging..."></textarea>
+      </div>
+      <button class="btn-order" onclick="submitOrder()">🍰 Send My Order Request</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ FOOTER ═════════ -->
+<footer>
+  <div class="footer-logo-wrap">
+    <span class="lf-f" aria-hidden="true" style="--i:0">🌸</span>
+    <span class="lf-f" aria-hidden="true" style="--i:1">🌺</span>
+    <span class="lf-f" aria-hidden="true" style="--i:2">🌷</span>
+    <span class="lf-f" aria-hidden="true" style="--i:3">🌸</span>
+    <span class="lf-f" aria-hidden="true" style="--i:4">🌺</span>
+    <span class="lf-f" aria-hidden="true" style="--i:5">🌷</span>
+    <div class="footer-logo">Lisa <span>Sweet</span> Corner</div>
+  </div>
+  <p class="footer-tagline">Handcrafted cupcakes, cake pops &amp; sweet treats made with love — for every celebration in life.</p>
+  <ul class="footer-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#order">Order</a></li>
+  </ul>
+  <hr class="footer-divider" />
+  <p class="footer-copy">© 2025 Lisa Sweet Corner. All rights reserved. Made with 💕</p>
+  <p class="footer-creator">Website by <a href="#">MEJORADACREATIVE</a></p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+  // ── Hamburger menu ──
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => navLinks.classList.remove('open'))
+  );
+
+  // ── Tab filter ──
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+      });
+    });
+  });
+
+  // ── Scroll fade-in ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Video: play only when visible ──
+  const videoObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const v = e.target.querySelector('video');
+      if (!v) return;
+      e.isIntersecting ? v.play().catch(()=>{}) : v.pause();
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.video-item').forEach(v => videoObs.observe(v));
+
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ── Add to order ──
+  function addToOrder(name) {
+    const sel = document.getElementById('orderItem');
+    for (let o of sel.options) {
+      if (o.text.includes(name.split(' ')[0])) { sel.value = o.value; break; }
+    }
+    showToast('🛍️ ' + name + ' selected! Scroll down to complete.');
+    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── Submit order ──
+  function submitOrder() {
+    const name  = document.getElementById('orderName').value.trim();
+    const phone = document.getElementById('orderPhone').value.trim();
+    const item  = document.getElementById('orderItem').value;
+    if (!name || !phone || !item) {
+      showToast('⚠️ Please fill in your name, number, and product.');
+      return;
+    }
+    showToast('🎉 Order received! We\'ll contact you soon, ' + name + '!');
+    ['orderName','orderPhone','orderItem','orderNote'].forEach(id =>
+      document.getElementById(id).value = ''
+    );
+  }
+</script>
+</body>
+</html>
