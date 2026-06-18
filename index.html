@@ -991,6 +991,7 @@
       width: clamp(220px, 42vw, 340px);
       height: auto;
       animation: splash-pop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      mix-blend-mode: multiply;
     }
 
     @keyframes splash-pop {
@@ -1069,6 +1070,7 @@
       width: auto;
       display: block;
       transition: transform 0.25s ease;
+      mix-blend-mode: multiply;
     }
 
     .nav-logo-img:hover { transform: scale(1.04); }
