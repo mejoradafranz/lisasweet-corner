@@ -866,6 +866,55 @@
     .footer-creator a:hover { color: var(--accent); }
 
     /* ═══════════════════════════════════
+       FAQ
+    ═══════════════════════════════════ */
+    .faq-list { display: flex; flex-direction: column; }
+
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+
+    .faq-q:hover { color: var(--accent-dark); }
+
+    .faq-icon {
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      line-height: 1;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      padding: 0 0 1.3rem;
+      display: none;
+    }
+
+    .faq-item.open .faq-a { display: block; }
+
+    /* ═══════════════════════════════════
        SCROLL ANIMATIONS
     ═══════════════════════════════════ */
     .fade-up {
@@ -1131,10 +1180,10 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#hero">Home</a></li>
-    <li><a href="#menu">Menu</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#menu">Products</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#faq">FAQ's</a></li>
+    <li><a href="#order">Contact Us</a></li>
     <li><a href="#order" class="nav-order">Order Now</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
@@ -1433,6 +1482,42 @@
   </div>
 </section>
 
+<!-- ═════════ FAQ ═════════ -->
+<section id="faq" style="background:var(--bg-warm);">
+  <div style="max-width:760px;margin:0 auto;">
+    <div class="section-header center fade-up">
+      <span class="section-eyebrow">FAQ's</span>
+      <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-up delay-1">
+        <button class="faq-q" onclick="toggleFaq(this)">How far in advance should I place my order? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We recommend ordering at least <strong>2–3 days in advance</strong> to ensure we can accommodate your request. For large custom orders or special events, 5–7 days notice is ideal.</div>
+      </div>
+      <div class="faq-item fade-up delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you offer delivery? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes! We offer both <strong>pick-up and delivery</strong>. Please include your delivery address and preferred date in the order notes, and we'll confirm the details with you.</div>
+      </div>
+      <div class="faq-item fade-up delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I customize my order? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Absolutely! We love custom orders. You can choose your <strong>theme, color palette, flavors, and packaging style</strong>. Just describe your vision in the order form and we'll bring it to life.</div>
+      </div>
+      <div class="faq-item fade-up delay-3">
+        <button class="faq-q" onclick="toggleFaq(this)">What flavors are available? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We offer a variety of flavors including <strong>classic vanilla, chocolate, red velvet, ube, and strawberry</strong>. Custom flavor requests are also welcome — just let us know!</div>
+      </div>
+      <div class="faq-item fade-up delay-3">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I place an order? <span class="faq-icon">+</span></button>
+        <div class="faq-a">You can place an order by filling out the <strong>order form below</strong>, sending us a message on our Facebook page, or texting us directly. We'll get back to you within a few hours to confirm.</div>
+      </div>
+      <div class="faq-item fade-up delay-4">
+        <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We accept <strong>GCash, Maya, bank transfer, and cash on pick-up</strong>. Payment details will be provided upon order confirmation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═════════ ORDER / CONTACT ═════════ -->
 <section id="order">
   <div class="order-grid">
@@ -1507,11 +1592,10 @@
       <h4>Navigate</h4>
       <ul>
         <li><a href="#hero">Home</a></li>
-        <li><a href="#menu">Our Menu</a></li>
-        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#menu">Products</a></li>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#testimonials">Reviews</a></li>
-        <li><a href="#order">Order Now</a></li>
+        <li><a href="#faq">FAQ's</a></li>
+        <li><a href="#order">Contact Us</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1654,6 +1738,14 @@
     }
     showToast(name + ' selected — scroll down to complete your order.');
     document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
   }
 
   // Submit order
