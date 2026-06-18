@@ -609,7 +609,169 @@
     .lb-counter {
       position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%);
       font-size: 0.72rem; letter-spacing: 2px; color: rgba(255,255,255,0.4);
+      z-index: 10;
     }
+
+    /* ═══════════════════════════════════
+       CART
+    ═══════════════════════════════════ */
+    /* Floating cart button */
+    .cart-fab {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 400;
+      background: var(--bg-dark); color: var(--white);
+      width: 56px; height: 56px; border-radius: 50%;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: transform 0.2s, background 0.2s;
+      touch-action: manipulation;
+    }
+    .cart-fab:hover { transform: scale(1.08); background: var(--accent-dark); }
+
+    .cart-badge {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--accent); color: var(--white);
+      font-size: 0.65rem; font-weight: 700;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1; border: 2px solid var(--bg-dark);
+      opacity: 0; transform: scale(0);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .cart-fab.has-items .cart-badge { opacity: 1; transform: scale(1); }
+
+    /* Cart drawer overlay */
+    #cartOverlay {
+      position: fixed; inset: 0; z-index: 450;
+      background: rgba(28,19,16,0.55);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #cartOverlay.open { opacity: 1; pointer-events: all; }
+
+    /* Cart drawer panel */
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 451;
+      width: min(420px, 100vw);
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+    }
+    #cartOverlay.open .cart-drawer { transform: translateX(0); }
+
+    .cart-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 1.6rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600; color: var(--text);
+    }
+    .cart-header-count {
+      font-size: 0.75rem; color: var(--text-faint);
+      letter-spacing: 1px; margin-top: 0.1rem;
+    }
+    .cart-close {
+      background: none; border: none; font-size: 1.4rem;
+      color: var(--text-mid); cursor: pointer;
+      padding: 0.3rem; transition: color 0.2s;
+      touch-action: manipulation; min-width: 44px; min-height: 44px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-close:hover { color: var(--text); }
+
+    /* Cart items list */
+    .cart-items {
+      flex: 1; overflow-y: auto;
+      padding: 1rem 1.6rem;
+    }
+
+    .cart-empty {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100%; gap: 0.8rem;
+      color: var(--text-faint); text-align: center;
+    }
+    .cart-empty-icon { font-size: 2.5rem; }
+    .cart-empty p { font-size: 0.85rem; line-height: 1.6; }
+
+    .cart-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 0; border-bottom: 1px solid var(--border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+
+    .cart-item-thumb {
+      width: 60px; height: 60px; flex-shrink: 0;
+      background: var(--bg-cream); overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--border);
+    }
+    .cart-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .cart-item-detail {
+      font-size: 0.72rem; color: var(--text-faint);
+      line-height: 1.5; margin-bottom: 0.6rem;
+    }
+
+    .cart-item-controls {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .qty-btn {
+      width: 28px; height: 28px; border: 1px solid var(--border);
+      background: none; cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-mid); transition: border-color 0.2s, color 0.2s;
+      touch-action: manipulation; border-radius: 2px;
+    }
+    .qty-btn:hover { border-color: var(--accent); color: var(--text); }
+    .qty-val {
+      font-size: 0.85rem; font-weight: 500; color: var(--text);
+      min-width: 20px; text-align: center;
+    }
+
+    .cart-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-faint); font-size: 0.72rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 0; transition: color 0.2s; margin-left: 0.5rem;
+      touch-action: manipulation;
+    }
+    .cart-remove:hover { color: #c0392b; }
+
+    /* Cart footer */
+    .cart-footer {
+      padding: 1.2rem 1.6rem 1.6rem;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-footer-note {
+      font-size: 0.75rem; color: var(--text-faint);
+      margin-bottom: 1rem; line-height: 1.5; text-align: center;
+    }
+    .btn-cart-order {
+      width: 100%; padding: 1rem;
+      background: var(--bg-dark); color: var(--white);
+      border: 1.5px solid var(--bg-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, color 0.25s;
+      touch-action: manipulation; min-height: 52px;
+    }
+    .btn-cart-order:hover { background: transparent; color: var(--text); }
+    .btn-cart-order:disabled { opacity: 0.4; pointer-events: none; }
 
     /* Flavor picker */
     .overlay-label {
@@ -1054,7 +1216,7 @@
     <label class="overlay-label" for="overlayColor">Colors of Choice</label>
     <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green, ivory..." />
 
-    <button class="overlay-cta" id="overlayCta">Add to Order →</button>
+    <button class="overlay-cta" id="overlayCta">Add to Cart 🛒</button>
   </div>
 </div>
 
@@ -1459,6 +1621,29 @@
 
 <div id="toast"></div>
 
+<!-- ═════════ CART DRAWER ═════════ -->
+<button class="cart-fab" id="cartFab" aria-label="View cart">
+  🛒
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<div id="cartOverlay">
+  <div class="cart-drawer">
+    <div class="cart-header">
+      <div>
+        <h3>Your Cart</h3>
+        <div class="cart-header-count" id="cartHeaderCount">0 items</div>
+      </div>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">&#x2715;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <p class="cart-footer-note">Fill in your details below to complete your order. A 50% deposit is required to secure your date.</p>
+      <button class="btn-cart-order" id="btnCartOrder" disabled>Send Order Request →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═════════ LIGHTBOX ═════════ -->
 <div id="lightbox">
   <div class="lb-img-wrap"><img id="lbImg" src="" alt="" /></div>
@@ -1722,28 +1907,128 @@
     });
   });
 
+  // ── Cart ──
+  var cart = [];
+  var cartIdCounter = 0;
+
+  var PRODUCT_THUMB_MAP = {
+    'Standard Dozen':      'photos%20and%20videos/dozen%201.jfif',
+    'Standard Half Dozen': 'photos%20and%20videos/half%20dozen.jfif',
+    'Individual Favor Boxes': 'photos%20and%20videos/individual%20pack.jfif',
+    'Cupcake Bouquet':     'photos%20and%20videos/cupcake%20boq.jfif',
+  };
+
   document.getElementById('overlayCta').addEventListener('click', function() {
-    const productName = document.getElementById('overlayTitle').textContent;
-    const color = document.getElementById('overlayColor').value.trim();
+    var productName = document.getElementById('overlayTitle').textContent;
+    var color = document.getElementById('overlayColor').value.trim();
     if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
-    // Pre-fill order form
-    const sel = document.getElementById('orderItem');
-    for (let o of sel.options) { if (o.text === productName) { sel.value = o.value; break; } }
-    const note = document.getElementById('orderNote');
-    note.value = `Flavor: ${selectedFlavor}${color ? ' | Colors: ' + color : ''}`;
+
+    // Check if same product+flavor+color already in cart → bump qty
+    var existing = cart.find(function(i) {
+      return i.name === productName && i.flavor === selectedFlavor && i.color === color;
+    });
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id: cartIdCounter++, name: productName, flavor: selectedFlavor, color: color, qty: 1 });
+    }
+
+    updateCart();
     closeOverlay();
-    showToast(productName + ' added — fill in your details below.');
+    showToast(productName + ' added to cart! 🛒');
+  });
+
+  function updateCart() {
+    var total = cart.reduce(function(s, i) { return s + i.qty; }, 0);
+    var fab = document.getElementById('cartFab');
+    var badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    fab.classList.toggle('has-items', total > 0);
+    document.getElementById('cartHeaderCount').textContent = total + (total === 1 ? ' item' : ' items');
+    document.getElementById('btnCartOrder').disabled = total === 0;
+    renderCartItems();
+  }
+
+  function renderCartItems() {
+    var el = document.getElementById('cartItems');
+    if (cart.length === 0) {
+      el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty.<br>Browse our menu and add items!</p></div>';
+      return;
+    }
+    el.innerHTML = cart.map(function(item) {
+      var thumb = PRODUCT_THUMB_MAP[item.name]
+        ? '<img src="' + PRODUCT_THUMB_MAP[item.name] + '" alt="' + item.name + '" />'
+        : '🌸';
+      return '<div class="cart-item" data-id="' + item.id + '">'
+        + '<div class="cart-item-thumb">' + thumb + '</div>'
+        + '<div class="cart-item-info">'
+        + '<div class="cart-item-name">' + item.name + '</div>'
+        + '<div class="cart-item-detail">Flavor: ' + item.flavor + (item.color ? ' &nbsp;·&nbsp; Colors: ' + item.color : '') + '</div>'
+        + '<div class="cart-item-controls">'
+        + '<button class="qty-btn" onclick="changeQty(' + item.id + ', -1)">−</button>'
+        + '<span class="qty-val">' + item.qty + '</span>'
+        + '<button class="qty-btn" onclick="changeQty(' + item.id + ', 1)">+</button>'
+        + '<button class="cart-remove" onclick="removeFromCart(' + item.id + ')">Remove</button>'
+        + '</div></div></div>';
+    }).join('');
+  }
+
+  function changeQty(id, delta) {
+    var item = cart.find(function(i) { return i.id === id; });
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) { removeFromCart(id); return; }
+    updateCart();
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(function(i) { return i.id !== id; });
+    updateCart();
+    if (cart.length === 0) showToast('Cart is now empty.');
+  }
+
+  function openCart() {
+    document.getElementById('cartOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCart() {
+    document.getElementById('cartOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('cartFab').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  document.getElementById('cartOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeCart();
+  });
+
+  document.getElementById('btnCartOrder').addEventListener('click', function() {
+    if (cart.length === 0) return;
+    // Build order summary and pre-fill form
+    var lines = cart.map(function(i) {
+      return '• ' + i.qty + 'x ' + i.name + ' (' + i.flavor + (i.color ? ', ' + i.color : '') + ')';
+    });
+    document.getElementById('orderNote').value = lines.join('\n');
+    document.getElementById('orderItem').value = cart[0].name;
+    closeCart();
+    showToast('Cart ready! Fill in your details below.');
     document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
   });
 
   function submitOrder() {
-    const name = document.getElementById('orderName').value.trim();
-    const phone = document.getElementById('orderPhone').value.trim();
-    const item  = document.getElementById('orderItem').value;
+    var name  = document.getElementById('orderName').value.trim();
+    var phone = document.getElementById('orderPhone').value.trim();
+    var item  = document.getElementById('orderItem').value;
     if (!name || !phone || !item) { showToast('Please fill in your name, number, and product selection.'); return; }
     showToast('Order received! We\'ll contact you soon, ' + name + '.');
-    ['orderName','orderPhone','orderItem','orderNote'].forEach(id => document.getElementById(id).value = '');
+    cart = [];
+    updateCart();
+    ['orderName','orderPhone','orderItem','orderNote'].forEach(function(id) { document.getElementById(id).value = ''; });
   }
+
+  // Init cart display
+  updateCart();
 </script>
 </body>
 </html>
