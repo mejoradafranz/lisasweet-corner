@@ -900,9 +900,11 @@
     ═══════════════════════════════════ */
     #gallery { background: var(--bg); padding: 88px 3%; }
     .gallery-grid { columns: 3; column-gap: 1rem; max-width: 1300px; margin: 0 auto; }
-    .gallery-item { break-inside: avoid; margin-bottom: 1rem; overflow: hidden; position: relative; }
+    .gallery-item { break-inside: avoid; margin-bottom: 1rem; overflow: hidden; position: relative; cursor: pointer; }
     .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-item video { width: 100%; display: block; background: #000; }
+    .gallery-item.gallery-video { cursor: default; }
     .gallery-overlay {
       position: absolute; inset: 0; background: rgba(28,19,16,0.35);
       opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem;
@@ -1444,16 +1446,50 @@
   <div class="section-header center fade-up" style="padding:0 3%;">
     <span class="section-eyebrow">Our Creations</span>
     <h2 class="section-title">A Feast <em>for the Eyes</em></h2>
+    <p class="section-body">Every photo and video from Lisa's Sweet Corner — click any photo to view full screen.</p>
   </div>
   <div class="gallery-grid fade-up delay-1">
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg" alt="Cupcake collage" /><div class="gallery-overlay"><span>Floral Cupcakes</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg" alt="Succulent cupcakes" /><div class="gallery-overlay"><span>Succulent Garden</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg" alt="Sunflower cake pop" /><div class="gallery-overlay"><span>Sunflower Pops</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg" alt="Navy cake pops" /><div class="gallery-overlay"><span>Elegant Pops</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg" alt="Holding cupcake" /><div class="gallery-overlay"><span>Garden Cupcake</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg" alt="Sage green pops" /><div class="gallery-overlay"><span>Sage Swirl Pops</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg" alt="Blue cupcakes" /><div class="gallery-overlay"><span>Blue Garden</span></div></div>
-    <div class="gallery-item"><img src="photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg" alt="Sprinkle pop" /><div class="gallery-overlay"><span>Sprinkle Pop</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(0)"><img src="photos%20and%20videos/cupcake%20boq.jfif" alt="Cupcake Bouquet" loading="lazy" /><div class="gallery-overlay"><span>Cupcake Bouquet</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(1)"><img src="photos%20and%20videos/cupcake%20bou.jfif" alt="Cupcake Bouquet" loading="lazy" /><div class="gallery-overlay"><span>Cupcake Bouquet</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/dozen.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(2)"><img src="photos%20and%20videos/dozen%201.jfif" alt="Standard Dozen" loading="lazy" /><div class="gallery-overlay"><span>Standard Dozen</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(3)"><img src="photos%20and%20videos/fisty%20photo%20sa%20taas.jfif" alt="Lisa's Creations" loading="lazy" /><div class="gallery-overlay"><span>Lisa's Creations</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/half%20dozen1.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(4)"><img src="photos%20and%20videos/half%20dozen.jfif" alt="Half Dozen" loading="lazy" /><div class="gallery-overlay"><span>Half Dozen</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(5)"><img src="photos%20and%20videos/individual%20pack.jfif" alt="Individual Favor Box" loading="lazy" /><div class="gallery-overlay"><span>Favor Box</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQN-zeKSjDXO53sIGqcbLfi5QGZHFA3F8ctM3vGwyZYMGABNQnOEpFRS2JsiS0ElD-HIvu6taeLNMLP5O4-buxK4-qkM1aE2jQfV8bM.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(6)"><img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(7)"><img src="photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNIwXqZOhFYcNlN0Yo8gvniCeWbBFjJtXpyj7x2tk82n_VHBoRdwczzHQEiZpKX9xzqWWliGYcS9-SFchp3zDerQvNG5sQTLAyzHzc.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(8)"><img src="photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(9)"><img src="photos%20and%20videos/SnapInsta.to_589078205_17902786188299968_516918889196976056_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNIzuG6_JiBQ2nNuLcf4zeqk_M72-eqlF46bC0OMvRORv5bEGEWnhq1EkNtWWmVTD8IHviRGhcyF-RmWtm9YCkVympaMsj_sEzzD9o.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(10)"><img src="photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(11)"><img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNnzAAKjzJHqxtwxaHyBZO_uBJFaY8e-4pRRJ1gFLnlZIceycgOZq0JnsNzYjmk2-8QBm0tpV1ZeCS89CgvhF7GIsG1Im6MSz2eOE0.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(12)"><img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(13)"><img src="photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOc1qu_B5LEG_RFPdUBIL-pM__gWgmOvgya41d-ZZAJXtcKCyN57YpnIWWKaqiFEfXML4kkJOZz3SpElZlbTeC6O4jZpZNcgmxsVm8.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(14)"><img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(15)"><img src="photos%20and%20videos/SnapInsta.to_642975388_17913105864299968_7959921942842642785_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOdLlP2tmf0pMx4kJntlqHJfq2FI6adtmQ2ybEhkQgQu2J0UOvnDi7zD8grO8UszWDpkWKXKxuFCZauCwsUUQhU5IPmucU1VkK90w4.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(16)"><img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(17)"><img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOjYYbeZh8vqe6FgNe_mTcYcHSO4Pag_90r1xMYBeNAXFtSRJiC0xuo4GHdmf1uxANGWjrZ2Itcpt2O8dcluQ0629PlrqLkdnk5lCY.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(18)"><img src="photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(19)"><img src="photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOsMtMUty_zFBbxRRR0eZNJVlbpFGjXDwMOc_9-WM-tIDTNqq4iziAUCmnYtHh_iKZG4n9LgwB0GYL66SOIa9qK8DiIMBpEZG3QSHM.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(20)"><img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(21)"><img src="photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQP1aLHBrYzmIhPYocugSgTjc9NpUvdUlEHnGRF2eAOuSwcVVX3H-k2VYwYzl1u_cftBlnMXcocSZXt1igrYLkNIgKbGm2yL8Wh4cnk.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(22)"><img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(23)"><img src="photos%20and%20videos/SnapInsta.to_708345505_17927663091299968_3562300239176758725_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPFwmqmU_mDzBNDnGsjph40fmk0lIzcVQTfwmpBxTI1Qcc6LEbR7TgPhpZmNOSb2EU-Lmx_WU-8yC1NJtCNNyTUPzlqZnqZdn1gB-s.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(24)"><img src="photos%20and%20videos/SnapInsta.to_708979723_17928177447299968_7037340830600433848_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(25)"><img src="photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPdd_AE2GJMxVrWWEIGnAMp9gcO_iPdyjkPsmEolnJfckCDj2VBt9xh6GcAWohkogel3BZTNADmfi4Vnetd_wM7.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(26)"><img src="photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPskBShus2CbIGzIpgrpOCPSs60Bu9x5k9e9Z3JmtNfG3SWrFZEaJhlKYw5d91bv9A3BsMlus02I74zT1re-MYLf7uf8reJTbhS4dg.mp4" type="video/mp4"></video></div>
   </div>
 </section>
 
@@ -2025,6 +2061,45 @@
   document.getElementById('lbPrev').addEventListener('click', function() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } });
   document.getElementById('lbNext').addEventListener('click', function() { if (lbIndex < lbPhotos.length-1) { lbIndex++; renderLightbox(); } });
   document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+  // Gallery photos for lightbox
+  var galleryPhotos = [
+    'photos%20and%20videos/cupcake%20boq.jfif',
+    'photos%20and%20videos/cupcake%20bou.jfif',
+    'photos%20and%20videos/dozen%201.jfif',
+    'photos%20and%20videos/fisty%20photo%20sa%20taas.jfif',
+    'photos%20and%20videos/half%20dozen.jfif',
+    'photos%20and%20videos/individual%20pack.jfif',
+    'photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_589078205_17902786188299968_516918889196976056_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_642975388_17913105864299968_7959921942842642785_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708345505_17927663091299968_3562300239176758725_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708979723_17928177447299968_7037340830600433848_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg'
+  ];
+  function openGalleryPhoto(idx) {
+    lbPhotos = galleryPhotos;
+    lbSelectCallback = null;
+    document.getElementById('lbSelectBtn').style.display = 'none';
+    lbIndex = idx;
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
 
   // ── Cart ──
   var cart = [];
