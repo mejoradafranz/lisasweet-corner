@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lisa Sweet Corner — Handcrafted Cupcakes & Cake Pops</title>
+  <title>Lisa's Sweet Corner — Handcrafted Cupcakes & Cake Pops</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
@@ -15,7 +15,6 @@
       --bg-warm:     #F9F5F0;
       --bg-cream:    #EFE8DF;
       --bg-dark:     #1C1310;
-      --bg-darkalt:  #251A16;
       --text:        #1C1310;
       --text-mid:    #7A6A60;
       --text-faint:  #B0A09A;
@@ -24,106 +23,109 @@
       --accent:      #C49070;
       --accent-dark: #8B6148;
       --white:       #FFFFFF;
+      --avail:       #D6EFD8;
+      --avail-text:  #2E7D32;
+      --booked:      #FDDEDE;
+      --booked-text: #B71C1C;
+      --closed:      #EEEBE8;
+      --closed-text: #A09088;
     }
 
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     img { display: block; max-width: 100%; }
+
+    /* ═══════════════════════════════════
+       SPLASH SCREEN
+    ═══════════════════════════════════ */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #FFFDF8;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.85s ease;
+    }
+    #splash.splash-out { opacity: 0; pointer-events: none; }
+    .splash-logo-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+    .splash-logo-wrap img {
+      width: clamp(220px, 42vw, 340px); height: auto;
+      animation: splash-pop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      mix-blend-mode: multiply;
+    }
+    @keyframes splash-pop {
+      0%   { opacity: 0; transform: scale(0.55) rotate(-4deg); }
+      60%  { opacity: 1; transform: scale(1.06) rotate(1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    .sparkle {
+      position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #C49070;
+      opacity: 0; animation: sparkle-burst 1.4s ease forwards; animation-delay: var(--sd);
+    }
+    @keyframes sparkle-burst {
+      0%   { opacity: 0; transform: translate(0,0) scale(0); }
+      40%  { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1.2); }
+      100% { opacity: 0; transform: translate(calc(var(--tx)*1.6), calc(var(--ty)*1.6)) scale(0.2); }
+    }
+    .splash-tagline {
+      margin-top: 1.4rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem; font-weight: 400; letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--text-faint); opacity: 0; animation: splash-fadein 0.6s ease 0.7s forwards;
+    }
+    .splash-hint {
+      position: absolute; bottom: 2.5rem;
+      font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-faint); opacity: 0; animation: splash-fadein 0.6s ease 1.2s forwards;
+    }
+    @keyframes splash-fadein {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .splash-bar {
+      position: absolute; bottom: 0; left: 0; height: 2.5px;
+      background: var(--accent); width: 0%;
+      animation: splash-bar-fill 2.6s ease forwards;
+    }
+    @keyframes splash-bar-fill { from { width: 0%; } to { width: 100%; } }
 
     /* ═══════════════════════════════════
        ANNOUNCEMENT BAR
     ═══════════════════════════════════ */
     .announcement {
-      background: var(--bg-dark);
-      color: rgba(255,255,255,0.75);
-      text-align: center;
-      padding: 0.6rem 1rem;
-      font-size: 0.78rem;
-      font-weight: 400;
-      letter-spacing: 0.8px;
+      background: var(--bg-dark); color: rgba(255,255,255,0.75);
+      text-align: center; padding: 0.6rem 1rem;
+      font-size: 0.78rem; letter-spacing: 0.8px;
     }
-
-    .announcement a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-      margin-left: 0.5rem;
-      letter-spacing: 0.5px;
-    }
-
+    .announcement a { color: var(--accent); text-decoration: none; font-weight: 500; margin-left: 0.5rem; }
     .announcement a:hover { text-decoration: underline; }
 
     /* ═══════════════════════════════════
-       NAVBAR
+       SITE HEADER — Logo centered at top
     ═══════════════════════════════════ */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    #siteHeader {
       background: var(--bg);
-      border-bottom: 1px solid var(--border);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      height: 68px;
+      position: relative;
     }
 
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.5px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .nav-logo em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent-dark);
-    }
-
-    .nav-links {
-      list-style: none;
+    .header-logo-row {
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 2rem;
+      padding: 1.1rem 5%;
+      width: 100%;
+      position: relative;
     }
 
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-mid);
-      font-size: 0.82rem;
-      font-weight: 400;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      transition: color 0.2s;
+    .header-logo-img {
+      height: 96px;
+      width: auto;
+      mix-blend-mode: multiply;
+      transition: transform 0.25s;
     }
 
-    .nav-links a:hover { color: var(--text); }
-
-    .nav-order {
-      border: 1.5px solid var(--text) !important;
-      color: var(--text) !important;
-      padding: 0.45rem 1.2rem;
-      font-weight: 500 !important;
-      transition: background 0.2s, color 0.2s !important;
-    }
-
-    .nav-order:hover {
-      background: var(--text) !important;
-      color: var(--white) !important;
-    }
+    .header-logo-img:hover { transform: scale(1.03); }
 
     .hamburger {
       display: none;
@@ -133,170 +135,140 @@
       background: none;
       border: none;
       padding: 6px;
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: 0.3s; }
+
+    /* ═══════════════════════════════════
+       NAVBAR — links row (sticky)
+    ═══════════════════════════════════ */
+    nav#navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5%;
+      height: 50px;
+      width: 100%;
     }
 
-    .hamburger span {
-      display: block;
-      width: 22px;
-      height: 1.5px;
-      background: var(--text);
-      transition: 0.3s;
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
     }
+
+    .nav-links a {
+      text-decoration: none; color: var(--text-mid);
+      font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 0.6px; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-order {
+      border: 1.5px solid var(--text) !important; color: var(--text) !important;
+      padding: 0.38rem 1.1rem; font-weight: 500 !important;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-order:hover { background: var(--text) !important; color: var(--white) !important; }
 
     /* ═══════════════════════════════════
        HERO
     ═══════════════════════════════════ */
     #hero {
-      height: 100vh;
-      min-height: 580px;
+      min-height: 92vh;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
-
     .hero-bg {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-image: url('photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg');
-      background-size: cover;
-      background-position: center;
-      transform: scale(1.05);
-      transition: transform 8s ease;
+      background-size: cover; background-position: center;
+      transform: scale(1.05); transition: transform 8s ease;
     }
-
     #hero:hover .hero-bg { transform: scale(1); }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(20, 12, 8, 0.52);
-    }
+    .hero-overlay { position: absolute; inset: 0; background: rgba(20,12,8,0.55); }
 
     .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 0 5%;
-      max-width: 800px;
+      position: relative; z-index: 2;
+      text-align: center; padding: 4rem 5%;
+      max-width: 820px;
     }
 
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 1.4rem;
-    }
-
-    .hero-eyebrow::before,
-    .hero-eyebrow::after {
-      content: '—';
-      margin: 0 0.6rem;
-      opacity: 0.5;
-    }
-
-    .hero-title {
+    .hero-greeting {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.2rem, 9vw, 7rem);
-      font-weight: 300;
-      color: var(--white);
-      line-height: 1.05;
-      margin-bottom: 1.4rem;
-      letter-spacing: 1px;
-    }
-
-    .hero-title em {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
       font-style: italic;
-      font-weight: 300;
-      display: block;
+      color: rgba(255,255,255,0.92);
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
     }
 
-    .hero-tagline {
-      font-size: clamp(0.85rem, 1.6vw, 1rem);
+    .hero-divider {
+      width: 50px; height: 1px;
+      background: rgba(255,255,255,0.35);
+      margin: 1rem auto;
+    }
+
+    .hero-welcome {
+      font-size: clamp(0.82rem, 1.5vw, 0.95rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 1px;
-      margin-bottom: 2.8rem;
-      line-height: 1.7;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.9;
+      max-width: 640px;
+      margin: 0 auto 2.4rem;
+      letter-spacing: 0.2px;
     }
 
     .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
     }
 
     .btn-hero-primary {
-      background: var(--white);
-      color: var(--text);
-      padding: 0.85rem 2.2rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 1.5px solid var(--white);
+      background: var(--white); color: var(--text);
+      padding: 0.85rem 2.2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none; border: 1.5px solid var(--white);
       transition: background 0.25s, color 0.25s;
+      min-height: 48px; display: inline-flex; align-items: center;
       touch-action: manipulation;
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
     }
-
-    .btn-hero-primary:hover {
-      background: transparent;
-      color: var(--white);
-    }
+    .btn-hero-primary:hover { background: transparent; color: var(--white); }
 
     .btn-hero-secondary {
-      background: transparent;
-      color: var(--white);
-      padding: 0.85rem 2.2rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 1.5px solid rgba(255,255,255,0.5);
+      background: transparent; color: var(--white);
+      padding: 0.85rem 2.2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5);
       transition: border-color 0.25s;
+      min-height: 48px; display: inline-flex; align-items: center;
       touch-action: manipulation;
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
     }
-
     .btn-hero-secondary:hover { border-color: var(--white); }
 
     .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.4); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
     }
-
     .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: rgba(255,255,255,0.3);
+      width: 1px; height: 36px; background: rgba(255,255,255,0.25);
       animation: scroll-line 2s ease-in-out infinite;
     }
-
     @keyframes scroll-line {
       0%   { transform: scaleY(0); transform-origin: top; }
       50%  { transform: scaleY(1); transform-origin: top; }
@@ -307,622 +279,307 @@
     /* ═══════════════════════════════════
        FEATURES STRIP
     ═══════════════════════════════════ */
-    .features-strip {
-      background: var(--bg-warm);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
+    .features-strip { background: var(--bg-warm); border-bottom: 1px solid var(--border); }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 0 auto; }
     .feature-item {
-      padding: 2.2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
+      padding: 2rem 2.5rem; display: flex; align-items: center; gap: 1.2rem;
       border-right: 1px solid var(--border);
     }
-
     .feature-item:last-child { border-right: none; }
-
     .feature-icon { font-size: 1.6rem; flex-shrink: 0; }
-
-    .feature-text strong {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 0.2rem;
-      letter-spacing: 0.3px;
-    }
-
-    .feature-text span {
-      font-size: 0.78rem;
-      color: var(--text-mid);
-      line-height: 1.5;
-    }
+    .feature-text strong { display: block; font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+    .feature-text span { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
 
     /* ═══════════════════════════════════
        SECTION COMMON
     ═══════════════════════════════════ */
-    section { padding: 96px 6%; }
+    section { padding: 88px 6%; }
 
     .section-eyebrow {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      margin-bottom: 0.9rem;
+      display: block; font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--text-faint); margin-bottom: 0.9rem;
     }
-
     .section-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.9rem, 3.5vw, 2.9rem);
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.2;
-      margin-bottom: 1rem;
+      font-weight: 400; color: var(--text); line-height: 1.2; margin-bottom: 1rem;
     }
-
     .section-title em { font-style: italic; font-weight: 300; }
-
-    .section-body {
-      font-size: 0.92rem;
-      color: var(--text-mid);
-      line-height: 1.85;
-      max-width: 500px;
-    }
-
-    .section-header { margin-bottom: 3.5rem; }
+    .section-body { font-size: 0.92rem; color: var(--text-mid); line-height: 1.85; max-width: 500px; }
+    .section-header { margin-bottom: 3rem; }
     .section-header.center { text-align: center; }
     .section-header.center .section-body { margin: 0 auto; }
 
     /* ═══════════════════════════════════
+       AVAILABILITY CALENDAR
+    ═══════════════════════════════════ */
+    #calendar { background: var(--bg-warm); padding: 88px 4%; }
+
+    .cal-legend {
+      display: flex; gap: 2rem; justify-content: center;
+      margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+    .cal-legend-item { display: flex; align-items: center; gap: 0.55rem; font-size: 0.8rem; color: var(--text-mid); }
+    .cal-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+    .cal-dot.available { background: var(--avail); border: 1.5px solid #81C784; }
+    .cal-dot.booked    { background: var(--booked); border: 1.5px solid #E57373; }
+    .cal-dot.closed    { background: var(--closed); border: 1.5px solid var(--border); }
+
+    .cal-months {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+
+    .cal-month {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 1.1rem;
+    }
+
+    .cal-month-title {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.3px;
+    }
+
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .cal-day-header {
+      text-align: center; font-size: 0.58rem; font-weight: 600;
+      letter-spacing: 0.5px; color: var(--text-faint); padding: 0.15rem 0 0.4rem;
+    }
+
+    .cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; border-radius: 50%;
+    }
+    .cal-day.available { background: var(--avail); color: var(--avail-text); font-weight: 500; }
+    .cal-day.booked    { background: var(--booked); color: var(--booked-text); }
+    .cal-day.closed    { background: var(--closed); color: var(--closed-text); }
+    .cal-day.past      { color: var(--border); background: none; }
+    .cal-day.today     { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .cal-day.empty     { background: none; }
+
+    .cal-note {
+      text-align: center; font-size: 0.82rem; color: var(--text-mid); margin-top: 0.5rem;
+    }
+    .cal-note a { color: var(--accent-dark); text-decoration: none; font-weight: 500; }
+    .cal-note a:hover { text-decoration: underline; }
+
+    /* ═══════════════════════════════════
        MENU / COLLECTIONS
     ═══════════════════════════════════ */
-    #menu { background: var(--bg); padding-top: 96px; padding-bottom: 96px; }
+    #menu { background: var(--bg); }
 
     .tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 3rem;
-      justify-content: center;
+      display: flex; gap: 0; margin-bottom: 3rem; justify-content: center;
       border-bottom: 1px solid var(--border);
     }
-
     .tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      padding: 0.65rem 1.6rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 400;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-      touch-action: manipulation;
-      min-height: 44px;
+      background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
+      padding: 0.65rem 1.6rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-faint); cursor: pointer; transition: color 0.2s, border-color 0.2s;
+      touch-action: manipulation; min-height: 44px;
     }
-
     .tab-btn:hover { color: var(--text); }
     .tab-btn.active { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
 
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-
-    .product-card {
-      cursor: pointer;
-      overflow: hidden;
-    }
-
+    .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .product-card { cursor: pointer; overflow: hidden; }
     .product-card.hidden { display: none; }
 
-    .product-img {
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: var(--bg-cream);
-      position: relative;
-    }
-
-    .product-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transition: transform 0.6s ease;
-    }
-
+    .product-img { aspect-ratio: 1/1; overflow: hidden; background: var(--bg-cream); position: relative; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.6s ease; }
     .product-card:hover .product-img img { transform: scale(1.07); }
 
     .badge-new {
-      position: absolute;
-      top: 12px; left: 12px;
-      background: var(--bg-dark);
-      color: var(--white);
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 0.22rem 0.65rem;
-      z-index: 2;
+      position: absolute; top: 12px; left: 12px;
+      background: var(--bg-dark); color: var(--white);
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 0.22rem 0.65rem; z-index: 2;
     }
 
     .product-body { padding: 1.1rem 0.1rem 0.2rem; }
-
-    .product-tag {
-      font-size: 0.68rem;
-      font-weight: 400;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      margin-bottom: 0.3rem;
-    }
-
-    .product-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 400;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-
-    .product-footer {
-      margin-top: 0.7rem;
-      padding-top: 0.7rem;
-      border-top: 1px solid var(--border);
-    }
-
+    .product-tag { font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.3rem; }
+    .product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--text); margin-bottom: 0.5rem; line-height: 1.3; }
+    .product-footer { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid var(--border); }
     .add-btn {
-      background: none;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text);
-      cursor: pointer;
-      padding: 0;
-      transition: color 0.2s;
-      touch-action: manipulation;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      background: none; border: none; font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text); cursor: pointer; padding: 0; transition: color 0.2s;
+      touch-action: manipulation; display: flex; align-items: center; gap: 0.4rem;
     }
-
-    .add-btn::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
-
+    .add-btn::after { content: '→'; transition: transform 0.2s; }
     .add-btn:hover { color: var(--accent-dark); }
     .add-btn:hover::after { transform: translateX(4px); }
 
     /* ═══════════════════════════════════
-       EDITORIAL / ABOUT
+       ABOUT
     ═══════════════════════════════════ */
     #about { background: var(--bg-warm); }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-      max-width: 1140px;
-      margin: 0 auto;
-    }
-
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; max-width: 1140px; margin: 0 auto; }
     .about-image { position: relative; }
-
-    .about-image img {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      object-position: center;
-    }
-
+    .about-image img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center; }
     .about-image-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0; right: 0;
-      background: var(--bg-dark);
-      color: rgba(255,255,255,0.6);
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--bg-dark); color: rgba(255,255,255,0.6);
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.7rem 1rem;
+    }
+
+    .about-content .section-body { max-width: 100%; margin-bottom: 1rem; }
+
+    .about-signature {
+      margin-top: 1.8rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      line-height: 1.6;
       text-align: center;
-      padding: 0.7rem 1rem;
     }
-
-    .about-content .section-body { max-width: 100%; margin-bottom: 1.2rem; }
-
-    .about-list {
-      list-style: none;
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .about-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .about-list li:last-child { border-bottom: none; }
-    .about-list .li-icon { font-size: 1.1rem; flex-shrink: 0; }
-    .about-list strong { color: var(--text); font-weight: 500; }
 
     /* ═══════════════════════════════════
        GALLERY
     ═══════════════════════════════════ */
-    #gallery { background: var(--bg); padding: 96px 3%; }
-
-    .gallery-grid {
-      columns: 3;
-      column-gap: 1rem;
-      max-width: 1300px;
-      margin: 0 auto;
-    }
-
-    .gallery-item {
-      break-inside: avoid;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      position: relative;
-    }
-
+    #gallery { background: var(--bg); padding: 88px 3%; }
+    .gallery-grid { columns: 3; column-gap: 1rem; max-width: 1300px; margin: 0 auto; }
+    .gallery-item { break-inside: avoid; margin-bottom: 1rem; overflow: hidden; position: relative; }
     .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.04); }
-
     .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(28,19,16,0.35);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: flex-end;
-      padding: 1.2rem;
+      position: absolute; inset: 0; background: rgba(28,19,16,0.35);
+      opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem;
     }
-
     .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-    .gallery-overlay span {
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.8);
-    }
+    .gallery-overlay span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); }
 
     /* ═══════════════════════════════════
        VIDEOS
     ═══════════════════════════════════ */
-    #videos { background: var(--bg-dark); padding: 96px 6%; }
-
+    #videos { background: var(--bg-dark); padding: 88px 6%; }
     #videos .section-eyebrow { color: rgba(255,255,255,0.3); }
     #videos .section-title { color: var(--white); }
     #videos .section-body { color: rgba(255,255,255,0.5); }
-
     .video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-
-    .video-item {
-      aspect-ratio: 9 / 16;
-      overflow: hidden;
-      background: #0D0A09;
-      position: relative;
-    }
-
+    .video-item { aspect-ratio: 9/16; overflow: hidden; background: #0D0A09; }
     .video-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     /* ═══════════════════════════════════
        TESTIMONIALS
     ═══════════════════════════════════ */
     #testimonials { background: var(--bg-cream); }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: var(--border);
-      border: 1.5px solid var(--border);
-    }
-
-    .review-card {
-      background: var(--bg-warm);
-      padding: 2.5rem 2rem;
-      transition: background 0.2s;
-    }
-
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 1.5px solid var(--border); }
+    .review-card { background: var(--bg-warm); padding: 2.5rem 2rem; transition: background 0.2s; }
     .review-card:hover { background: var(--white); }
-
-    .stars {
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-    }
-
-    .review-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 400;
-      font-style: italic;
-      color: var(--text);
-      line-height: 1.75;
-      margin-bottom: 1.8rem;
-    }
-
-    .reviewer {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .reviewer-avatar {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      background: var(--bg-cream);
-    }
-
+    .stars { font-size: 0.7rem; letter-spacing: 3px; color: var(--accent); margin-bottom: 1.2rem; }
+    .review-text { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-style: italic; color: var(--text); line-height: 1.75; margin-bottom: 1.8rem; }
+    .reviewer { display: flex; align-items: center; gap: 0.9rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+    .reviewer-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; background: var(--bg-cream); }
     .reviewer-name { font-size: 0.82rem; font-weight: 500; color: var(--text); }
     .reviewer-label { font-size: 0.72rem; color: var(--text-faint); margin-top: 0.1rem; }
+
+    /* ═══════════════════════════════════
+       FAQ
+    ═══════════════════════════════════ */
+    #faq { background: var(--bg-warm); }
+    .faq-wrap { max-width: 760px; margin: 0 auto; }
+
+    .faq-category { margin-bottom: 0.5rem; }
+
+    .faq-cat-title {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent-dark); padding: 1.4rem 0 0.5rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-of-type { border-top: 1px solid var(--border); }
+
+    .faq-q {
+      width: 100%; background: none; border: none;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.15rem 0; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500; color: var(--text);
+      cursor: pointer; text-align: left; gap: 1rem; transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--accent-dark); }
+    .faq-icon { font-size: 1.3rem; font-weight: 300; color: var(--accent); flex-shrink: 0; transition: transform 0.3s; line-height: 1; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { font-size: 0.88rem; color: var(--text-mid); line-height: 1.85; padding: 0 0 1.2rem; display: none; }
+    .faq-item.open .faq-a { display: block; }
 
     /* ═══════════════════════════════════
        ORDER / CONTACT
     ═══════════════════════════════════ */
     #order { background: var(--bg); }
-
-    .order-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 6rem;
-      align-items: start;
-      max-width: 1140px;
-      margin: 0 auto;
-    }
-
-    .contact-items { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
-
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.1rem;
-      padding: 1.2rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .order-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; max-width: 1140px; margin: 0 auto; }
+    .contact-items { margin-top: 2rem; display: flex; flex-direction: column; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1.1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); }
     .contact-item:first-child { border-top: 1px solid var(--border); }
     .contact-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-    .contact-info strong {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 0.2rem;
-    }
-
+    .contact-info strong { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
     .contact-info span { font-size: 0.82rem; color: var(--text-mid); }
 
-    .form-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
-      font-weight: 400;
-      color: var(--text);
-      margin-bottom: 2rem;
-    }
-
+    .form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; color: var(--text); margin-bottom: 2rem; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
     .form-group.half { margin-bottom: 0; }
-
-    .form-group label {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--text-mid);
+    .form-group label { font-size: 0.72rem; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-mid); }
+    .form-group input, .form-group select, .form-group textarea {
+      border: 1px solid var(--border); border-radius: 0; padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--text);
+      background: var(--bg); outline: none; transition: border-color 0.2s; -webkit-appearance: none;
     }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      border: 1px solid var(--border);
-      border-radius: 0;
-      padding: 0.85rem 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      color: var(--text);
-      background: var(--bg);
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus { border-color: var(--text); }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { color: var(--text-faint); }
-
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--text); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-faint); }
     .form-group select option { background: var(--bg); color: var(--text); }
     .form-group textarea { resize: none; height: 110px; }
-
     .btn-order {
-      width: 100%;
-      padding: 1rem 2rem;
-      background: var(--bg-dark);
-      color: var(--white);
-      border: 1.5px solid var(--bg-dark);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.25s, color 0.25s;
-      margin-top: 0.5rem;
-      touch-action: manipulation;
-      min-height: 52px;
+      width: 100%; padding: 1rem 2rem; background: var(--bg-dark); color: var(--white);
+      border: 1.5px solid var(--bg-dark); font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, color 0.25s; margin-top: 0.5rem;
+      touch-action: manipulation; min-height: 52px;
     }
-
     .btn-order:hover { background: transparent; color: var(--text); }
 
     /* ═══════════════════════════════════
        FOOTER
     ═══════════════════════════════════ */
     footer { background: var(--bg-dark); color: rgba(255,255,255,0.5); }
-
-    .footer-top {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 4rem;
-      padding: 4rem 6% 3rem;
-      border-bottom: 1px solid var(--border-dark);
-    }
-
-    .footer-brand .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 0.8rem;
-    }
-
-    .footer-brand .footer-logo em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-    }
-
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 4rem; padding: 4rem 6% 3rem; border-bottom: 1px solid var(--border-dark); }
+    .footer-brand .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); margin-bottom: 0.8rem; }
+    .footer-brand .footer-logo em { font-style: italic; font-weight: 300; color: var(--accent); }
     .footer-brand p { font-size: 0.82rem; line-height: 1.75; max-width: 280px; }
-
-    .footer-col h4 {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 1.2rem;
-    }
-
+    .footer-col h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1.2rem; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .footer-col ul a {
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-
+    .footer-col ul a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
     .footer-col ul a:hover { color: var(--white); }
-
-    .footer-bottom {
-      padding: 1.2rem 6%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.25);
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
+    .footer-bottom { padding: 1.2rem 6%; display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: rgba(255,255,255,0.25); flex-wrap: wrap; gap: 0.5rem; }
     .footer-creator { letter-spacing: 1.5px; text-transform: uppercase; }
-
-    .footer-creator a {
-      color: rgba(196,144,112,0.5);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
+    .footer-creator a { color: rgba(196,144,112,0.5); text-decoration: none; font-weight: 500; transition: color 0.2s; }
     .footer-creator a:hover { color: var(--accent); }
-
-    /* ═══════════════════════════════════
-       FAQ
-    ═══════════════════════════════════ */
-    .faq-list { display: flex; flex-direction: column; }
-
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-item:first-child { border-top: 1px solid var(--border); }
-
-    .faq-q {
-      width: 100%;
-      background: none;
-      border: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.3rem 0;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 500;
-      color: var(--text);
-      cursor: pointer;
-      text-align: left;
-      gap: 1rem;
-      transition: color 0.2s;
-    }
-
-    .faq-q:hover { color: var(--accent-dark); }
-
-    .faq-icon {
-      font-size: 1.3rem;
-      font-weight: 300;
-      color: var(--accent);
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      line-height: 1;
-    }
-
-    .faq-item.open .faq-icon { transform: rotate(45deg); }
-
-    .faq-a {
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      line-height: 1.85;
-      padding: 0 0 1.3rem;
-      display: none;
-    }
-
-    .faq-item.open .faq-a { display: block; }
 
     /* ═══════════════════════════════════
        SCROLL ANIMATIONS
     ═══════════════════════════════════ */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
     .delay-1 { transition-delay: 0.1s; }
     .delay-2 { transition-delay: 0.2s; }
@@ -933,46 +590,48 @@
        RESPONSIVE — TABLET (≤1024px)
     ═══════════════════════════════════ */
     @media (max-width: 1024px) {
-      .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
       .video-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-grid { columns: 2; }
       .reviews-grid { grid-template-columns: 1fr 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
       .footer-brand { grid-column: 1 / -1; }
+      .cal-months { grid-template-columns: repeat(3, 1fr); }
     }
 
     /* ═══════════════════════════════════
        RESPONSIVE — MOBILE (≤768px)
     ═══════════════════════════════════ */
     @media (max-width: 768px) {
-      section { padding: 64px 5%; }
-      #gallery { padding: 64px 3%; }
+      section { padding: 60px 5%; }
+      #gallery { padding: 60px 3%; }
+      #calendar { padding: 60px 4%; }
 
-      nav { padding: 0 5%; height: 60px; }
-
-      .nav-links {
-        display: none;
-        position: fixed;
-        top: 60px;
-        left: 0; right: 0;
-        background: var(--bg);
-        flex-direction: column;
-        padding: 1.5rem 5%;
-        gap: 0;
-        border-bottom: 1px solid var(--border);
-        z-index: 99;
-      }
-
-      .nav-links.open { display: flex; }
-      .nav-links li { border-bottom: 1px solid var(--border); }
-      .nav-links li:last-child { border-bottom: none; padding-top: 0.5rem; }
-      .nav-links a { display: block; padding: 0.9rem 0; font-size: 0.85rem; }
-      .nav-order { display: inline-block; margin-bottom: 0.5rem; }
+      /* Header: compact on mobile */
+      .header-logo-row { padding: 0.6rem 5%; justify-content: flex-start; }
+      .header-logo-img { height: 52px; }
       .hamburger { display: flex; }
 
-      #hero { min-height: 100svh; }
-      .hero-title { font-size: clamp(2.8rem, 12vw, 5rem); }
-      .hero-eyebrow { font-size: 0.65rem; letter-spacing: 2.5px; }
+      /* Nav: dropdown on mobile */
+      nav#navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        display: none;
+        border-top: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 0;
+      }
+      nav#navbar.open { display: flex; top: 66px; }
+      .nav-links { flex-direction: column; gap: 0; width: 100%; padding: 0.5rem 5%; }
+      .nav-links li { border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child { border-bottom: none; padding-top: 0.4rem; }
+      .nav-links a { display: block; padding: 0.85rem 0; font-size: 0.88rem; }
+      .nav-order { display: inline-block; margin-bottom: 0.4rem; }
+
+      #hero { min-height: 88vh; }
       .hero-scroll { display: none; }
 
       .features-grid { grid-template-columns: 1fr; }
@@ -982,10 +641,11 @@
       .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 
       .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .about-image img { aspect-ratio: 3 / 2; }
+      .about-image img { aspect-ratio: 3/2; }
 
-      .reviews-grid { grid-template-columns: 1fr; gap: 1.5px; }
+      .cal-months { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
 
+      .reviews-grid { grid-template-columns: 1fr; }
       .order-grid { grid-template-columns: 1fr; gap: 3rem; }
       .form-row { grid-template-columns: 1fr; gap: 0; }
       .form-group.half { margin-bottom: 1rem; }
@@ -1002,147 +662,24 @@
     ═══════════════════════════════════ */
     @media (max-width: 480px) {
       .menu-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-      .product-name { font-size: 1rem; }
       .gallery-grid { columns: 1; }
       .hero-buttons { flex-direction: column; align-items: center; }
       .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
+      .cal-months { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     }
-
-    /* ═══════════════════════════════════
-       SPLASH SCREEN
-    ═══════════════════════════════════ */
-    #splash {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #FFFDF8;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.85s ease;
-    }
-
-    #splash.splash-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .splash-logo-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .splash-logo-wrap img {
-      width: clamp(220px, 42vw, 340px);
-      height: auto;
-      animation: splash-pop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      mix-blend-mode: multiply;
-    }
-
-    @keyframes splash-pop {
-      0%   { opacity: 0; transform: scale(0.55) rotate(-4deg); }
-      60%  { opacity: 1; transform: scale(1.06) rotate(1deg); }
-      100% { opacity: 1; transform: scale(1) rotate(0deg); }
-    }
-
-    /* Sparkle dots around the logo */
-    .sparkle {
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #C49070;
-      opacity: 0;
-      animation: sparkle-burst 1.4s ease forwards;
-      animation-delay: var(--sd);
-    }
-
-    @keyframes sparkle-burst {
-      0%   { opacity: 0; transform: translate(0,0) scale(0); }
-      40%  { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1.2); }
-      100% { opacity: 0; transform: translate(calc(var(--tx) * 1.6), calc(var(--ty) * 1.6)) scale(0.2); }
-    }
-
-    .splash-tagline {
-      margin-top: 1.4rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      opacity: 0;
-      animation: splash-fadein 0.6s ease 0.7s forwards;
-    }
-
-    .splash-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      opacity: 0;
-      animation: splash-fadein 0.6s ease 1.2s forwards;
-    }
-
-    @keyframes splash-fadein {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Loading bar at the bottom */
-    .splash-bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 2.5px;
-      background: var(--accent);
-      width: 0%;
-      animation: splash-bar-fill 2.6s ease forwards;
-    }
-
-    @keyframes splash-bar-fill {
-      from { width: 0%; }
-      to   { width: 100%; }
-    }
-
-    /* ═══════════════════════════════════
-       NAV LOGO IMAGE
-    ═══════════════════════════════════ */
-    .nav-logo-img {
-      height: 48px;
-      width: auto;
-      display: block;
-      transition: transform 0.25s ease;
-      mix-blend-mode: multiply;
-    }
-
-    .nav-logo-img:hover { transform: scale(1.04); }
 
     /* ═══════════════════════════════════
        TOAST
     ═══════════════════════════════════ */
     #toast {
-      position: fixed;
-      bottom: 1.5rem; right: 1.5rem;
-      background: var(--bg-dark);
-      color: rgba(255,255,255,0.9);
-      padding: 0.9rem 1.4rem;
-      font-size: 0.82rem;
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--bg-dark); color: rgba(255,255,255,0.9);
+      padding: 0.9rem 1.4rem; font-size: 0.82rem;
       box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-      opacity: 0;
-      transform: translateY(16px);
+      opacity: 0; transform: translateY(16px);
       transition: opacity 0.3s, transform 0.3s;
-      pointer-events: none;
-      z-index: 999;
-      max-width: 300px;
+      pointer-events: none; z-index: 999; max-width: 300px;
     }
-
     #toast.show { opacity: 1; transform: translateY(0); }
   </style>
 </head>
@@ -1152,7 +689,6 @@
 <div id="splash">
   <div class="splash-logo-wrap">
     <img src="logo.jpg" alt="Lisa's Sweet Corner" />
-    <!-- sparkle particles -->
     <div class="sparkle" style="--sd:0.5s;--tx:-90px;--ty:-70px"></div>
     <div class="sparkle" style="--sd:0.6s;--tx:95px;--ty:-80px"></div>
     <div class="sparkle" style="--sd:0.65s;--tx:-110px;--ty:20px"></div>
@@ -1173,11 +709,20 @@
   <a href="#order">Order here →</a>
 </div>
 
-<!-- ═════════ NAVBAR ═════════ -->
+<!-- ═════════ SITE HEADER — Logo Centered ═════════ -->
+<header id="siteHeader">
+  <div class="header-logo-row">
+    <a href="#hero">
+      <img src="logo.jpg" alt="Lisa's Sweet Corner" class="header-logo-img" />
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═════════ NAVBAR — Sticky links ═════════ -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">
-    <img src="logo.jpg" alt="Lisa's Sweet Corner" class="nav-logo-img" />
-  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#hero">Home</a></li>
     <li><a href="#menu">Products</a></li>
@@ -1186,9 +731,6 @@
     <li><a href="#order">Contact Us</a></li>
     <li><a href="#order" class="nav-order">Order Now</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <!-- ═════════ HERO ═════════ -->
@@ -1196,12 +738,17 @@
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-eyebrow fade-up">Cupcakes &amp; Cake Pops</span>
-    <h1 class="hero-title fade-up delay-1">Lisa<br><em>Sweet Corner</em></h1>
-    <p class="hero-tagline fade-up delay-2">Home of Handcrafted Edible Floral Creations<br>Made fresh for every special moment in your life.</p>
-    <div class="hero-buttons fade-up delay-3">
+    <p class="hero-greeting fade-up">My name is Lisa, the owner of Lisa's Sweet Corner</p>
+    <div class="hero-divider"></div>
+    <p class="hero-welcome fade-up delay-1">
+      We are a locally based bakery in Ocoee, Florida, honored to serve the surrounding areas.
+      We offer convenient pickup, with delivery reserved exclusively for our cupcake bouquets
+      that require elegant on-site setup for events. You may select your preferred option
+      through the calendar at checkout.
+    </p>
+    <div class="hero-buttons fade-up delay-2">
       <a href="#menu" class="btn-hero-primary">Explore Our Menu</a>
-      <a href="#order" class="btn-hero-secondary">Place an Order</a>
+      <a href="#calendar" class="btn-hero-secondary">Check Availability</a>
     </div>
   </div>
   <div class="hero-scroll">
@@ -1231,11 +778,27 @@
       <div class="feature-icon">📦</div>
       <div class="feature-text">
         <strong>Pick-up &amp; Delivery</strong>
-        <span>Beautifully packaged and ready for your celebration.</span>
+        <span>Ocoee, FL — bouquet delivery available for events.</span>
       </div>
     </div>
   </div>
 </div>
+
+<!-- ═════════ AVAILABILITY CALENDAR ═════════ -->
+<section id="calendar">
+  <div class="section-header center fade-up">
+    <span class="section-eyebrow">Availability</span>
+    <h2 class="section-title">Check Our <em>Availability</em></h2>
+    <p class="section-body">Plan your order around available dates. A 50% deposit is required to secure your date. Contact us to reserve.</p>
+  </div>
+  <div class="cal-legend fade-up delay-1">
+    <div class="cal-legend-item"><div class="cal-dot available"></div> Available</div>
+    <div class="cal-legend-item"><div class="cal-dot booked"></div> Fully Booked</div>
+    <div class="cal-legend-item"><div class="cal-dot closed"></div> Closed</div>
+  </div>
+  <div class="cal-months fade-up delay-2" id="calGrid"></div>
+  <p class="cal-note fade-up delay-3">Ready to book? <a href="#order">Contact us to reserve your date →</a></p>
+</section>
 
 <!-- ═════════ MENU / COLLECTIONS ═════════ -->
 <section id="menu">
@@ -1253,115 +816,70 @@
   </div>
 
   <div class="menu-grid" id="menuGrid">
-
     <div class="product-card fade-up delay-1" data-category="cupcake">
-      <div class="product-img">
-        <img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Pink Floral Cupcakes" />
-      </div>
+      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Pink Floral Cupcakes" /></div>
       <div class="product-body">
         <div class="product-tag">Cupcakes</div>
         <div class="product-name">Pink Floral Cupcakes</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Pink Floral Cupcakes')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Pink Floral Cupcakes')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-2" data-category="cupcake">
-      <div class="product-img">
-        <div class="badge-new">Best Seller</div>
-        <img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Blue Garden Cupcakes" />
-      </div>
+      <div class="product-img"><div class="badge-new">Best Seller</div><img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Blue Garden Cupcakes" /></div>
       <div class="product-body">
         <div class="product-tag">Cupcakes</div>
         <div class="product-name">Blue Garden Cupcakes</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Blue Garden Cupcakes')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Blue Garden Cupcakes')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-3" data-category="cupcake">
-      <div class="product-img">
-        <div class="badge-new">New</div>
-        <img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Cactus & Succulent Cupcakes" />
-      </div>
+      <div class="product-img"><div class="badge-new">New</div><img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Cactus & Succulent Cupcakes" /></div>
       <div class="product-body">
         <div class="product-tag">Cupcakes</div>
         <div class="product-name">Cactus &amp; Succulent Cupcakes</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Cactus & Succulent Cupcakes')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Cactus & Succulent Cupcakes')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-4" data-category="cakepop">
-      <div class="product-img">
-        <img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Sunflower & Pumpkin Cake Pops" />
-      </div>
+      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Sunflower & Pumpkin Cake Pops" /></div>
       <div class="product-body">
         <div class="product-tag">Cake Pops</div>
         <div class="product-name">Sunflower &amp; Pumpkin Pops</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Sunflower & Pumpkin Cake Pops')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Sunflower & Pumpkin Cake Pops')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-1" data-category="cakepop">
-      <div class="product-img">
-        <div class="badge-new">Bestseller</div>
-        <img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Elegant Floral Cake Pops" />
-      </div>
+      <div class="product-img"><div class="badge-new">Bestseller</div><img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Elegant Floral Cake Pops" /></div>
       <div class="product-body">
         <div class="product-tag">Cake Pops</div>
         <div class="product-name">Elegant Floral Cake Pops</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Elegant Floral Cake Pops')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Elegant Floral Cake Pops')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-2" data-category="cakepop">
-      <div class="product-img">
-        <img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Sage Swirl Cake Pops" />
-      </div>
+      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Sage Swirl Cake Pops" /></div>
       <div class="product-body">
         <div class="product-tag">Cake Pops</div>
         <div class="product-name">Sage Swirl Cake Pops</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Sage Swirl Cake Pops')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Sage Swirl Cake Pops')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-3" data-category="special">
-      <div class="product-img">
-        <div class="badge-new">Special</div>
-        <img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Chocolate Strawberry Tower" />
-      </div>
+      <div class="product-img"><div class="badge-new">Special</div><img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Chocolate Strawberry Tower" /></div>
       <div class="product-body">
         <div class="product-tag">Special</div>
         <div class="product-name">Chocolate Strawberry Tower</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Chocolate Strawberry Tower')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Chocolate Strawberry Tower')">Inquire to Order</button></div>
       </div>
     </div>
-
     <div class="product-card fade-up delay-4" data-category="special">
-      <div class="product-img">
-        <img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Decorated Chocolate Pretzels" />
-      </div>
+      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Decorated Chocolate Pretzels" /></div>
       <div class="product-body">
         <div class="product-tag">Special</div>
         <div class="product-name">Decorated Chocolate Pretzels</div>
-        <div class="product-footer">
-          <button class="add-btn" onclick="addToOrder('Decorated Chocolate Pretzels')">Inquire to Order</button>
-        </div>
+        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Decorated Chocolate Pretzels')">Inquire to Order</button></div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -1374,28 +892,25 @@
     </div>
     <div class="about-content">
       <div class="section-header fade-up">
-        <span class="section-eyebrow">Our Story</span>
-        <h2 class="section-title">Baked with Heart,<br><em>Shared with Joy</em></h2>
+        <span class="section-eyebrow">About Us</span>
+        <h2 class="section-title">Welcome to<br><em>Lisa's Sweet Corner!</em></h2>
       </div>
       <p class="section-body fade-up delay-1">
-        Lisa Sweet Corner started as a passion project in a small home kitchen, driven by a love for baking and a desire to make people smile. Every cupcake, cake pop and sweet treat is handcrafted using premium ingredients — no shortcuts, no compromises.
+        We are a local bakery based in Ocoee, Florida, serving the surrounding areas. We specialize in beautiful floral cupcakes, handcrafted to look like edible flower arrangements. Every order is made fresh with care and attention to detail, creating cupcakes that are as beautiful as they are delicious.
       </p>
-      <p class="section-body fade-up delay-2" style="margin-top: 1rem;">
-        Whether it's a birthday, anniversary, baby shower or just a sweet craving — we pour warmth and creativity into every single order.
+      <p class="section-body fade-up delay-2" style="margin-top:1rem;">
+        We believe every celebration deserves something special, and we're honored to be a part of your most meaningful moments with sweet creations made just for you.
       </p>
-      <ul class="about-list">
-        <li class="fade-up delay-2"><span class="li-icon">🌸</span><div><strong>Fresh Ingredients</strong> — Only the finest local and premium ingredients used daily.</div></li>
-        <li class="fade-up delay-3"><span class="li-icon">🎨</span><div><strong>Custom Designs</strong> — Every piece is a canvas — bring your vision, we'll create it.</div></li>
-        <li class="fade-up delay-3"><span class="li-icon">💌</span><div><strong>Made with Love</strong> — Each treat is baked with genuine care and attention to detail.</div></li>
-        <li class="fade-up delay-4"><span class="li-icon">🚀</span><div><strong>On-Time Delivery</strong> — We respect your celebration — always ready when you need us.</div></li>
-      </ul>
+      <div class="about-signature fade-up delay-3">
+        🌸 Freshly made to order. Beautifully crafted. Made with love. 🌸
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ═════════ GALLERY ═════════ -->
 <section id="gallery">
-  <div class="section-header center fade-up" style="padding: 0 3%;">
+  <div class="section-header center fade-up" style="padding:0 3%;">
     <span class="section-eyebrow">Our Creations</span>
     <h2 class="section-title">A Feast <em>for the Eyes</em></h2>
   </div>
@@ -1419,26 +934,10 @@
     <p class="section-body" style="max-width:460px;margin:0 auto;">A glimpse into the love and artistry that goes into every single piece we make.</p>
   </div>
   <div class="video-grid fade-up delay-1">
-    <div class="video-item">
-      <video autoplay muted loop playsinline>
-        <source src="photos%20and%20videos/SnapInsta.to_AQN-zeKSjDXO53sIGqcbLfi5QGZHFA3F8ctM3vGwyZYMGABNQnOEpFRS2JsiS0ElD-HIvu6taeLNMLP5O4-buxK4-qkM1aE2jQfV8bM.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="video-item">
-      <video autoplay muted loop playsinline>
-        <source src="photos%20and%20videos/SnapInsta.to_AQNIwXqZOhFYcNlN0Yo8gvniCeWbBFjJtXpyj7x2tk82n_VHBoRdwczzHQEiZpKX9xzqWWliGYcS9-SFchp3zDerQvNG5sQTLAyzHzc.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="video-item">
-      <video autoplay muted loop playsinline>
-        <source src="photos%20and%20videos/SnapInsta.to_AQNIzuG6_JiBQ2nNuLcf4zeqk_M72-eqlF46bC0OMvRORv5bEGEWnhq1EkNtWWmVTD8IHviRGhcyF-RmWtm9YCkVympaMsj_sEzzD9o.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="video-item">
-      <video autoplay muted loop playsinline>
-        <source src="photos%20and%20videos/SnapInsta.to_AQNnzAAKjzJHqxtwxaHyBZO_uBJFaY8e-4pRRJ1gFLnlZIceycgOZq0JnsNzYjmk2-8QBm0tpV1ZeCS89CgvhF7GIsG1Im6MSz2eOE0.mp4" type="video/mp4" />
-      </video>
-    </div>
+    <div class="video-item"><video autoplay muted loop playsinline><source src="photos%20and%20videos/SnapInsta.to_AQN-zeKSjDXO53sIGqcbLfi5QGZHFA3F8ctM3vGwyZYMGABNQnOEpFRS2JsiS0ElD-HIvu6taeLNMLP5O4-buxK4-qkM1aE2jQfV8bM.mp4" type="video/mp4" /></video></div>
+    <div class="video-item"><video autoplay muted loop playsinline><source src="photos%20and%20videos/SnapInsta.to_AQNIwXqZOhFYcNlN0Yo8gvniCeWbBFjJtXpyj7x2tk82n_VHBoRdwczzHQEiZpKX9xzqWWliGYcS9-SFchp3zDerQvNG5sQTLAyzHzc.mp4" type="video/mp4" /></video></div>
+    <div class="video-item"><video autoplay muted loop playsinline><source src="photos%20and%20videos/SnapInsta.to_AQNIzuG6_JiBQ2nNuLcf4zeqk_M72-eqlF46bC0OMvRORv5bEGEWnhq1EkNtWWmVTD8IHviRGhcyF-RmWtm9YCkVympaMsj_sEzzD9o.mp4" type="video/mp4" /></video></div>
+    <div class="video-item"><video autoplay muted loop playsinline><source src="photos%20and%20videos/SnapInsta.to_AQNnzAAKjzJHqxtwxaHyBZO_uBJFaY8e-4pRRJ1gFLnlZIceycgOZq0JnsNzYjmk2-8QBm0tpV1ZeCS89CgvhF7GIsG1Im6MSz2eOE0.mp4" type="video/mp4" /></video></div>
   </div>
 </section>
 
@@ -1449,72 +948,129 @@
     <h2 class="section-title">What Our Customers <em>Say</em></h2>
   </div>
   <div class="reviews-grid">
-    <div class="review-card fade-up delay-1">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"The Blue Garden Cupcakes were absolutely stunning — each one looked like a real flower! My guests couldn't believe they were edible."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Maria Santos</div><div class="reviewer-label">Ordered for Birthday</div></div></div>
-    </div>
-    <div class="review-card fade-up delay-2">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"The Elegant Floral Cake Pops were the perfect wedding favor — so beautiful in their little boxes! Everyone was so impressed."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👨</div><div><div class="reviewer-name">Carlo &amp; Ana Reyes</div><div class="reviewer-label">Ordered for Wedding</div></div></div>
-    </div>
-    <div class="review-card fade-up delay-3">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Ordered the Cactus Cupcakes for a plant lover's birthday and they were a total hit! So creative and delicious."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Joy Dela Cruz</div><div class="reviewer-label">Ordered for Birthday</div></div></div>
-    </div>
-    <div class="review-card fade-up delay-1">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Super responsive and very accommodating! The Chocolate Strawberry Tower was rich, gorgeous and absolutely perfect."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👧</div><div><div class="reviewer-name">Trisha Mendoza</div><div class="reviewer-label">Repeat Customer</div></div></div>
-    </div>
-    <div class="review-card fade-up delay-2">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"The Pink Floral Cupcakes looked like they came out of a magazine! Tasted even better than they looked. My mom cried happy tears."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👦</div><div><div class="reviewer-name">Nico Tan</div><div class="reviewer-label">First-time Customer</div></div></div>
-    </div>
-    <div class="review-card fade-up delay-3">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Ordered 4 times already! Every order is perfect. Lisa Sweet Corner is my absolute go-to for all celebrations."</p>
-      <div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Diane Villanueva</div><div class="reviewer-label">Loyal Customer</div></div></div>
-    </div>
+    <div class="review-card fade-up delay-1"><div class="stars">★★★★★</div><p class="review-text">"The Blue Garden Cupcakes were absolutely stunning — each one looked like a real flower! My guests couldn't believe they were edible."</p><div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Maria Santos</div><div class="reviewer-label">Ordered for Birthday</div></div></div></div>
+    <div class="review-card fade-up delay-2"><div class="stars">★★★★★</div><p class="review-text">"The Elegant Floral Cake Pops were the perfect wedding favor — so beautiful in their little boxes! Everyone was so impressed."</p><div class="reviewer"><div class="reviewer-avatar">👨</div><div><div class="reviewer-name">Carlo &amp; Ana Reyes</div><div class="reviewer-label">Ordered for Wedding</div></div></div></div>
+    <div class="review-card fade-up delay-3"><div class="stars">★★★★★</div><p class="review-text">"Ordered the Cactus Cupcakes for a plant lover's birthday and they were a total hit! So creative and delicious."</p><div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Joy Dela Cruz</div><div class="reviewer-label">Ordered for Birthday</div></div></div></div>
+    <div class="review-card fade-up delay-1"><div class="stars">★★★★★</div><p class="review-text">"Super responsive and very accommodating! The Chocolate Strawberry Tower was rich, gorgeous and absolutely perfect."</p><div class="reviewer"><div class="reviewer-avatar">👧</div><div><div class="reviewer-name">Trisha Mendoza</div><div class="reviewer-label">Repeat Customer</div></div></div></div>
+    <div class="review-card fade-up delay-2"><div class="stars">★★★★★</div><p class="review-text">"The Pink Floral Cupcakes looked like they came out of a magazine! Tasted even better than they looked. My mom cried happy tears."</p><div class="reviewer"><div class="reviewer-avatar">👦</div><div><div class="reviewer-name">Nico Tan</div><div class="reviewer-label">First-time Customer</div></div></div></div>
+    <div class="review-card fade-up delay-3"><div class="stars">★★★★★</div><p class="review-text">"Ordered 4 times already! Every order is perfect. Lisa Sweet Corner is my absolute go-to for all celebrations."</p><div class="reviewer"><div class="reviewer-avatar">👩</div><div><div class="reviewer-name">Diane Villanueva</div><div class="reviewer-label">Loyal Customer</div></div></div></div>
   </div>
 </section>
 
 <!-- ═════════ FAQ ═════════ -->
-<section id="faq" style="background:var(--bg-warm);">
-  <div style="max-width:760px;margin:0 auto;">
-    <div class="section-header center fade-up">
-      <span class="section-eyebrow">FAQ's</span>
-      <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item fade-up delay-1">
-        <button class="faq-q" onclick="toggleFaq(this)">How far in advance should I place my order? <span class="faq-icon">+</span></button>
-        <div class="faq-a">We recommend ordering at least <strong>2–3 days in advance</strong> to ensure we can accommodate your request. For large custom orders or special events, 5–7 days notice is ideal.</div>
-      </div>
-      <div class="faq-item fade-up delay-2">
-        <button class="faq-q" onclick="toggleFaq(this)">Do you offer delivery? <span class="faq-icon">+</span></button>
-        <div class="faq-a">Yes! We offer both <strong>pick-up and delivery</strong>. Please include your delivery address and preferred date in the order notes, and we'll confirm the details with you.</div>
-      </div>
-      <div class="faq-item fade-up delay-2">
-        <button class="faq-q" onclick="toggleFaq(this)">Can I customize my order? <span class="faq-icon">+</span></button>
-        <div class="faq-a">Absolutely! We love custom orders. You can choose your <strong>theme, color palette, flavors, and packaging style</strong>. Just describe your vision in the order form and we'll bring it to life.</div>
-      </div>
-      <div class="faq-item fade-up delay-3">
-        <button class="faq-q" onclick="toggleFaq(this)">What flavors are available? <span class="faq-icon">+</span></button>
-        <div class="faq-a">We offer a variety of flavors including <strong>classic vanilla, chocolate, red velvet, ube, and strawberry</strong>. Custom flavor requests are also welcome — just let us know!</div>
-      </div>
-      <div class="faq-item fade-up delay-3">
-        <button class="faq-q" onclick="toggleFaq(this)">How do I place an order? <span class="faq-icon">+</span></button>
-        <div class="faq-a">You can place an order by filling out the <strong>order form below</strong>, sending us a message on our Facebook page, or texting us directly. We'll get back to you within a few hours to confirm.</div>
-      </div>
-      <div class="faq-item fade-up delay-4">
-        <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept? <span class="faq-icon">+</span></button>
-        <div class="faq-a">We accept <strong>GCash, Maya, bank transfer, and cash on pick-up</strong>. Payment details will be provided upon order confirmation.</div>
+<section id="faq">
+  <div class="section-header center fade-up">
+    <span class="section-eyebrow">FAQ's</span>
+    <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+  </div>
+  <div class="faq-wrap">
+
+    <div class="faq-category fade-up delay-1">
+      <div class="faq-cat-title">🌸 Ordering &amp; Availability</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How far in advance should I place my order?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We recommend placing your order at least <strong>2–4 weeks in advance</strong> to secure your preferred date. Rush orders may be accommodated based on availability.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you accept last-minute orders?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We may be able to accommodate rush orders depending on our schedule. Please contact us to inquire.</div>
+        </div>
       </div>
     </div>
+
+    <div class="faq-category fade-up delay-2">
+      <div class="faq-cat-title">🧁 Cupcake Details</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Are the flowers real?<span class="faq-icon">+</span></button>
+          <div class="faq-a">No, the flowers are <strong>handcrafted from buttercream</strong> and are completely edible.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What cupcake flavors do you offer?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We offer a variety of flavors, including <strong>vanilla, chocolate, red velvet, and strawberry</strong>.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can I choose the flower colors?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes! We can <strong>customize the flower colors</strong> to match your theme or event.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can you match a photo inspiration?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We welcome inspiration photos and will do our best to create a design in a similar style while maintaining our artistic touch.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-category fade-up delay-2">
+      <div class="faq-cat-title">🎂 Custom Orders</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you offer custom designs?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes! We love creating <strong>custom floral cupcake arrangements</strong> for birthdays, baby showers, weddings, and other special occasions.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What if I don't see a design that fits my budget?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Feel free to reach out! We are happy to discuss options and create something beautiful within your budget whenever possible.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-category fade-up delay-3">
+      <div class="faq-cat-title">🚗 Pickup &amp; Delivery</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you offer delivery?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Pickup is available for all orders. <strong>Delivery is offered exclusively for cupcake bouquets</strong> that require on-site event setup.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Where are you located?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We are based in <strong>Ocoee, Florida</strong>, and serve the surrounding areas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-category fade-up delay-3">
+      <div class="faq-cat-title">🌡️ Storage &amp; Care</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How should I store my cupcakes?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Keep cupcakes in a <strong>cool indoor area away from direct sunlight</strong>. For best results, store at room temperature and enjoy within 1–2 days.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can floral cupcakes be displayed outdoors?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We do not recommend outdoor displays, especially during Florida's warmer months, as buttercream can soften or melt in the heat.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-category fade-up delay-4">
+      <div class="faq-cat-title">💳 Payments &amp; Policies</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Is a deposit required?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes, a <strong>50% deposit is required</strong> to secure your order. The remaining balance is due before pickup or setup.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Are deposits refundable?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Deposits are <strong>non-refundable</strong> once ingredients and materials have been purchased or preparation has begun.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-category fade-up delay-4">
+      <div class="faq-cat-title">🎁 Gifts &amp; Events</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Are floral cupcakes a good alternative to flowers?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Absolutely! Floral cupcakes make a <strong>unique and edible gift</strong> for birthdays, Mother's Day, anniversaries, baby showers, and many other occasions.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you offer gift packaging?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes, our floral cupcakes are <strong>beautifully packaged and ready for gifting</strong>.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1523,40 +1079,22 @@
   <div class="order-grid">
     <div>
       <div class="section-header fade-up">
-        <span class="section-eyebrow">Get in Touch</span>
+        <span class="section-eyebrow">Contact Us</span>
         <h2 class="section-title">Ready to Order<br><em>Something Sweet?</em></h2>
         <p class="section-body">Reach out and we'll confirm your order within a few hours.</p>
       </div>
       <div class="contact-items">
-        <div class="contact-item fade-up delay-1">
-          <div class="contact-icon">📱</div>
-          <div class="contact-info"><strong>Call or Text</strong><span>+63 912 345 6789</span></div>
-        </div>
-        <div class="contact-item fade-up delay-2">
-          <div class="contact-icon">💬</div>
-          <div class="contact-info"><strong>Facebook Page</strong><span>Lisa Sweet Corner</span></div>
-        </div>
-        <div class="contact-item fade-up delay-3">
-          <div class="contact-icon">📍</div>
-          <div class="contact-info"><strong>Location</strong><span>Available for pick-up &amp; delivery</span></div>
-        </div>
-        <div class="contact-item fade-up delay-4">
-          <div class="contact-icon">🕐</div>
-          <div class="contact-info"><strong>Order Lead Time</strong><span>2–3 days in advance recommended</span></div>
-        </div>
+        <div class="contact-item fade-up delay-1"><div class="contact-icon">📱</div><div class="contact-info"><strong>Call or Text</strong><span>+63 912 345 6789</span></div></div>
+        <div class="contact-item fade-up delay-2"><div class="contact-icon">💬</div><div class="contact-info"><strong>Facebook Page</strong><span>Lisa's Sweet Corner</span></div></div>
+        <div class="contact-item fade-up delay-3"><div class="contact-icon">📍</div><div class="contact-info"><strong>Location</strong><span>Ocoee, Florida — Pick-up &amp; bouquet delivery</span></div></div>
+        <div class="contact-item fade-up delay-4"><div class="contact-icon">🕐</div><div class="contact-info"><strong>Order Lead Time</strong><span>2–4 weeks in advance recommended</span></div></div>
       </div>
     </div>
     <div class="fade-up delay-2">
       <div class="form-title">Place Your Order</div>
       <div class="form-row">
-        <div class="form-group half">
-          <label>Your Name</label>
-          <input type="text" id="orderName" placeholder="e.g. Maria Santos" />
-        </div>
-        <div class="form-group half">
-          <label>Contact Number</label>
-          <input type="tel" id="orderPhone" placeholder="+63 9XX XXX XXXX" />
-        </div>
+        <div class="form-group half"><label>Your Name</label><input type="text" id="orderName" placeholder="e.g. Maria Santos" /></div>
+        <div class="form-group half"><label>Contact Number</label><input type="tel" id="orderPhone" placeholder="+1 (407) 000-0000" /></div>
       </div>
       <div class="form-group">
         <label>What would you like to order?</label>
@@ -1572,10 +1110,7 @@
           <option>Decorated Chocolate Pretzels</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Special Requests / Message</label>
-        <textarea id="orderNote" placeholder="e.g. theme color, event date, custom message..."></textarea>
-      </div>
+      <div class="form-group"><label>Special Requests / Message</label><textarea id="orderNote" placeholder="e.g. theme color, event date, custom message..."></textarea></div>
       <button class="btn-order" onclick="submitOrder()">Send Order Request</button>
     </div>
   </div>
@@ -1585,8 +1120,8 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <div class="footer-logo">Lisa <em>Sweet Corner</em></div>
-      <p>Handcrafted cupcakes, cake pops &amp; sweet treats made with love — for every celebration in life.</p>
+      <div class="footer-logo">Lisa's <em>Sweet Corner</em></div>
+      <p>Handcrafted floral cupcakes, cake pops &amp; sweet treats made with love — Ocoee, Florida.</p>
     </div>
     <div class="footer-col">
       <h4>Navigate</h4>
@@ -1602,14 +1137,14 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="#">+63 912 345 6789</a></li>
-        <li><a href="#">Facebook: Lisa Sweet Corner</a></li>
-        <li><a href="#">Pick-up &amp; Delivery Available</a></li>
-        <li><a href="#">Custom Orders Welcome</a></li>
+        <li><a href="#">Facebook: Lisa's Sweet Corner</a></li>
+        <li><a href="#">Ocoee, Florida</a></li>
+        <li><a href="#">Pick-up &amp; Bouquet Delivery</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 Lisa Sweet Corner. All rights reserved.</span>
+    <span>© 2025 Lisa's Sweet Corner. All rights reserved.</span>
     <span class="footer-creator">Website by <a href="#">MEJORADACREATIVE</a></span>
   </div>
 </footer>
@@ -1617,130 +1152,121 @@
 <div id="toast"></div>
 
 <script>
-  // ── Sweet chime using Web Audio API ──
+  // ── Sweet chime ──
   function playSweetChime() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      // C major pentatonic arpeggio: C5 E5 G5 A5 C6
       const notes = [523.25, 659.25, 783.99, 880.00, 1046.50];
-      const vol   = 0.22;
       notes.forEach((freq, i) => {
-        // Main tone
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = 'sine';
-        osc.frequency.value = freq;
+        const osc = ctx.createOscillator(), gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine'; osc.frequency.value = freq;
         const t = ctx.currentTime + i * 0.19;
         gain.gain.setValueAtTime(0, t);
-        gain.gain.linearRampToValueAtTime(vol, t + 0.04);
+        gain.gain.linearRampToValueAtTime(0.22, t + 0.04);
         gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
-        osc.start(t);
-        osc.stop(t + 0.7);
-
-        // Subtle harmonic (one octave up, quieter)
-        const osc2 = ctx.createOscillator();
-        const gain2 = ctx.createGain();
-        osc2.connect(gain2);
-        gain2.connect(ctx.destination);
-        osc2.type = 'sine';
-        osc2.frequency.value = freq * 2;
+        osc.start(t); osc.stop(t + 0.7);
+        const osc2 = ctx.createOscillator(), gain2 = ctx.createGain();
+        osc2.connect(gain2); gain2.connect(ctx.destination);
+        osc2.type = 'sine'; osc2.frequency.value = freq * 2;
         gain2.gain.setValueAtTime(0, t);
-        gain2.gain.linearRampToValueAtTime(vol * 0.18, t + 0.04);
+        gain2.gain.linearRampToValueAtTime(0.04, t + 0.04);
         gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
-        osc2.start(t);
-        osc2.stop(t + 0.45);
+        osc2.start(t); osc2.stop(t + 0.45);
       });
     } catch(e) {}
   }
 
-  // ── Splash screen logic ──
+  // ── Splash ──
   (function() {
     const splash = document.getElementById('splash');
     let dismissed = false;
-
     function dismissSplash() {
-      if (dismissed) return;
-      dismissed = true;
+      if (dismissed) return; dismissed = true;
       playSweetChime();
       splash.classList.add('splash-out');
-      setTimeout(() => {
-        if (splash.parentNode) splash.parentNode.removeChild(splash);
-      }, 900);
+      setTimeout(() => { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 900);
     }
-
-    // Tap/click anywhere to dismiss
     splash.addEventListener('click', dismissSplash);
-
-    // Also auto-dismiss after 3.2s even without a click
     setTimeout(dismissSplash, 3200);
-
-    // Try auto-play on browsers that allow it
-    setTimeout(() => {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'running') playSweetChime();
-        ctx.close();
-      } catch(e) {}
-    }, 300);
   })();
 
-  // Hamburger
-  const hamburger = document.getElementById('hamburger');
-  const navLinks  = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  // ── Hamburger ──
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('navbar').classList.toggle('open');
+  });
   document.querySelectorAll('.nav-links a').forEach(a =>
-    a.addEventListener('click', () => navLinks.classList.remove('open'))
+    a.addEventListener('click', () => document.getElementById('navbar').classList.remove('open'))
   );
 
-  // Tab filter
+  // ── Availability Calendar ──
+  (function() {
+    // ✏️ Add fully booked dates here as 'YYYY-MM-DD'
+    const BOOKED_DATES = new Set([
+      // e.g. '2026-07-04', '2026-07-12'
+    ]);
+    // Days always closed: 0=Sunday, 1=Monday
+    const CLOSED_DAYS = new Set([0, 1]);
+
+    const MONTHS = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    const DAY_H  = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+    const grid  = document.getElementById('calGrid');
+    const today = new Date(); today.setHours(0,0,0,0);
+    let html = '';
+
+    for (let m = 0; m < 12; m++) {
+      const d     = new Date(today.getFullYear(), today.getMonth() + m, 1);
+      const yr    = d.getFullYear();
+      const mo    = d.getMonth();
+      const first = d.getDay();
+      const last  = new Date(yr, mo + 1, 0).getDate();
+
+      html += `<div class="cal-month"><div class="cal-month-title">${MONTHS[mo]} ${yr}</div><div class="cal-days-grid">`;
+      DAY_H.forEach(h => { html += `<div class="cal-day-header">${h}</div>`; });
+      for (let i = 0; i < first; i++) html += `<div class="cal-day empty"></div>`;
+      for (let day = 1; day <= last; day++) {
+        const dt  = new Date(yr, mo, day);
+        const key = `${yr}-${String(mo+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        let cls = dt < today ? 'past' : BOOKED_DATES.has(key) ? 'booked' : CLOSED_DAYS.has(dt.getDay()) ? 'closed' : 'available';
+        if (dt.getTime() === today.getTime()) cls += ' today';
+        html += `<div class="cal-day ${cls}">${day}</div>`;
+      }
+      html += `</div></div>`;
+    }
+    grid.innerHTML = html;
+  })();
+
+  // ── Tab filter ──
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
-      document.querySelectorAll('.product-card').forEach(card => {
-        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
-      });
+      document.querySelectorAll('.product-card').forEach(card =>
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter)
+      );
     });
   });
 
-  // Scroll fade-in
+  // ── Scroll fade-in ──
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Video: play only when visible
+  // ── Video autoplay on scroll ──
   const videoObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       const v = e.target.querySelector('video');
       if (!v) return;
-      e.isIntersecting ? v.play().catch(() => {}) : v.pause();
+      e.isIntersecting ? v.play().catch(()=>{}) : v.pause();
     });
   }, { threshold: 0.25 });
   document.querySelectorAll('.video-item').forEach(v => videoObs.observe(v));
 
-  // Toast
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3200);
-  }
-
-  // Add to order
-  function addToOrder(name) {
-    const sel = document.getElementById('orderItem');
-    for (let o of sel.options) {
-      if (o.text.includes(name.split(' ')[0])) { sel.value = o.value; break; }
-    }
-    showToast(name + ' selected — scroll down to complete your order.');
-    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  // FAQ accordion
+  // ── FAQ accordion ──
   function toggleFaq(btn) {
     const item = btn.parentElement;
     const isOpen = item.classList.contains('open');
@@ -1748,19 +1274,28 @@
     if (!isOpen) item.classList.add('open');
   }
 
-  // Submit order
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  function addToOrder(name) {
+    const sel = document.getElementById('orderItem');
+    for (let o of sel.options) { if (o.text.includes(name.split(' ')[0])) { sel.value = o.value; break; } }
+    showToast(name + ' selected — scroll down to complete your order.');
+    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  }
+
   function submitOrder() {
-    const name  = document.getElementById('orderName').value.trim();
+    const name = document.getElementById('orderName').value.trim();
     const phone = document.getElementById('orderPhone').value.trim();
     const item  = document.getElementById('orderItem').value;
-    if (!name || !phone || !item) {
-      showToast('Please fill in your name, number, and product selection.');
-      return;
-    }
+    if (!name || !phone || !item) { showToast('Please fill in your name, number, and product selection.'); return; }
     showToast('Order received! We\'ll contact you soon, ' + name + '.');
-    ['orderName','orderPhone','orderItem','orderNote'].forEach(id =>
-      document.getElementById(id).value = ''
-    );
+    ['orderName','orderPhone','orderItem','orderNote'].forEach(id => document.getElementById(id).value = '');
   }
 </script>
 </body>
