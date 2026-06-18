@@ -596,6 +596,28 @@
       font-size: 2.5rem; margin-bottom: 1.4rem;
     }
 
+    .how-to-order {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.4rem;
+    }
+    .how-to-order h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.6rem;
+      letter-spacing: 0.3px;
+    }
+    .how-to-order ol {
+      padding-left: 1.2rem; margin: 0;
+    }
+    .how-to-order ol li {
+      font-size: 0.78rem; color: var(--text-mid);
+      line-height: 1.7; margin-bottom: 0.25rem;
+    }
+    .how-to-order ol li:last-child { margin-bottom: 0; }
+
     /* ── Lightbox ── */
     #lightbox {
       position: fixed; inset: 0; z-index: 600;
@@ -1304,6 +1326,15 @@
     <div id="overlayScreenCustomize">
       <button class="overlay-back" id="overlayBack">Back to designs</button>
       <div id="overlaySelectedVisual"></div>
+      <div class="how-to-order">
+        <h4>How to Order</h4>
+        <ol>
+          <li>Add your desired boxes to the cart.</li>
+          <li>Use the Special Instructions box in the cart to include gift messages, delivery notes, and any additional notes for your order.</li>
+          <li>Select your pickup or delivery date and time using the calendar.</li>
+          <li>Delivery fees are automatically calculated at checkout based on your location.</li>
+        </ol>
+      </div>
       <div class="overlay-eyebrow" id="overlayCustomizeProduct"></div>
       <div class="overlay-divider"></div>
       <label class="overlay-label">Choose Your Flavor</label>
