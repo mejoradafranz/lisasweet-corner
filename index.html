@@ -423,36 +423,51 @@
 
     .product-card {
       cursor: pointer; border: 1px solid var(--border);
-      padding: 2rem 1.6rem 1.6rem;
+      padding: 0;
       display: flex; flex-direction: column; justify-content: space-between;
       background: var(--bg); transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
       position: relative; overflow: hidden;
     }
-    .product-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: var(--bg-warm); opacity: 0; transition: opacity 0.25s;
+
+    .product-thumb {
+      aspect-ratio: 4/3; overflow: hidden; background: var(--bg-cream);
+      position: relative;
+    }
+    .product-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.55s ease;
+    }
+    .product-card:hover .product-thumb img { transform: scale(1.07); }
+
+    .product-thumb-placeholder {
+      aspect-ratio: 4/3; background: var(--bg-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: var(--border);
+    }
+
+    .product-body-wrap {
+      padding: 1.4rem 1.6rem 1.6rem;
+      display: flex; flex-direction: column; flex: 1; justify-content: space-between;
     }
     .product-card:hover { border-color: var(--accent); box-shadow: 0 6px 28px rgba(196,144,112,0.12); transform: translateY(-3px); }
-    .product-card:hover::before { opacity: 1; }
 
     .product-num {
       font-size: 0.65rem; font-weight: 600; letter-spacing: 2.5px;
-      color: var(--text-faint); margin-bottom: 1rem; position: relative;
+      color: var(--text-faint); margin-bottom: 1rem;
     }
     .product-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem; font-weight: 600; color: var(--text);
-      line-height: 1.25; margin-bottom: 0.7rem; position: relative;
+      line-height: 1.25; margin-bottom: 0.7rem;
       letter-spacing: 0.2px;
     }
     .product-desc {
       font-size: 0.78rem; color: var(--text-mid); line-height: 1.6;
-      margin-bottom: 1.4rem; position: relative;
+      margin-bottom: 1.4rem;
     }
     .product-footer {
       display: flex; align-items: center; justify-content: space-between;
       padding-top: 1.1rem; border-top: 1px solid var(--border);
-      position: relative;
     }
     .product-price {
       font-size: 0.78rem; font-weight: 500; color: var(--text-mid);
@@ -991,98 +1006,122 @@
   <div class="menu-grid" id="menuGrid">
 
     <div class="product-card fade-up delay-1" onclick="openProduct('Standard Dozen')">
-      <div>
-        <div class="product-num">01</div>
-        <div class="product-name">Standard Dozen</div>
-        <div class="product-desc">12 beautifully crafted floral cupcakes — perfect for birthdays, events & celebrations.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb"><img src="photos%20and%20videos/dozen%201.jfif" alt="Standard Dozen" /></div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">01</div>
+          <div class="product-name">Standard Dozen</div>
+          <div class="product-desc">12 beautifully crafted floral cupcakes — perfect for birthdays, events & celebrations.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-2" onclick="openProduct('Standard Half Dozen')">
-      <div>
-        <div class="product-num">02</div>
-        <div class="product-name">Standard Half Dozen</div>
-        <div class="product-desc">6 handcrafted cupcakes — a sweet gift for any occasion, big or small.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb"><img src="photos%20and%20videos/half%20dozen.jfif" alt="Standard Half Dozen" /></div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">02</div>
+          <div class="product-name">Standard Half Dozen</div>
+          <div class="product-desc">6 handcrafted cupcakes — a sweet gift for any occasion, big or small.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-3" onclick="openProduct('Standard Box of 4')">
-      <div>
-        <div class="product-num">03</div>
-        <div class="product-name">Standard Box of 4</div>
-        <div class="product-desc">4 floral cupcakes elegantly boxed — ideal as a personal treat or a thoughtful gift.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">03</div>
+          <div class="product-name">Standard Box of 4</div>
+          <div class="product-desc">4 floral cupcakes elegantly boxed — ideal as a personal treat or a thoughtful gift.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-4" onclick="openProduct('Individual Favor Boxes')">
-      <div>
-        <div class="product-num">04</div>
-        <div class="product-name">Individual Favor Boxes</div>
-        <div class="product-desc">Single cupcakes in individual gift boxes — perfect as wedding or party favors.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">04</div>
+          <div class="product-name">Individual Favor Boxes</div>
+          <div class="product-desc">Single cupcakes in individual gift boxes — perfect as wedding or party favors.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-1" onclick="openProduct('Mini 24 Cupcakes')">
-      <div>
-        <div class="product-num">05</div>
-        <div class="product-name">Mini 24 Cupcakes</div>
-        <div class="product-desc">24 mini floral cupcakes — great for dessert tables, showers & large gatherings.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">05</div>
+          <div class="product-name">Mini 24 Cupcakes</div>
+          <div class="product-desc">24 mini floral cupcakes — great for dessert tables, showers & large gatherings.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-2" onclick="openProduct('Number Box')">
-      <div>
-        <div class="product-num">06</div>
-        <div class="product-name">Number Box</div>
-        <div class="product-desc">Cupcakes arranged in a number shape — a show-stopping centerpiece for milestone birthdays.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">06</div>
+          <div class="product-name">Number Box</div>
+          <div class="product-desc">Cupcakes arranged in a number shape — a show-stopping centerpiece for milestone birthdays.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-3" onclick="openProduct('Lux Bouquet')">
-      <div>
-        <div class="product-num">07</div>
-        <div class="product-name">Lux Bouquet</div>
-        <div class="product-desc">A luxury cupcake bouquet — our most elegant arrangement, delivered and set up on-site.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">07</div>
+          <div class="product-name">Lux Bouquet</div>
+          <div class="product-desc">A luxury cupcake bouquet — our most elegant arrangement, delivered and set up on-site.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
     <div class="product-card fade-up delay-4" onclick="openProduct('Cupcake Bouquet')">
-      <div>
-        <div class="product-num">08</div>
-        <div class="product-name">Cupcake Bouquet</div>
-        <div class="product-desc">A stunning floral cupcake bouquet — the perfect alternative to a flower bouquet for any event.</div>
-      </div>
-      <div class="product-footer">
-        <span class="product-price">Price upon inquiry</span>
-        <button class="view-btn">View Details</button>
+      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-body-wrap">
+        <div>
+          <div class="product-num">08</div>
+          <div class="product-name">Cupcake Bouquet</div>
+          <div class="product-desc">A stunning floral cupcake bouquet — the perfect alternative to a flower bouquet for any event.</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">Price upon inquiry</span>
+          <button class="view-btn">View Details</button>
+        </div>
       </div>
     </div>
 
