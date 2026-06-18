@@ -648,6 +648,20 @@
       z-index: 10;
     }
 
+    .lb-select-btn {
+      position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
+      z-index: 10; display: none;
+      background: var(--white); color: var(--bg-dark);
+      border: none; padding: 0.85rem 2.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+      touch-action: manipulation; min-height: 48px;
+    }
+    .lb-select-btn:hover { background: var(--accent); color: var(--white); }
+
     /* ═══════════════════════════════════
        CART
     ═══════════════════════════════════ */
@@ -1695,6 +1709,7 @@
   <button class="lb-arrow" id="lbPrev" aria-label="Previous">&#8592;</button>
   <button class="lb-arrow" id="lbNext" aria-label="Next">&#8594;</button>
   <div class="lb-counter" id="lbCounter"></div>
+  <button class="lb-select-btn" id="lbSelectBtn">Select This Design →</button>
 </div>
 
 <script>
@@ -1900,9 +1915,9 @@
         + '</div>';
     } else {
       realPhotos.forEach(function(src, i) {
-        slots += '<div class="pick-item" onclick="selectPhoto(\'' + src + '\', \'' + name + '\')">'
+        slots += '<div class="pick-item" onclick="openLightboxForProduct(\'' + src + '\', \'' + name + '\')">'
           + '<img src="' + src + '" alt="Design ' + (i+1) + '" />'
-          + '<div class="pick-item-label">Select this design</div>'
+          + '<div class="pick-item-label">Tap to view full photo</div>'
           + '</div>';
       });
     }
@@ -1967,17 +1982,41 @@
     });
   });
 
-  // ── Lightbox (still works from gallery section) ──
-  var lbPhotos = [], lbIndex = 0;
-  function openLightbox(idx) { lbIndex = idx; renderLightbox(); document.getElementById('lightbox').classList.add('open'); }
+  // ── Lightbox ──
+  var lbPhotos = [], lbIndex = 0, lbSelectCallback = null;
+
+  function openLightbox(idx) {
+    lbIndex = idx;
+    lbSelectCallback = null;
+    document.getElementById('lbSelectBtn').style.display = 'none';
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  // Opens lightbox from product picker with a "Select This Design" button
+  function openLightboxForProduct(src, productName) {
+    lbPhotos = [src];
+    lbIndex = 0;
+    lbSelectCallback = function() { closeLightbox(); selectPhoto(src, productName); };
+    document.getElementById('lbSelectBtn').style.display = 'block';
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
+
   function renderLightbox() {
     var img = document.getElementById('lbImg'); img.src = ''; img.src = lbPhotos[lbIndex];
     document.getElementById('lbCounter').textContent = lbPhotos.length > 1 ? (lbIndex+1)+' / '+lbPhotos.length : '';
     document.getElementById('lbPrev').disabled = lbIndex === 0;
     document.getElementById('lbNext').disabled = lbIndex === lbPhotos.length - 1;
   }
-  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lbSelectBtn').style.display = 'none';
+  }
+
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbSelectBtn').addEventListener('click', function() { if (lbSelectCallback) lbSelectCallback(); });
   document.getElementById('lbPrev').addEventListener('click', function() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } });
   document.getElementById('lbNext').addEventListener('click', function() { if (lbIndex < lbPhotos.length-1) { lbIndex++; renderLightbox(); } });
   document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
