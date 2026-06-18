@@ -1909,7 +1909,7 @@
     pickEl.innerHTML = slots;
 
     // Show Screen 1, hide Screen 2
-    document.getElementById('overlayScreenPhotos').style.display = '';
+    document.getElementById('overlayScreenPhotos').style.display = 'block';
     document.getElementById('overlayScreenCustomize').style.display = 'none';
 
     document.getElementById('productOverlay').classList.add('open');
@@ -1933,7 +1933,7 @@
 
     // Switch to Screen 2
     document.getElementById('overlayScreenPhotos').style.display = 'none';
-    document.getElementById('overlayScreenCustomize').style.display = '';
+    document.getElementById('overlayScreenCustomize').style.display = 'block';
 
     // Scroll panel to top
     var panel = document.querySelector('.overlay-panel');
@@ -1941,7 +1941,7 @@
   }
 
   document.getElementById('overlayBack').addEventListener('click', function() {
-    document.getElementById('overlayScreenPhotos').style.display = '';
+    document.getElementById('overlayScreenPhotos').style.display = 'block';
     document.getElementById('overlayScreenCustomize').style.display = 'none';
   });
 
