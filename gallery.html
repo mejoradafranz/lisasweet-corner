@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Lisa's Sweet Corner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FFFFFF; --bg-warm: #F9F5F0; --bg-cream: #EFE8DF;
+      --bg-dark: #1C1310; --text: #1C1310; --text-mid: #7A6A60;
+      --text-faint: #B0A09A; --border: #DDD4CC; --border-dark: #33201A;
+      --accent: #C49070; --accent-dark: #8B6148; --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Header ── */
+    #siteHeader { background: var(--bg); display: flex; flex-direction: column; align-items: center; position: relative; }
+    .header-logo-row { display: flex; justify-content: center; align-items: center; padding: 1.1rem 5%; width: 100%; position: relative; }
+    .header-logo-img { height: 96px; width: auto; mix-blend-mode: multiply; transition: transform 0.25s; }
+    .header-logo-img:hover { transform: scale(1.03); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; position: absolute; right: 5%; top: 50%; transform: translateY(-50%); }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: 0.3s; }
+
+    /* ── Navbar ── */
+    nav#navbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 0 5%; height: 50px; width: 100%; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a { text-decoration: none; color: var(--text-mid); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.6px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-order { border: 1.5px solid var(--text) !important; color: var(--text) !important; padding: 0.38rem 1.1rem; font-weight: 500 !important; transition: background 0.2s, color 0.2s !important; }
+    .nav-order:hover { background: var(--text) !important; color: var(--white) !important; }
+
+    /* Mobile nav */
+    @media (max-width: 900px) {
+      .header-logo-row { padding: 0.6rem 5%; justify-content: center; }
+      .header-logo-img { height: 52px; }
+      .hamburger { display: flex; position: absolute; right: 5%; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 50px; left: 0; width: 100%; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 0; gap: 0; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; text-align: center; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child { border-bottom: none; }
+      .nav-order { border: none !important; }
+    }
+
+    /* ── Page header ── */
+    .page-hero { padding: 72px 5% 48px; text-align: center; background: var(--bg-warm); border-bottom: 1px solid var(--border); }
+    .page-eyebrow { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; color: var(--text); line-height: 1.15; }
+    .page-title em { font-style: italic; color: var(--accent); }
+    .page-body { color: var(--text-mid); font-size: 0.9rem; line-height: 1.8; max-width: 520px; margin: 1rem auto 0; }
+
+    /* ── Gallery grid ── */
+    .gallery-wrap { padding: 60px 3%; max-width: 1400px; margin: 0 auto; }
+    .gallery-grid { columns: 3; column-gap: 1rem; }
+    .gallery-item { break-inside: avoid; margin-bottom: 1rem; overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
+    .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-item video { width: 100%; display: block; background: #000; }
+    .gallery-item.gallery-video { cursor: default; }
+    .gallery-overlay { position: absolute; inset: 0; background: rgba(28,19,16,0.35); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1rem; }
+    .gallery-item:not(.gallery-video):hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 1024px) { .gallery-grid { columns: 2; } }
+    @media (max-width: 480px) { .gallery-grid { columns: 1; } .gallery-wrap { padding: 40px 4%; } }
+
+    /* ── Lightbox ── */
+    #lightbox { position: fixed; inset: 0; background: rgba(10,6,4,0.96); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    #lightbox.open { opacity: 1; pointer-events: auto; }
+    .lb-img-wrap { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 3rem; }
+    .lb-img-wrap img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; border-radius: 2px; }
+    .lb-close { position: fixed; top: 1.4rem; right: 1.4rem; z-index: 10; background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: #fff; font-size: 1.1rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; touch-action: manipulation; }
+    .lb-close:hover { background: rgba(0,0,0,0.7); }
+    .lb-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 1.1rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; touch-action: manipulation; }
+    .lb-arrow:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .lb-arrow:disabled { opacity: 0.2; pointer-events: none; }
+    #lbPrev { left: 1.2rem; }
+    #lbNext { right: 1.2rem; }
+    .lb-counter { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%); font-size: 0.72rem; letter-spacing: 2px; color: rgba(255,255,255,0.4); z-index: 10; }
+
+    /* ── Footer ── */
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.55); padding: 60px 5% 24px; }
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.8rem; }
+    .footer-logo em { font-style: italic; color: var(--accent); }
+    .footer-top p { font-size: 0.82rem; line-height: 1.8; }
+    footer h4 { color: #fff; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; margin-bottom: 1.2rem; }
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 0.6rem; }
+    footer ul a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    footer ul a:hover { color: rgba(255,255,255,0.8); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; font-size: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-creator a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 768px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .footer-top { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ═════════ HEADER ═════════ -->
+<header id="siteHeader">
+  <div class="header-logo-row">
+    <a href="index.html">
+      <img class="header-logo-img" src="photos%20and%20videos/logooo.jfif" alt="Lisa's Sweet Corner Logo" />
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═════════ NAVBAR ═════════ -->
+<nav id="navbar">
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#hero">Home</a></li>
+    <li><a href="index.html#menu">Products</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#faq">FAQ's</a></li>
+    <li><a href="index.html#order">Contact Us</a></li>
+    <li><a href="index.html#order" class="nav-order">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- ═════════ PAGE HEADER ═════════ -->
+<div class="page-hero">
+  <div class="page-eyebrow">Our Creations</div>
+  <h1 class="page-title">A Feast <em>for the Eyes</em></h1>
+  <p class="page-body">Browse every photo and video from Lisa's Sweet Corner. Tap any photo to view it full screen.</p>
+</div>
+
+<!-- ═════════ GALLERY ═════════ -->
+<div class="gallery-wrap">
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openGalleryPhoto(0)"><img src="photos%20and%20videos/cupcake%20boq.jfif" alt="Cupcake Bouquet" loading="lazy" /><div class="gallery-overlay"><span>Cupcake Bouquet</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(1)"><img src="photos%20and%20videos/cupcake%20bou.jfif" alt="Cupcake Bouquet" loading="lazy" /><div class="gallery-overlay"><span>Cupcake Bouquet</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/dozen.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(2)"><img src="photos%20and%20videos/dozen%201.jfif" alt="Standard Dozen" loading="lazy" /><div class="gallery-overlay"><span>Standard Dozen</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(3)"><img src="photos%20and%20videos/fisty%20photo%20sa%20taas.jfif" alt="Lisa's Creations" loading="lazy" /><div class="gallery-overlay"><span>Lisa's Creations</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/half%20dozen1.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(4)"><img src="photos%20and%20videos/half%20dozen.jfif" alt="Half Dozen" loading="lazy" /><div class="gallery-overlay"><span>Half Dozen</span></div></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(5)"><img src="photos%20and%20videos/individual%20pack.jfif" alt="Individual Favor Box" loading="lazy" /><div class="gallery-overlay"><span>Favor Box</span></div></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQN-zeKSjDXO53sIGqcbLfi5QGZHFA3F8ctM3vGwyZYMGABNQnOEpFRS2JsiS0ElD-HIvu6taeLNMLP5O4-buxK4-qkM1aE2jQfV8bM.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(6)"><img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(7)"><img src="photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNIwXqZOhFYcNlN0Yo8gvniCeWbBFjJtXpyj7x2tk82n_VHBoRdwczzHQEiZpKX9xzqWWliGYcS9-SFchp3zDerQvNG5sQTLAyzHzc.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(8)"><img src="photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(9)"><img src="photos%20and%20videos/SnapInsta.to_589078205_17902786188299968_516918889196976056_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNIzuG6_JiBQ2nNuLcf4zeqk_M72-eqlF46bC0OMvRORv5bEGEWnhq1EkNtWWmVTD8IHviRGhcyF-RmWtm9YCkVympaMsj_sEzzD9o.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(10)"><img src="photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(11)"><img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQNnzAAKjzJHqxtwxaHyBZO_uBJFaY8e-4pRRJ1gFLnlZIceycgOZq0JnsNzYjmk2-8QBm0tpV1ZeCS89CgvhF7GIsG1Im6MSz2eOE0.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(12)"><img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(13)"><img src="photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOc1qu_B5LEG_RFPdUBIL-pM__gWgmOvgya41d-ZZAJXtcKCyN57YpnIWWKaqiFEfXML4kkJOZz3SpElZlbTeC6O4jZpZNcgmxsVm8.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(14)"><img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(15)"><img src="photos%20and%20videos/SnapInsta.to_642975388_17913105864299968_7959921942842642785_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOdLlP2tmf0pMx4kJntlqHJfq2FI6adtmQ2ybEhkQgQu2J0UOvnDi7zD8grO8UszWDpkWKXKxuFCZauCwsUUQhU5IPmucU1VkK90w4.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(16)"><img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(17)"><img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOjYYbeZh8vqe6FgNe_mTcYcHSO4Pag_90r1xMYBeNAXFtSRJiC0xuo4GHdmf1uxANGWjrZ2Itcpt2O8dcluQ0629PlrqLkdnk5lCY.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(18)"><img src="photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(19)"><img src="photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQOsMtMUty_zFBbxRRR0eZNJVlbpFGjXDwMOc_9-WM-tIDTNqq4iziAUCmnYtHh_iKZG4n9LgwB0GYL66SOIa9qK8DiIMBpEZG3QSHM.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(20)"><img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(21)"><img src="photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQP1aLHBrYzmIhPYocugSgTjc9NpUvdUlEHnGRF2eAOuSwcVVX3H-k2VYwYzl1u_cftBlnMXcocSZXt1igrYLkNIgKbGm2yL8Wh4cnk.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(22)"><img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(23)"><img src="photos%20and%20videos/SnapInsta.to_708345505_17927663091299968_3562300239176758725_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPFwmqmU_mDzBNDnGsjph40fmk0lIzcVQTfwmpBxTI1Qcc6LEbR7TgPhpZmNOSb2EU-Lmx_WU-8yC1NJtCNNyTUPzlqZnqZdn1gB-s.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(24)"><img src="photos%20and%20videos/SnapInsta.to_708979723_17928177447299968_7037340830600433848_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(25)"><img src="photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPdd_AE2GJMxVrWWEIGnAMp9gcO_iPdyjkPsmEolnJfckCDj2VBt9xh6GcAWohkogel3BZTNADmfi4Vnetd_wM7.mp4" type="video/mp4"></video></div>
+    <div class="gallery-item" onclick="openGalleryPhoto(26)"><img src="photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg" alt="Lisa Sweet Corner" loading="lazy" /></div>
+    <div class="gallery-item gallery-video"><video muted loop playsinline controls preload="metadata"><source src="photos%20and%20videos/SnapInsta.to_AQPskBShus2CbIGzIpgrpOCPSs60Bu9x5k9e9Z3JmtNfG3SWrFZEaJhlKYw5d91bv9A3BsMlus02I74zT1re-MYLf7uf8reJTbhS4dg.mp4" type="video/mp4"></video></div>
+  </div>
+</div>
+
+<!-- ═════════ LIGHTBOX ═════════ -->
+<div id="lightbox">
+  <div class="lb-img-wrap"><img id="lbImg" src="" alt="" /></div>
+  <button class="lb-close" id="lbClose" aria-label="Close">&#x2715;</button>
+  <button class="lb-arrow" id="lbPrev" aria-label="Previous">&#8592;</button>
+  <button class="lb-arrow" id="lbNext" aria-label="Next">&#8594;</button>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<!-- ═════════ FOOTER ═════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Lisa's <em>Sweet Corner</em></div>
+      <p>Handcrafted floral cupcakes &amp; sweet treats made with love — Ocoee, Florida.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html#hero">Home</a></li>
+        <li><a href="index.html#menu">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#faq">FAQ's</a></li>
+        <li><a href="index.html#order">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+13213179235">(321) 317-9235</a></li>
+        <li><a href="#">Facebook: Lisa's Sweet Corner</a></li>
+        <li><a href="#">Ocoee, Florida</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Lisa's Sweet Corner. All rights reserved.</span>
+    <span class="footer-creator">Website by <a href="#">MEJORADACREATIVE</a></span>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // Lightbox
+  var lbPhotos = [
+    'photos%20and%20videos/cupcake%20boq.jfif',
+    'photos%20and%20videos/cupcake%20bou.jfif',
+    'photos%20and%20videos/dozen%201.jfif',
+    'photos%20and%20videos/fisty%20photo%20sa%20taas.jfif',
+    'photos%20and%20videos/half%20dozen.jfif',
+    'photos%20and%20videos/individual%20pack.jfif',
+    'photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_588421492_17902786179299968_5533570044465912598_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_588637267_17902786200299968_2633835795867403911_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_589078205_17902786188299968_516918889196976056_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639577287_17913105876299968_3818773581507485131_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_640458006_17913105885299968_5767149230198191881_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_642975388_17913105864299968_7959921942842642785_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_706016202_17927663103299968_2461076561486018462_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_706021008_17927663121299968_3696801806959621839_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708345505_17927663091299968_3562300239176758725_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_708979723_17928177447299968_7037340830600433848_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_709365940_17928177429299968_3958618217167476400_n.jpg',
+    'photos%20and%20videos/SnapInsta.to_710979227_17928177456299968_2124023267898028502_n.jpg'
+  ];
+  var lbIndex = 0;
+
+  function openGalleryPhoto(idx) {
+    lbIndex = idx;
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function renderLightbox() {
+    var img = document.getElementById('lbImg');
+    img.src = ''; img.src = lbPhotos[lbIndex];
+    document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbPhotos.length;
+    document.getElementById('lbPrev').disabled = lbIndex === 0;
+    document.getElementById('lbNext').disabled = lbIndex === lbPhotos.length - 1;
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', function() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } });
+  document.getElementById('lbNext').addEventListener('click', function() { if (lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); } });
+  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && lbIndex > 0) { lbIndex--; renderLightbox(); }
+    if (e.key === 'ArrowRight' && lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); }
+  });
+</script>
+</body>
+</html>
