@@ -525,38 +525,74 @@
     }
     .overlay-divider { width: 40px; height: 1px; background: var(--border); margin: 1.1rem 0; }
 
-    /* Photo placeholders */
-    .overlay-photos {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem;
-      margin-bottom: 2rem;
+    /* ── Screen 1: Photo picker ── */
+    .overlay-hint {
+      font-size: 0.78rem; color: var(--text-faint); margin-bottom: 1.4rem;
+      letter-spacing: 0.3px;
     }
-    .overlay-photo-slot {
-      aspect-ratio: 1; background: var(--bg-cream);
-      border: 1.5px dashed var(--border);
+
+    .overlay-photo-pick {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .overlay-photo-pick.single { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+
+    .pick-item {
+      aspect-ratio: 3/2; overflow: hidden; cursor: pointer; position: relative;
+      background: var(--bg-cream); border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pick-item:hover { border-color: var(--accent); transform: scale(1.02); }
+    .pick-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.2s; }
+    .pick-item:hover img { opacity: 0.88; }
+    .pick-item-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(28,19,16,0.55); color: rgba(255,255,255,0.9);
+      font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 0.4rem 0.6rem; text-align: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .pick-item:hover .pick-item-label { opacity: 1; }
+
+    .pick-placeholder {
+      aspect-ratio: 3/2; background: var(--bg-cream);
+      border: 1.5px dashed var(--border); cursor: pointer;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 0.4rem;
+      transition: border-color 0.2s;
     }
-    .overlay-photo-slot .slot-icon { font-size: 1.4rem; color: var(--text-faint); }
-    .overlay-photo-slot .slot-label {
+    .pick-placeholder:hover { border-color: var(--accent); }
+    .pick-placeholder .slot-icon { font-size: 1.6rem; color: var(--border); }
+    .pick-placeholder .slot-label {
       font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--text-faint); text-align: center; padding: 0 0.4rem; line-height: 1.4;
+      color: var(--text-faint); text-align: center; padding: 0 0.6rem;
     }
-    .overlay-photo-slot img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+
+    /* ── Screen 2: Customize ── */
+    #overlayScreenCustomize { display: none; }
+
+    .overlay-back {
+      background: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-mid);
+      padding: 0 0 1.2rem; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s; touch-action: manipulation;
     }
-    .overlay-photo-slot.has-photo {
-      border: none; background: var(--bg-dark);
-      cursor: zoom-in; position: relative;
+    .overlay-back::before { content: '←'; }
+    .overlay-back:hover { color: var(--text); }
+
+    .overlay-selected-img {
+      width: 100%; aspect-ratio: 3/2; object-fit: cover;
+      display: block; margin-bottom: 1.4rem;
     }
-    .overlay-photo-slot.has-photo::after {
-      content: '⤢';
-      position: absolute; top: 6px; right: 8px;
-      font-size: 0.85rem; color: rgba(255,255,255,0.7);
-      opacity: 0; transition: opacity 0.2s;
-      pointer-events: none;
+    .overlay-selected-placeholder {
+      width: 100%; aspect-ratio: 3/2; background: var(--bg-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; margin-bottom: 1.4rem;
     }
-    .overlay-photo-slot.has-photo:hover::after { opacity: 1; }
-    .overlay-photo-slot.has-photo:hover img { opacity: 0.88; }
 
     /* ── Lightbox ── */
     #lightbox {
@@ -813,7 +849,6 @@
 
     @media (max-width: 768px) {
       .overlay-panel { padding: 2rem 1.4rem 1.8rem; }
-      .overlay-photos { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ═══════════════════════════════════
@@ -1199,24 +1234,33 @@
 <div id="productOverlay" role="dialog" aria-modal="true">
   <div class="overlay-panel">
     <button class="overlay-close" id="overlayClose" aria-label="Close">&#x2715;</button>
-    <div class="overlay-eyebrow">Lisa's Sweet Corner</div>
-    <h3 class="overlay-title" id="overlayTitle"></h3>
-    <div class="overlay-divider"></div>
 
-    <div class="overlay-photos" id="overlayPhotos"></div>
-
-    <label class="overlay-label">Choose Your Flavor</label>
-    <div class="flavor-pills">
-      <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
-      <button class="flavor-pill" data-flavor="Chocolate">Chocolate</button>
-      <button class="flavor-pill" data-flavor="Red Velvet">Red Velvet</button>
-      <button class="flavor-pill" data-flavor="Strawberry">Strawberry</button>
+    <!-- Screen 1: Pick a photo / design -->
+    <div id="overlayScreenPhotos">
+      <div class="overlay-eyebrow">Lisa's Sweet Corner</div>
+      <h3 class="overlay-title" id="overlayTitle"></h3>
+      <div class="overlay-divider"></div>
+      <p class="overlay-hint">Tap a photo to customize and add to cart</p>
+      <div class="overlay-photo-pick" id="overlayPhotoPick"></div>
     </div>
 
-    <label class="overlay-label" for="overlayColor">Colors of Choice</label>
-    <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green, ivory..." />
-
-    <button class="overlay-cta" id="overlayCta">Add to Cart 🛒</button>
+    <!-- Screen 2: Customize selected design -->
+    <div id="overlayScreenCustomize">
+      <button class="overlay-back" id="overlayBack">Back to designs</button>
+      <div id="overlaySelectedVisual"></div>
+      <div class="overlay-eyebrow" id="overlayCustomizeProduct"></div>
+      <div class="overlay-divider"></div>
+      <label class="overlay-label">Choose Your Flavor</label>
+      <div class="flavor-pills">
+        <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
+        <button class="flavor-pill" data-flavor="Chocolate">Chocolate</button>
+        <button class="flavor-pill" data-flavor="Red Velvet">Red Velvet</button>
+        <button class="flavor-pill" data-flavor="Strawberry">Strawberry</button>
+      </div>
+      <label class="overlay-label" for="overlayColor">Colors of Choice</label>
+      <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green, ivory..." />
+      <button class="overlay-cta" id="overlayCta">Add to Cart 🛒</button>
+    </div>
   </div>
 </div>
 
@@ -1827,85 +1871,116 @@
     'Cupcake Bouquet':     ['photos%20and%20videos/cupcake%20boq.jfif', 'photos%20and%20videos/cupcake%20bou.jfif', '', ''],
   };
 
-  const PLACEHOLDER = '<div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div>';
-
-  // ── Lightbox ──
-  let lbPhotos = [], lbIndex = 0;
-
-  function openLightbox(idx) {
-    lbIndex = idx;
-    renderLightbox();
-    document.getElementById('lightbox').classList.add('open');
-  }
-
-  function renderLightbox() {
-    const img = document.getElementById('lbImg');
-    img.src = '';
-    img.src = lbPhotos[lbIndex];
-    document.getElementById('lbCounter').textContent = lbPhotos.length > 1 ? (lbIndex + 1) + ' / ' + lbPhotos.length : '';
-    document.getElementById('lbPrev').disabled = lbIndex === 0;
-    document.getElementById('lbNext').disabled = lbIndex === lbPhotos.length - 1;
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-  }
+  // ── Overlay: two-screen flow ──
+  var currentProductName = '';
+  var selectedPhotoSrc = '';
 
   function openProduct(name) {
+    currentProductName = name;
     selectedFlavor = '';
+    selectedPhotoSrc = '';
+
+    // Set title
     document.getElementById('overlayTitle').textContent = name;
-    document.getElementById('overlayColor').value = '';
-    document.querySelectorAll('.flavor-pill').forEach(p => p.classList.remove('selected'));
 
-    const photos = PRODUCT_PHOTOS[name] || ['', '', '', ''];
-    lbPhotos = photos.filter(s => s !== '');
+    // Build photo picker (Screen 1)
+    var photos = PRODUCT_PHOTOS[name] || [];
+    var realPhotos = photos.filter(function(s) { return s !== ''; });
+    var pickEl = document.getElementById('overlayPhotoPick');
 
-    const photosEl = document.getElementById('overlayPhotos');
-    let slots = '';
-    photos.forEach(function(src) {
-      if (src) {
-        const idx = lbPhotos.indexOf(src);
-        slots += '<div class="overlay-photo-slot has-photo" onclick="openLightbox(' + idx + ')"><img src="' + src + '" alt="' + name + '" /></div>';
-      } else {
-        slots += '<div class="overlay-photo-slot">' + PLACEHOLDER + '</div>';
-      }
-    });
-    photosEl.innerHTML = slots;
+    // Set 1-col layout if only 1 photo
+    pickEl.className = 'overlay-photo-pick' + (realPhotos.length === 1 ? ' single' : '');
+
+    var slots = '';
+    if (realPhotos.length === 0) {
+      // No photos yet — single placeholder that goes straight to customize
+      slots = '<div class="pick-placeholder" onclick="selectPhoto(\'\', \'' + name + '\')">'
+        + '<div class="slot-icon">🌸</div>'
+        + '<div class="slot-label">Tap to customize your order</div>'
+        + '</div>';
+    } else {
+      realPhotos.forEach(function(src, i) {
+        slots += '<div class="pick-item" onclick="selectPhoto(\'' + src + '\', \'' + name + '\')">'
+          + '<img src="' + src + '" alt="Design ' + (i+1) + '" />'
+          + '<div class="pick-item-label">Select this design</div>'
+          + '</div>';
+      });
+    }
+    pickEl.innerHTML = slots;
+
+    // Show Screen 1, hide Screen 2
+    document.getElementById('overlayScreenPhotos').style.display = '';
+    document.getElementById('overlayScreenCustomize').style.display = 'none';
 
     document.getElementById('productOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+
+  function selectPhoto(src, name) {
+    selectedPhotoSrc = src;
+    selectedFlavor = '';
+    document.getElementById('overlayColor').value = '';
+    document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
+    document.getElementById('overlayCustomizeProduct').textContent = name;
+
+    // Show selected photo or placeholder
+    var visual = document.getElementById('overlaySelectedVisual');
+    if (src) {
+      visual.innerHTML = '<img class="overlay-selected-img" src="' + src + '" alt="' + name + '" />';
+    } else {
+      visual.innerHTML = '<div class="overlay-selected-placeholder">🌸</div>';
+    }
+
+    // Switch to Screen 2
+    document.getElementById('overlayScreenPhotos').style.display = 'none';
+    document.getElementById('overlayScreenCustomize').style.display = '';
+
+    // Scroll panel to top
+    var panel = document.querySelector('.overlay-panel');
+    if (panel) panel.scrollTop = 0;
+  }
+
+  document.getElementById('overlayBack').addEventListener('click', function() {
+    document.getElementById('overlayScreenPhotos').style.display = '';
+    document.getElementById('overlayScreenCustomize').style.display = 'none';
+  });
 
   function closeOverlay() {
     document.getElementById('productOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  document.getElementById('lbClose').addEventListener('click', closeLightbox);
-  document.getElementById('lbPrev').addEventListener('click', function() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } });
-  document.getElementById('lbNext').addEventListener('click', function() { if (lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); } });
-  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
-
   document.getElementById('overlayClose').addEventListener('click', closeOverlay);
   document.getElementById('productOverlay').addEventListener('click', function(e) { if (e.target === this) closeOverlay(); });
 
   document.addEventListener('keydown', function(e) {
-    if (document.getElementById('lightbox').classList.contains('open')) {
-      if (e.key === 'Escape') { closeLightbox(); return; }
-      if (e.key === 'ArrowLeft' && lbIndex > 0) { lbIndex--; renderLightbox(); }
-      if (e.key === 'ArrowRight' && lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); }
-    } else if (document.getElementById('productOverlay').classList.contains('open')) {
-      if (e.key === 'Escape') closeOverlay();
+    if (e.key === 'Escape') {
+      if (document.getElementById('productOverlay').classList.contains('open')) closeOverlay();
     }
   });
 
-  document.querySelectorAll('.flavor-pill').forEach(pill => {
+  document.querySelectorAll('.flavor-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
-      document.querySelectorAll('.flavor-pill').forEach(p => p.classList.remove('selected'));
+      document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
       this.classList.add('selected');
       selectedFlavor = this.dataset.flavor;
     });
   });
+
+  // ── Lightbox (still works from gallery section) ──
+  var lbPhotos = [], lbIndex = 0;
+  function openLightbox(idx) { lbIndex = idx; renderLightbox(); document.getElementById('lightbox').classList.add('open'); }
+  function renderLightbox() {
+    var img = document.getElementById('lbImg'); img.src = ''; img.src = lbPhotos[lbIndex];
+    document.getElementById('lbCounter').textContent = lbPhotos.length > 1 ? (lbIndex+1)+' / '+lbPhotos.length : '';
+    document.getElementById('lbPrev').disabled = lbIndex === 0;
+    document.getElementById('lbNext').disabled = lbIndex === lbPhotos.length - 1;
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', function() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } });
+  document.getElementById('lbNext').addEventListener('click', function() { if (lbIndex < lbPhotos.length-1) { lbIndex++; renderLightbox(); } });
+  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
 
   // ── Cart ──
   var cart = [];
@@ -1919,18 +1994,19 @@
   };
 
   document.getElementById('overlayCta').addEventListener('click', function() {
-    var productName = document.getElementById('overlayTitle').textContent;
     var color = document.getElementById('overlayColor').value.trim();
     if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
 
-    // Check if same product+flavor+color already in cart → bump qty
+    // Use the selected photo as the cart thumbnail if available
+    var thumbSrc = selectedPhotoSrc || PRODUCT_THUMB_MAP[currentProductName] || '';
+
     var existing = cart.find(function(i) {
-      return i.name === productName && i.flavor === selectedFlavor && i.color === color;
+      return i.name === currentProductName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
     });
     if (existing) {
       existing.qty++;
     } else {
-      cart.push({ id: cartIdCounter++, name: productName, flavor: selectedFlavor, color: color, qty: 1 });
+      cart.push({ id: cartIdCounter++, name: currentProductName, flavor: selectedFlavor, color: color, qty: 1, thumb: thumbSrc });
     }
 
     updateCart();
@@ -1956,8 +2032,8 @@
       return;
     }
     el.innerHTML = cart.map(function(item) {
-      var thumb = PRODUCT_THUMB_MAP[item.name]
-        ? '<img src="' + PRODUCT_THUMB_MAP[item.name] + '" alt="' + item.name + '" />'
+      var thumb = item.thumb
+        ? '<img src="' + item.thumb + '" alt="' + item.name + '" />'
         : '🌸';
       return '<div class="cart-item" data-id="' + item.id + '">'
         + '<div class="cart-item-thumb">' + thumb + '</div>'
