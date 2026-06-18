@@ -960,6 +960,120 @@
     }
 
     /* ═══════════════════════════════════
+       SPLASH SCREEN
+    ═══════════════════════════════════ */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #FFFDF8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.85s ease;
+    }
+
+    #splash.splash-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-logo-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .splash-logo-wrap img {
+      width: clamp(220px, 42vw, 340px);
+      height: auto;
+      animation: splash-pop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes splash-pop {
+      0%   { opacity: 0; transform: scale(0.55) rotate(-4deg); }
+      60%  { opacity: 1; transform: scale(1.06) rotate(1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    /* Sparkle dots around the logo */
+    .sparkle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #C49070;
+      opacity: 0;
+      animation: sparkle-burst 1.4s ease forwards;
+      animation-delay: var(--sd);
+    }
+
+    @keyframes sparkle-burst {
+      0%   { opacity: 0; transform: translate(0,0) scale(0); }
+      40%  { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1.2); }
+      100% { opacity: 0; transform: translate(calc(var(--tx) * 1.6), calc(var(--ty) * 1.6)) scale(0.2); }
+    }
+
+    .splash-tagline {
+      margin-top: 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0;
+      animation: splash-fadein 0.6s ease 0.7s forwards;
+    }
+
+    .splash-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      opacity: 0;
+      animation: splash-fadein 0.6s ease 1.2s forwards;
+    }
+
+    @keyframes splash-fadein {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Loading bar at the bottom */
+    .splash-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2.5px;
+      background: var(--accent);
+      width: 0%;
+      animation: splash-bar-fill 2.6s ease forwards;
+    }
+
+    @keyframes splash-bar-fill {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+
+    /* ═══════════════════════════════════
+       NAV LOGO IMAGE
+    ═══════════════════════════════════ */
+    .nav-logo-img {
+      height: 48px;
+      width: auto;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-logo-img:hover { transform: scale(1.04); }
+
+    /* ═══════════════════════════════════
        TOAST
     ═══════════════════════════════════ */
     #toast {
@@ -983,6 +1097,25 @@
 </head>
 <body>
 
+<!-- ═════════ SPLASH SCREEN ═════════ -->
+<div id="splash">
+  <div class="splash-logo-wrap">
+    <img src="logo.png" alt="Lisa's Sweet Corner" />
+    <!-- sparkle particles -->
+    <div class="sparkle" style="--sd:0.5s;--tx:-90px;--ty:-70px"></div>
+    <div class="sparkle" style="--sd:0.6s;--tx:95px;--ty:-80px"></div>
+    <div class="sparkle" style="--sd:0.65s;--tx:-110px;--ty:20px"></div>
+    <div class="sparkle" style="--sd:0.7s;--tx:105px;--ty:30px"></div>
+    <div class="sparkle" style="--sd:0.75s;--tx:-70px;--ty:90px"></div>
+    <div class="sparkle" style="--sd:0.8s;--tx:80px;--ty:95px"></div>
+    <div class="sparkle" style="--sd:0.85s;--tx:10px;--ty:-110px"></div>
+    <div class="sparkle" style="--sd:0.9s;--tx:-20px;--ty:115px;background:#E8B87A"></div>
+  </div>
+  <p class="splash-tagline">Dipped Treats &amp; More</p>
+  <p class="splash-hint">✦ Tap anywhere to enter ✦</p>
+  <div class="splash-bar"></div>
+</div>
+
 <!-- ═════════ ANNOUNCEMENT BAR ═════════ -->
 <div class="announcement">
   Now accepting custom orders — cupcakes, cake pops &amp; sweet treats.
@@ -991,7 +1124,9 @@
 
 <!-- ═════════ NAVBAR ═════════ -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">Lisa <em>Sweet</em> Corner</a>
+  <a href="#hero" class="nav-logo">
+    <img src="logo.png" alt="Lisa's Sweet Corner" class="nav-logo-img" />
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#hero">Home</a></li>
     <li><a href="#menu">Menu</a></li>
@@ -1396,6 +1531,75 @@
 <div id="toast"></div>
 
 <script>
+  // ── Sweet chime using Web Audio API ──
+  function playSweetChime() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      // C major pentatonic arpeggio: C5 E5 G5 A5 C6
+      const notes = [523.25, 659.25, 783.99, 880.00, 1046.50];
+      const vol   = 0.22;
+      notes.forEach((freq, i) => {
+        // Main tone
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.19;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(vol, t + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+        osc.start(t);
+        osc.stop(t + 0.7);
+
+        // Subtle harmonic (one octave up, quieter)
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.type = 'sine';
+        osc2.frequency.value = freq * 2;
+        gain2.gain.setValueAtTime(0, t);
+        gain2.gain.linearRampToValueAtTime(vol * 0.18, t + 0.04);
+        gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        osc2.start(t);
+        osc2.stop(t + 0.45);
+      });
+    } catch(e) {}
+  }
+
+  // ── Splash screen logic ──
+  (function() {
+    const splash = document.getElementById('splash');
+    let dismissed = false;
+
+    function dismissSplash() {
+      if (dismissed) return;
+      dismissed = true;
+      playSweetChime();
+      splash.classList.add('splash-out');
+      setTimeout(() => {
+        if (splash.parentNode) splash.parentNode.removeChild(splash);
+      }, 900);
+    }
+
+    // Tap/click anywhere to dismiss
+    splash.addEventListener('click', dismissSplash);
+
+    // Also auto-dismiss after 3.2s even without a click
+    setTimeout(dismissSplash, 3200);
+
+    // Try auto-play on browsers that allow it
+    setTimeout(() => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === 'running') playSweetChime();
+        ctx.close();
+      } catch(e) {}
+    }, 300);
+  })();
+
   // Hamburger
   const hamburger = document.getElementById('hamburger');
   const navLinks  = document.getElementById('navLinks');
