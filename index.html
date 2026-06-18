@@ -584,20 +584,22 @@
     #lightbox.open .lb-img-wrap img { transform: scale(1); }
 
     .lb-close {
-      position: fixed; top: 1.2rem; right: 1.4rem;
-      background: none; border: none; color: rgba(255,255,255,0.7);
-      font-size: 2rem; line-height: 1; cursor: pointer;
-      transition: color 0.2s; padding: 0.3rem;
+      position: fixed; top: 1.2rem; right: 1.4rem; z-index: 10;
+      background: rgba(0,0,0,0.45); border: none; color: #fff;
+      font-size: 1.6rem; line-height: 1; cursor: pointer;
+      transition: background 0.2s; padding: 0.45rem 0.7rem;
+      border-radius: 4px; touch-action: manipulation; min-width: 44px; min-height: 44px;
+      display: flex; align-items: center; justify-content: center;
     }
-    .lb-close:hover { color: #fff; }
-
+    .lb-close:hover { background: rgba(0,0,0,0.7); }
     .lb-arrow {
-      position: fixed; top: 50%; transform: translateY(-50%);
+      position: fixed; top: 50%; transform: translateY(-50%); z-index: 10;
       background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
       color: rgba(255,255,255,0.7); font-size: 1.3rem;
       width: 46px; height: 46px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: background 0.2s, color 0.2s;
+      touch-action: manipulation;
     }
     .lb-arrow:hover { background: rgba(255,255,255,0.18); color: #fff; }
     .lb-arrow:disabled { opacity: 0.2; pointer-events: none; }
@@ -1459,9 +1461,9 @@
 
 <!-- ═════════ LIGHTBOX ═════════ -->
 <div id="lightbox">
+  <div class="lb-img-wrap"><img id="lbImg" src="" alt="" /></div>
   <button class="lb-close" id="lbClose" aria-label="Close">&#x2715;</button>
   <button class="lb-arrow" id="lbPrev" aria-label="Previous">&#8592;</button>
-  <div class="lb-img-wrap"><img id="lbImg" src="" alt="" /></div>
   <button class="lb-arrow" id="lbNext" aria-label="Next">&#8594;</button>
   <div class="lb-counter" id="lbCounter"></div>
 </div>
