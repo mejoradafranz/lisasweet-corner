@@ -526,6 +526,12 @@
       font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
       color: var(--text-faint); text-align: center; padding: 0 0.4rem; line-height: 1.4;
     }
+    .overlay-photo-slot img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .overlay-photo-slot.has-photo {
+      border: none; background: var(--bg-dark);
+    }
 
     /* Flavor picker */
     .overlay-label {
@@ -957,12 +963,7 @@
     <h3 class="overlay-title" id="overlayTitle"></h3>
     <div class="overlay-divider"></div>
 
-    <div class="overlay-photos">
-      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
-      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
-      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
-      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
-    </div>
+    <div class="overlay-photos" id="overlayPhotos"></div>
 
     <label class="overlay-label">Choose Your Flavor</label>
     <div class="flavor-pills">
@@ -1518,11 +1519,34 @@
   // ── Product overlay ──
   let selectedFlavor = '';
 
+  // ✏️ Add up to 4 photo paths per product (leave slots empty for placeholders)
+  const PRODUCT_PHOTOS = {
+    'Standard Dozen':      ['photos%20and%20videos/dozen%201.jfif', '', '', ''],
+    'Standard Half Dozen': ['photos%20and%20videos/half%20dozen.jfif', '', '', ''],
+    'Standard Box of 4':   ['', '', '', ''],
+    'Individual Favor Boxes': ['', '', '', ''],
+    'Mini 24 Cupcakes':    ['', '', '', ''],
+    'Number Box':          ['', '', '', ''],
+    'Lux Bouquet':         ['', '', '', ''],
+    'Cupcake Bouquet':     ['', '', '', ''],
+  };
+
+  const PLACEHOLDER = '<div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div>';
+
   function openProduct(name) {
     selectedFlavor = '';
     document.getElementById('overlayTitle').textContent = name;
     document.getElementById('overlayColor').value = '';
     document.querySelectorAll('.flavor-pill').forEach(p => p.classList.remove('selected'));
+
+    const photos = PRODUCT_PHOTOS[name] || ['', '', '', ''];
+    const photosEl = document.getElementById('overlayPhotos');
+    photosEl.innerHTML = photos.map(src =>
+      src
+        ? `<div class="overlay-photo-slot has-photo"><img src="${src}" alt="${name}" /></div>`
+        : `<div class="overlay-photo-slot">${PLACEHOLDER}</div>`
+    ).join('');
+
     document.getElementById('productOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
