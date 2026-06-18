@@ -200,7 +200,7 @@
       transform: scale(1.05); transition: transform 8s ease;
     }
     #hero:hover .hero-bg { transform: scale(1); }
-    .hero-overlay { position: absolute; inset: 0; background: rgba(20,12,8,0.55); }
+    .hero-overlay { position: absolute; inset: 0; background: rgba(20,12,8,0.30); }
 
     .hero-content {
       position: relative; z-index: 2;
@@ -213,9 +213,10 @@
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
       font-weight: 400;
       font-style: italic;
-      color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,0.97);
       margin-bottom: 0.6rem;
       line-height: 1.4;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
     }
 
     .hero-divider {
@@ -227,11 +228,12 @@
     .hero-welcome {
       font-size: clamp(0.82rem, 1.5vw, 0.95rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.72);
+      color: rgba(255,255,255,0.92);
       line-height: 1.9;
       max-width: 640px;
       margin: 0 auto 2.4rem;
       letter-spacing: 0.2px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.45);
     }
 
     .hero-buttons {
@@ -1047,9 +1049,9 @@
       #calendar { padding: 60px 4%; }
 
       /* Header: compact on mobile */
-      .header-logo-row { padding: 0.6rem 5%; justify-content: flex-start; }
+      .header-logo-row { padding: 0.6rem 5%; justify-content: center; }
       .header-logo-img { height: 52px; }
-      .hamburger { display: flex; }
+      .hamburger { display: flex; position: absolute; right: 5%; }
 
       /* Nav: dropdown on mobile */
       nav#navbar {
