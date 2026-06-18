@@ -419,35 +419,156 @@
     ═══════════════════════════════════ */
     #menu { background: var(--bg); }
 
-
     .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-    .product-card { cursor: pointer; overflow: hidden; }
-    .product-card.hidden { display: none; }
 
-    .product-img { aspect-ratio: 1/1; overflow: hidden; background: var(--bg-cream); position: relative; }
-    .product-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.6s ease; }
-    .product-card:hover .product-img img { transform: scale(1.07); }
-
-    .badge-new {
-      position: absolute; top: 12px; left: 12px;
-      background: var(--bg-dark); color: var(--white);
-      font-size: 0.65rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 0.22rem 0.65rem; z-index: 2;
+    .product-card {
+      cursor: pointer; border: 1px solid var(--border);
+      padding: 2rem 1.6rem 1.6rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      background: var(--bg); transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
     }
+    .product-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--bg-warm); opacity: 0; transition: opacity 0.25s;
+    }
+    .product-card:hover { border-color: var(--accent); box-shadow: 0 6px 28px rgba(196,144,112,0.12); transform: translateY(-3px); }
+    .product-card:hover::before { opacity: 1; }
 
-    .product-body { padding: 1.1rem 0.1rem 0.2rem; }
-    .product-tag { font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.3rem; }
-    .product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--text); margin-bottom: 0.5rem; line-height: 1.3; }
-    .product-footer { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid var(--border); }
-    .add-btn {
+    .product-num {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 2.5px;
+      color: var(--text-faint); margin-bottom: 1rem; position: relative;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600; color: var(--text);
+      line-height: 1.25; margin-bottom: 0.7rem; position: relative;
+      letter-spacing: 0.2px;
+    }
+    .product-desc {
+      font-size: 0.78rem; color: var(--text-mid); line-height: 1.6;
+      margin-bottom: 1.4rem; position: relative;
+    }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1.1rem; border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .product-price {
+      font-size: 0.78rem; font-weight: 500; color: var(--text-mid);
+      letter-spacing: 0.3px;
+    }
+    .view-btn {
       background: none; border: none; font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
       color: var(--text); cursor: pointer; padding: 0; transition: color 0.2s;
       touch-action: manipulation; display: flex; align-items: center; gap: 0.4rem;
     }
-    .add-btn::after { content: '→'; transition: transform 0.2s; }
-    .add-btn:hover { color: var(--accent-dark); }
-    .add-btn:hover::after { transform: translateX(4px); }
+    .view-btn::after { content: '→'; transition: transform 0.2s; }
+    .view-btn:hover { color: var(--accent-dark); }
+    .view-btn:hover::after { transform: translateX(4px); }
+
+    /* ═══════════════════════════════════
+       PRODUCT DETAIL OVERLAY
+    ═══════════════════════════════════ */
+    #productOverlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(28,19,16,0.72);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #productOverlay.open { opacity: 1; pointer-events: all; }
+
+    .overlay-panel {
+      background: var(--bg); width: 100%; max-width: 740px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 2.8rem 2.8rem 2.4rem;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    #productOverlay.open .overlay-panel { transform: translateY(0); }
+
+    .overlay-close {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      background: none; border: none; font-size: 1.5rem; line-height: 1;
+      color: var(--text-mid); cursor: pointer; padding: 0.3rem;
+      transition: color 0.2s;
+    }
+    .overlay-close:hover { color: var(--text); }
+
+    .overlay-eyebrow {
+      font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-faint); margin-bottom: 0.5rem;
+    }
+    .overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600;
+      color: var(--text); margin-bottom: 0.5rem; line-height: 1.2;
+    }
+    .overlay-divider { width: 40px; height: 1px; background: var(--border); margin: 1.1rem 0; }
+
+    /* Photo placeholders */
+    .overlay-photos {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .overlay-photo-slot {
+      aspect-ratio: 1; background: var(--bg-cream);
+      border: 1.5px dashed var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.4rem;
+    }
+    .overlay-photo-slot .slot-icon { font-size: 1.4rem; color: var(--text-faint); }
+    .overlay-photo-slot .slot-label {
+      font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-faint); text-align: center; padding: 0 0.4rem; line-height: 1.4;
+    }
+
+    /* Flavor picker */
+    .overlay-label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-mid); margin-bottom: 0.75rem; display: block;
+    }
+    .flavor-pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem;
+    }
+    .flavor-pill {
+      padding: 0.5rem 1.2rem; border: 1.5px solid var(--border);
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 400;
+      color: var(--text-mid); background: none; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .flavor-pill:hover { border-color: var(--accent); color: var(--text); }
+    .flavor-pill.selected { border-color: var(--accent); background: var(--accent); color: var(--white); font-weight: 500; }
+
+    /* Color input */
+    .overlay-color-input {
+      width: 100%; border: 1px solid var(--border); padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--text);
+      background: var(--bg); outline: none; transition: border-color 0.2s;
+      -webkit-appearance: none; margin-bottom: 1.8rem;
+    }
+    .overlay-color-input:focus { border-color: var(--text); }
+    .overlay-color-input::placeholder { color: var(--text-faint); }
+
+    /* CTA */
+    .overlay-cta {
+      width: 100%; padding: 1rem 2rem; background: var(--bg-dark); color: var(--white);
+      border: 1.5px solid var(--bg-dark); font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, color 0.25s;
+      touch-action: manipulation; min-height: 52px;
+    }
+    .overlay-cta:hover { background: transparent; color: var(--text); }
+
+    @media (max-width: 768px) {
+      .overlay-panel { padding: 2rem 1.4rem 1.8rem; }
+      .overlay-photos { grid-template-columns: repeat(2, 1fr); }
+    }
 
     /* ═══════════════════════════════════
        ABOUT
@@ -828,6 +949,36 @@
   <p class="cal-note fade-up delay-3">Ready to book? <a href="#order">Contact us to reserve your date →</a></p>
 </section>
 
+<!-- ═════════ PRODUCT DETAIL OVERLAY ═════════ -->
+<div id="productOverlay" role="dialog" aria-modal="true">
+  <div class="overlay-panel">
+    <button class="overlay-close" id="overlayClose" aria-label="Close">&#x2715;</button>
+    <div class="overlay-eyebrow">Lisa's Sweet Corner</div>
+    <h3 class="overlay-title" id="overlayTitle"></h3>
+    <div class="overlay-divider"></div>
+
+    <div class="overlay-photos">
+      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
+      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
+      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
+      <div class="overlay-photo-slot"><div class="slot-icon">🌸</div><div class="slot-label">Photo Coming Soon</div></div>
+    </div>
+
+    <label class="overlay-label">Choose Your Flavor</label>
+    <div class="flavor-pills">
+      <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
+      <button class="flavor-pill" data-flavor="Chocolate">Chocolate</button>
+      <button class="flavor-pill" data-flavor="Red Velvet">Red Velvet</button>
+      <button class="flavor-pill" data-flavor="Strawberry">Strawberry</button>
+    </div>
+
+    <label class="overlay-label" for="overlayColor">Colors of Choice</label>
+    <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green, ivory..." />
+
+    <button class="overlay-cta" id="overlayCta">Add to Order →</button>
+  </div>
+</div>
+
 <!-- ═════════ MENU / COLLECTIONS ═════════ -->
 <section id="menu">
   <div class="section-header center fade-up">
@@ -837,70 +988,103 @@
   </div>
 
   <div class="menu-grid" id="menuGrid">
-    <div class="product-card fade-up delay-1" data-category="cupcake">
-      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_707097659_17927662632299968_4218402928343789277_n.jpg" alt="Pink Floral Cupcakes" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cupcakes</div>
-        <div class="product-name">Pink Floral Cupcakes</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Pink Floral Cupcakes')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-1" onclick="openProduct('Standard Dozen')">
+      <div>
+        <div class="product-num">01</div>
+        <div class="product-name">Standard Dozen</div>
+        <div class="product-desc">12 beautifully crafted floral cupcakes — perfect for birthdays, events & celebrations.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-2" data-category="cupcake">
-      <div class="product-img"><div class="badge-new">Best Seller</div><img src="photos%20and%20videos/SnapInsta.to_705976155_17927663112299968_826692195746138234_n.jpg" alt="Blue Garden Cupcakes" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cupcakes</div>
-        <div class="product-name">Blue Garden Cupcakes</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Blue Garden Cupcakes')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-2" onclick="openProduct('Standard Half Dozen')">
+      <div>
+        <div class="product-num">02</div>
+        <div class="product-name">Standard Half Dozen</div>
+        <div class="product-desc">6 handcrafted cupcakes — a sweet gift for any occasion, big or small.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-3" data-category="cupcake">
-      <div class="product-img"><div class="badge-new">New</div><img src="photos%20and%20videos/SnapInsta.to_708230211_17928177438299968_4870511525790047782_n.jpg" alt="Cactus & Succulent Cupcakes" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cupcakes</div>
-        <div class="product-name">Cactus &amp; Succulent Cupcakes</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Cactus & Succulent Cupcakes')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-3" onclick="openProduct('Standard Box of 4')">
+      <div>
+        <div class="product-num">03</div>
+        <div class="product-name">Standard Box of 4</div>
+        <div class="product-desc">4 floral cupcakes elegantly boxed — ideal as a personal treat or a thoughtful gift.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-4" data-category="cakepop">
-      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_588295931_17902786167299968_4484177389279737508_n.jpg" alt="Sunflower & Pumpkin Cake Pops" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cake Pops</div>
-        <div class="product-name">Sunflower &amp; Pumpkin Pops</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Sunflower & Pumpkin Cake Pops')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-4" onclick="openProduct('Individual Favor Boxes')">
+      <div>
+        <div class="product-num">04</div>
+        <div class="product-name">Individual Favor Boxes</div>
+        <div class="product-desc">Single cupcakes in individual gift boxes — perfect as wedding or party favors.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-1" data-category="cakepop">
-      <div class="product-img"><div class="badge-new">Bestseller</div><img src="photos%20and%20videos/SnapInsta.to_639763238_17913105849299968_2794357290755967345_n.jpg" alt="Elegant Floral Cake Pops" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cake Pops</div>
-        <div class="product-name">Elegant Floral Cake Pops</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Elegant Floral Cake Pops')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-1" onclick="openProduct('Mini 24 Cupcakes')">
+      <div>
+        <div class="product-num">05</div>
+        <div class="product-name">Mini 24 Cupcakes</div>
+        <div class="product-desc">24 mini floral cupcakes — great for dessert tables, showers & large gatherings.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-2" data-category="cakepop">
-      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_641015436_17913105897299968_5790880232078073353_n.jpg" alt="Sage Swirl Cake Pops" /></div>
-      <div class="product-body">
-        <div class="product-tag">Cake Pops</div>
-        <div class="product-name">Sage Swirl Cake Pops</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Sage Swirl Cake Pops')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-2" onclick="openProduct('Number Box')">
+      <div>
+        <div class="product-num">06</div>
+        <div class="product-name">Number Box</div>
+        <div class="product-desc">Cupcakes arranged in a number shape — a show-stopping centerpiece for milestone birthdays.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-3" data-category="special">
-      <div class="product-img"><div class="badge-new">Special</div><img src="photos%20and%20videos/SnapInsta.to_656212617_18315270676280951_3802783961756514379_n.jpg" alt="Chocolate Strawberry Tower" /></div>
-      <div class="product-body">
-        <div class="product-tag">Special</div>
-        <div class="product-name">Chocolate Strawberry Tower</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Chocolate Strawberry Tower')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-3" onclick="openProduct('Lux Bouquet')">
+      <div>
+        <div class="product-num">07</div>
+        <div class="product-name">Lux Bouquet</div>
+        <div class="product-desc">A luxury cupcake bouquet — our most elegant arrangement, delivered and set up on-site.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
-    <div class="product-card fade-up delay-4" data-category="special">
-      <div class="product-img"><img src="photos%20and%20videos/SnapInsta.to_639776653_17913105867299968_6432615420266508207_n.jpg" alt="Decorated Chocolate Pretzels" /></div>
-      <div class="product-body">
-        <div class="product-tag">Special</div>
-        <div class="product-name">Decorated Chocolate Pretzels</div>
-        <div class="product-footer"><button class="add-btn" onclick="addToOrder('Decorated Chocolate Pretzels')">Inquire to Order</button></div>
+
+    <div class="product-card fade-up delay-4" onclick="openProduct('Cupcake Bouquet')">
+      <div>
+        <div class="product-num">08</div>
+        <div class="product-name">Cupcake Bouquet</div>
+        <div class="product-desc">A stunning floral cupcake bouquet — the perfect alternative to a flower bouquet for any event.</div>
+      </div>
+      <div class="product-footer">
+        <span class="product-price">Price upon inquiry</span>
+        <button class="view-btn">View Details</button>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1121,14 +1305,14 @@
         <label>What would you like to order?</label>
         <select id="orderItem">
           <option value="">— Select a product —</option>
-          <option>Pink Floral Cupcakes</option>
-          <option>Blue Garden Cupcakes</option>
-          <option>Cactus &amp; Succulent Cupcakes</option>
-          <option>Sunflower &amp; Pumpkin Cake Pops</option>
-          <option>Elegant Floral Cake Pops</option>
-          <option>Sage Swirl Cake Pops</option>
-          <option>Chocolate Strawberry Tower</option>
-          <option>Decorated Chocolate Pretzels</option>
+          <option>Standard Dozen</option>
+          <option>Standard Half Dozen</option>
+          <option>Standard Box of 4</option>
+          <option>Individual Favor Boxes</option>
+          <option>Mini 24 Cupcakes</option>
+          <option>Number Box</option>
+          <option>Lux Bouquet</option>
+          <option>Cupcake Bouquet</option>
         </select>
       </div>
       <div class="form-group"><label>Special Requests / Message</label><textarea id="orderNote" placeholder="e.g. theme color, event date, custom message..."></textarea></div>
@@ -1331,12 +1515,52 @@
     setTimeout(() => t.classList.remove('show'), 3200);
   }
 
-  function addToOrder(name) {
-    const sel = document.getElementById('orderItem');
-    for (let o of sel.options) { if (o.text.includes(name.split(' ')[0])) { sel.value = o.value; break; } }
-    showToast(name + ' selected — scroll down to complete your order.');
-    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  // ── Product overlay ──
+  let selectedFlavor = '';
+
+  function openProduct(name) {
+    selectedFlavor = '';
+    document.getElementById('overlayTitle').textContent = name;
+    document.getElementById('overlayColor').value = '';
+    document.querySelectorAll('.flavor-pill').forEach(p => p.classList.remove('selected'));
+    document.getElementById('productOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeOverlay() {
+    document.getElementById('productOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('overlayClose').addEventListener('click', closeOverlay);
+  document.getElementById('productOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlay();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeOverlay();
+  });
+
+  document.querySelectorAll('.flavor-pill').forEach(pill => {
+    pill.addEventListener('click', function() {
+      document.querySelectorAll('.flavor-pill').forEach(p => p.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedFlavor = this.dataset.flavor;
+    });
+  });
+
+  document.getElementById('overlayCta').addEventListener('click', function() {
+    const productName = document.getElementById('overlayTitle').textContent;
+    const color = document.getElementById('overlayColor').value.trim();
+    if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
+    // Pre-fill order form
+    const sel = document.getElementById('orderItem');
+    for (let o of sel.options) { if (o.text === productName) { sel.value = o.value; break; } }
+    const note = document.getElementById('orderNote');
+    note.value = `Flavor: ${selectedFlavor}${color ? ' | Colors: ' + color : ''}`;
+    closeOverlay();
+    showToast(productName + ' added — fill in your details below.');
+    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  });
 
   function submitOrder() {
     const name = document.getElementById('orderName').value.trim();
