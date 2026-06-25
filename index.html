@@ -903,28 +903,35 @@
       font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.7rem 1rem;
     }
     .about-terms {
-      margin-top: 1.4rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.1rem 1.3rem;
-      background: var(--bg-warm);
-    }
-    .about-terms ul {
-      list-style: none; padding: 0; margin: 0;
-      display: flex; flex-direction: column; gap: 0.45rem;
-    }
-    .about-terms ul li {
-      font-size: 0.8rem; color: var(--text-mid);
-      padding-left: 1rem; position: relative; line-height: 1.5;
-    }
-    .about-terms ul li::before {
-      content: '—'; position: absolute; left: 0; color: var(--accent);
-    }
-    .about-terms .terms-footer {
-      margin-top: 0.8rem; padding-top: 0.8rem;
+      margin-top: 3rem;
       border-top: 1px solid var(--border);
-      font-size: 0.75rem; color: var(--text-faint);
-      font-style: italic; line-height: 1.5;
+      padding-top: 2.5rem;
+    }
+    .terms-block { margin-bottom: 1.8rem; }
+    .terms-block:last-of-type { margin-bottom: 0; }
+    .terms-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.5rem;
+      letter-spacing: 0.2px;
+    }
+    .terms-body {
+      font-size: 0.84rem; color: var(--text-mid);
+      line-height: 1.85;
+    }
+    .terms-body p { margin-bottom: 0.35rem; }
+    .terms-body p:last-child { margin-bottom: 0; }
+    .terms-agree {
+      margin-top: 2rem;
+      border: 1.5px solid var(--accent);
+      border-radius: 6px;
+      padding: 1rem 1.3rem;
+      background: #FFF8F3;
+      font-size: 0.84rem;
+      color: var(--text);
+      font-style: italic;
+      line-height: 1.7;
+      text-align: center;
     }
 
     .about-content .section-body { max-width: 100%; margin-bottom: 1rem; }
@@ -1514,23 +1521,6 @@
     <div class="about-image fade-up">
       <img src="photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg" alt="Lisa Sweet Corner creations" />
       <div class="about-image-caption">Handcrafted with love</div>
-      <div class="about-terms">
-        <ul>
-          <li>Made fresh to order</li>
-          <li>Flavors</li>
-          <li>Storage instructions</li>
-          <li>Serving instructions</li>
-          <li>How to order</li>
-          <li>What is included in the full price of a cupcake bouquet</li>
-          <li>Delivery and fee</li>
-          <li>Set up requirements</li>
-          <li>Our cupcake cannot be shipped</li>
-          <li>Changes and cancellations</li>
-          <li>Disclaimers</li>
-          <li>Design differences</li>
-        </ul>
-        <p class="terms-footer">By placing an order, you agree to these terms and conditions above.</p>
-      </div>
     </div>
     <div class="about-content">
       <div class="section-header fade-up">
@@ -1547,6 +1537,114 @@
         🌸 Freshly made to order. Beautifully crafted. Made with love. 🌸
       </div>
     </div>
+  </div>
+
+  <!-- Terms & Conditions below the photo -->
+  <div class="about-terms fade-up">
+
+    <div class="terms-block">
+      <div class="terms-title">Made Fresh to Order</div>
+      <div class="terms-body">
+        <p>Cupcakes are baked 1–2 days before scheduled pick up or delivery and frosted 1 day before pick up or delivery.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Flavors</div>
+      <div class="terms-body">
+        <p>Vanilla, Chocolate, Red Velvet, Strawberry</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Storage Instructions</div>
+      <div class="terms-body">
+        <p>1–2 days at room temperature in an airtight container.</p>
+        <p>3–4 days in the fridge in an airtight container to maintain freshness.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Serving Instructions</div>
+      <div class="terms-body">
+        <p>Do not consume cold. Our cupcakes and frosting are butter-based and are best enjoyed at room temperature for the best taste and texture.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">How to Order</div>
+      <div class="terms-body">
+        <p>Add your desired boxes to the cart. For bouquet cupcakes, kindly include the color palette or theme of your event and 2 colors of choice for boxed cupcakes.</p>
+        <p>I only offer delivery for bouquet cupcakes that require setup at the event.</p>
+        <p>Kindly include a valid phone number so I can reach you on the day of pickup or delivery.</p>
+        <p>For pickup orders, a code will be provided for gate access since I live in a gated community.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">What is Included in the Full Price of a Cupcake Bouquet</div>
+      <div class="terms-body">
+        <p>• Handmade cupcake bouquet, made just for your event</p>
+        <p>• Your choice of cupcake flavors</p>
+        <p>• Colors customized to match your theme or color palette</p>
+        <p>• Hand-piped buttercream flowers on every cupcake</p>
+        <p>• Bouquet dome, base, and all materials needed to create the arrangement</p>
+        <p>• Setup and bouquet assembly</p>
+        <p>Each bouquet is freshly made to order and designed to be both a beautiful centerpiece and a delicious treat.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Delivery &amp; Fee</div>
+      <div class="terms-body">
+        <p>• Bouquet cupcakes need to be delivered and set up on the day of the event at your venue. Pick up is not an option.</p>
+        <p>• $1 per mile</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Set Up Requirements</div>
+      <div class="terms-body">
+        <p>Please provide a 1 to 1½ hour window minimum for set up.</p>
+        <p>The bouquet should not be set up outdoors or in direct sunlight, especially during the summer or in hot weather.</p>
+        <p>Please keep it indoors or in a cool, shaded area at 25°C (77°F) or below to help prevent the buttercream from melting.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Our Cupcakes Cannot Be Shipped!</div>
+      <div class="terms-body">
+        <p>For quality and freshness, we do not ship cupcakes. All orders are for local pickup or bouquet delivery only.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Changes &amp; Cancellations</div>
+      <div class="terms-body">
+        <p>Small orders may be changed or canceled up to 72 hours before the scheduled pickup or delivery date for a full refund. Big orders must be canceled at least 2 weeks in advance for a full refund.</p>
+        <p>Once an order is within 72 hours (small orders) or 2 weeks (big orders) of pickup or delivery, materials, ingredients and preparation will already be in progress. At that point, cancellations will receive a 50% refund only.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Disclaimers</div>
+      <div class="terms-body">
+        <p>All of our desserts are made in a home kitchen that may process common allergens, including milk, eggs, wheat, soy, peanuts, and tree nuts. While every effort is made to avoid cross-contamination, we cannot guarantee an allergen-free environment.</p>
+      </div>
+    </div>
+
+    <div class="terms-block">
+      <div class="terms-title">Design Differences</div>
+      <div class="terms-body">
+        <p>Each floral cupcake is handcrafted, so designs and flower arrangements may vary slightly.</p>
+        <p>Colors may also appear different due to lighting and screen settings.</p>
+      </div>
+    </div>
+
+    <div class="terms-agree">
+      By placing an order, you confirm that you have read and agree to the terms and conditions above.
+    </div>
+
   </div>
 </section>
 
