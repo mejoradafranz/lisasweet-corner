@@ -894,8 +894,9 @@
     /* Product name heading in Screen 2 */
     #overlayCustomizeProduct {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 600; color: var(--text);
-      text-align: center; margin-bottom: 0.4rem; letter-spacing: 0.5px;
+      font-size: 1.9rem; font-weight: 700; color: var(--text);
+      text-align: center; margin: 0.6rem 0 0.3rem; letter-spacing: 0.5px;
+      line-height: 1.2;
     }
 
     /* Quantity selector */
@@ -1398,6 +1399,8 @@
     <!-- Screen 2: Customize selected design -->
     <div id="overlayScreenCustomize">
       <button class="overlay-back" id="overlayBack">Back to designs</button>
+      <div id="overlayCustomizeProduct"></div>
+      <div class="overlay-divider"></div>
       <div id="overlaySelectedVisual"></div>
       <div class="how-to-order">
         <h4>How to Order</h4>
@@ -1408,8 +1411,6 @@
           <li>Delivery fees are automatically calculated at checkout based on your location.</li>
         </ol>
       </div>
-      <div id="overlayCustomizeProduct"></div>
-      <div class="overlay-divider"></div>
       <label class="overlay-label">Choose Your Flavor</label>
       <div class="flavor-pills">
         <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
