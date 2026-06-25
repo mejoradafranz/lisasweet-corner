@@ -453,10 +453,7 @@
     }
     .product-card:hover { border-color: var(--accent); box-shadow: 0 6px 28px rgba(196,144,112,0.12); transform: translateY(-3px); }
 
-    .product-num {
-      font-size: 0.65rem; font-weight: 600; letter-spacing: 2.5px;
-      color: var(--text-faint); margin-bottom: 1rem;
-    }
+    .product-num { display: none; }
     .product-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem; font-weight: 600; color: var(--text);
@@ -1505,7 +1502,7 @@
     </div>
 
     <div class="product-card fade-up delay-3" onclick="openProduct('Standard Box of 4')">
-      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-thumb"><img src="photos%20and%20videos/4boxes.jfif" alt="Standard Box of 4" /></div>
       <div class="product-body-wrap">
         <div>
           <div class="product-num">03</div>
@@ -1535,7 +1532,7 @@
     </div>
 
     <div class="product-card fade-up delay-1" onclick="openProduct('Mini 24 Cupcakes')">
-      <div class="product-thumb-placeholder">🌸</div>
+      <div class="product-thumb"><img src="photos%20and%20videos/mini%20cup.jfif" alt="Mini 24 Cupcakes" /></div>
       <div class="product-body-wrap">
         <div>
           <div class="product-num">05</div>
@@ -2229,9 +2226,9 @@
   const PRODUCT_PHOTOS = {
     'Standard Dozen':      ['photos%20and%20videos/dozen%201.jfif', '', '', ''],
     'Standard Half Dozen': ['photos%20and%20videos/half%20dozen.jfif', '', '', ''],
-    'Standard Box of 4':   ['', '', '', ''],
+    'Standard Box of 4':   ['photos%20and%20videos/4boxes.jfif', '', '', ''],
     'Diet: Regular': ['photos%20and%20videos/individual%20pack.jfif', '', '', ''],
-    'Mini 24 Cupcakes':    ['', '', '', ''],
+    'Mini 24 Cupcakes':    ['photos%20and%20videos/mini%20cup.jfif', '', '', ''],
     'Number Box':          ['', '', '', ''],
     'Lux Bouquet':         ['', '', '', ''],
     'Cupcake Bouquet':     ['photos%20and%20videos/cupcake%20boq.jfif', 'photos%20and%20videos/cupcake%20bou.jfif', '', ''],
