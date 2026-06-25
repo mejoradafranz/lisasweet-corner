@@ -865,6 +865,22 @@
     .flavor-pill:hover { border-color: var(--accent); color: var(--text); }
     .flavor-pill.selected { border-color: var(--accent); background: var(--accent); color: var(--white); font-weight: 500; }
 
+    /* Size selector (Cupcake Bouquet only) */
+    #overlaySizeSection { display: none; margin-bottom: 1.4rem; }
+    .size-options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .size-option {
+      display: flex; align-items: center; justify-content: space-between;
+      border: 1.5px solid var(--border); padding: 0.75rem 1rem;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .size-option:hover { border-color: var(--accent); }
+    .size-option.selected { border-color: var(--accent); background: #FFF8F3; }
+    .size-option-left { display: flex; flex-direction: column; gap: 0.15rem; }
+    .size-option-name { font-size: 0.88rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 1px; }
+    .size-option-desc { font-size: 0.75rem; color: var(--text-mid); }
+    .size-option-price { font-size: 0.95rem; font-weight: 600; color: var(--accent-dark); }
+
     /* Color input */
     .overlay-color-input {
       width: 100%; border: 1px solid var(--border); padding: 0.85rem 1rem;
@@ -1377,6 +1393,35 @@
       </div>
       <label class="overlay-label" for="overlayColor">2 Colors of Choice</label>
       <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green..." />
+
+      <!-- Size selector — shown only for Cupcake Bouquet -->
+      <div id="overlaySizeSection">
+        <label class="overlay-label">Choose Your Size</label>
+        <div class="size-options">
+          <div class="size-option" data-size="Small" data-price="450" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Small</span>
+              <span class="size-option-desc">36 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$450</span>
+          </div>
+          <div class="size-option" data-size="Medium" data-price="670" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Medium</span>
+              <span class="size-option-desc">60 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$670</span>
+          </div>
+          <div class="size-option" data-size="Large" data-price="890" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Large</span>
+              <span class="size-option-desc">84 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$890</span>
+          </div>
+        </div>
+      </div>
+
       <button class="overlay-cta" id="overlayCta">Add to Cart 🛒</button>
     </div>
   </div>
@@ -1503,10 +1548,10 @@
         <div>
           <div class="product-num">08</div>
           <div class="product-name">Cupcake Bouquet</div>
-          <div class="product-desc">A stunning floral cupcake bouquet — the perfect alternative to a flower bouquet for any event.</div>
+          <div class="product-desc">A luxury cupcake bouquet — our most elegant arrangement, designed to impress. Delivered and professionally set up on-site for a seamless, picture-perfect presentation.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price">Small · Medium · Large</span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -2157,6 +2202,7 @@
   // ── Overlay: two-screen flow ──
   var currentProductName = '';
   var selectedPhotoSrc = '';
+  var selectedSize = '';
 
   function openProduct(name) {
     currentProductName = name;
@@ -2199,12 +2245,24 @@
     document.body.style.overflow = 'hidden';
   }
 
+  function selectSize(el) {
+    document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    selectedSize = el.dataset.size;
+  }
+
   function selectPhoto(src, name) {
     selectedPhotoSrc = src;
     selectedFlavor = '';
+    selectedSize = '';
     document.getElementById('overlayColor').value = '';
     document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
+    document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
     document.getElementById('overlayCustomizeProduct').textContent = name;
+
+    // Show size selector only for Cupcake Bouquet
+    document.getElementById('overlaySizeSection').style.display =
+      (name === 'Cupcake Bouquet') ? 'block' : 'none';
 
     // Step 3 wording depends on product
     var step3 = document.getElementById('howToStep3');
@@ -2350,22 +2408,26 @@
   document.getElementById('overlayCta').addEventListener('click', function() {
     var color = document.getElementById('overlayColor').value.trim();
     if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
+    if (currentProductName === 'Cupcake Bouquet' && !selectedSize) {
+      showToast('Please choose a size first.'); return;
+    }
 
-    // Use the selected photo as the cart thumbnail if available
     var thumbSrc = selectedPhotoSrc || PRODUCT_THUMB_MAP[currentProductName] || '';
+    var sizeLabel = selectedSize ? ' — ' + selectedSize : '';
+    var cartName = currentProductName + sizeLabel;
 
     var existing = cart.find(function(i) {
-      return i.name === currentProductName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
+      return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
     });
     if (existing) {
       existing.qty++;
     } else {
-      cart.push({ id: cartIdCounter++, name: currentProductName, flavor: selectedFlavor, color: color, qty: 1, thumb: thumbSrc });
+      cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: 1, thumb: thumbSrc });
     }
 
     updateCart();
     closeOverlay();
-    showToast(productName + ' added to cart! 🛒');
+    showToast(currentProductName + ' added to cart! 🛒');
   });
 
   function updateCart() {
