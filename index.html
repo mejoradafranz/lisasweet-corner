@@ -891,6 +891,32 @@
     .overlay-color-input:focus { border-color: var(--text); }
     .overlay-color-input::placeholder { color: var(--text-faint); }
 
+    /* Product name heading in Screen 2 */
+    #overlayCustomizeProduct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600; color: var(--text);
+      text-align: center; margin-bottom: 0.4rem; letter-spacing: 0.5px;
+    }
+
+    /* Quantity selector */
+    .qty-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.6rem; display: block; }
+    .qty-row { display: flex; align-items: center; gap: 0; margin-bottom: 1.4rem; }
+    .qty-btn {
+      width: 40px; height: 40px; border: 1.5px solid var(--border); background: none;
+      font-size: 1.2rem; color: var(--text); cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .qty-btn:hover { border-color: var(--accent); background: #FFF8F3; }
+    .qty-val {
+      width: 52px; height: 40px;
+      border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border);
+      border-left: none; border-right: none;
+      text-align: center; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+      color: var(--text); background: none; -moz-appearance: textfield;
+    }
+    .qty-val::-webkit-inner-spin-button, .qty-val::-webkit-outer-spin-button { -webkit-appearance: none; }
+
     /* CTA */
     .overlay-cta {
       width: 100%; padding: 1rem 2rem; background: var(--bg-dark); color: var(--white);
@@ -1382,7 +1408,7 @@
           <li>Delivery fees are automatically calculated at checkout based on your location.</li>
         </ol>
       </div>
-      <div class="overlay-eyebrow" id="overlayCustomizeProduct"></div>
+      <div id="overlayCustomizeProduct"></div>
       <div class="overlay-divider"></div>
       <label class="overlay-label">Choose Your Flavor</label>
       <div class="flavor-pills">
@@ -1420,6 +1446,13 @@
             <span class="size-option-price">$890</span>
           </div>
         </div>
+      </div>
+
+      <label class="qty-label">Quantity</label>
+      <div class="qty-row">
+        <button class="qty-btn" id="qtyMinus" onclick="changeQty(-1)">&#8722;</button>
+        <input class="qty-val" id="qtyVal" type="number" value="1" min="1" max="99" readonly />
+        <button class="qty-btn" id="qtyPlus" onclick="changeQty(1)">&#43;</button>
       </div>
 
       <button class="overlay-cta" id="overlayCta">Add to Cart 🛒</button>
@@ -2203,6 +2236,12 @@
   var currentProductName = '';
   var selectedPhotoSrc = '';
   var selectedSize = '';
+  var selectedQty = 1;
+
+  function changeQty(delta) {
+    selectedQty = Math.max(1, Math.min(99, selectedQty + delta));
+    document.getElementById('qtyVal').value = selectedQty;
+  }
 
   function openProduct(name) {
     currentProductName = name;
@@ -2255,6 +2294,8 @@
     selectedPhotoSrc = src;
     selectedFlavor = '';
     selectedSize = '';
+    selectedQty = 1;
+    document.getElementById('qtyVal').value = 1;
     document.getElementById('overlayColor').value = '';
     document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
     document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
@@ -2420,9 +2461,9 @@
       return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
     });
     if (existing) {
-      existing.qty++;
+      existing.qty += selectedQty;
     } else {
-      cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: 1, thumb: thumbSrc });
+      cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc });
     }
 
     updateCart();
