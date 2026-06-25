@@ -1410,6 +1410,10 @@
         </ol>
       </div>
       <div id="overlayCustomizeProduct"></div>
+      <label class="overlay-label">Choose Your Diet</label>
+      <div class="flavor-pills" id="dietPills">
+        <button class="flavor-pill selected" data-diet="Regular">Regular</button>
+      </div>
       <label class="overlay-label">Choose Your Flavor</label>
       <div class="flavor-pills">
         <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
@@ -2219,6 +2223,7 @@
 
   // ── Product overlay ──
   let selectedFlavor = '';
+  let selectedDiet = 'Regular';
 
   // ✏️ Add up to 4 photo paths per product (leave slots empty for placeholders)
   const PRODUCT_PHOTOS = {
@@ -2293,11 +2298,15 @@
   function selectPhoto(src, name) {
     selectedPhotoSrc = src;
     selectedFlavor = '';
+    selectedDiet = 'Regular';
     selectedSize = '';
     selectedQty = 1;
     document.getElementById('qtyVal').value = 1;
     document.getElementById('overlayColor').value = '';
     document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
+    document.querySelectorAll('#dietPills .flavor-pill').forEach(function(p) {
+      p.classList.toggle('selected', p.dataset.diet === 'Regular');
+    });
     document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
     document.getElementById('overlayCustomizeProduct').textContent = name;
 
@@ -2455,7 +2464,7 @@
 
     var thumbSrc = selectedPhotoSrc || PRODUCT_THUMB_MAP[currentProductName] || '';
     var sizeLabel = selectedSize ? ' — ' + selectedSize : '';
-    var cartName = currentProductName + sizeLabel;
+    var cartName = currentProductName + sizeLabel + ' (' + selectedDiet + ')';
 
     var existing = cart.find(function(i) {
       return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
