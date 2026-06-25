@@ -1331,7 +1331,7 @@
         <ol>
           <li>Add your desired boxes to the cart.</li>
           <li>Use the Special Instructions box in the cart to include gift messages, delivery notes, and any additional notes for your order.</li>
-          <li>Select your pickup or delivery date and time using the calendar.</li>
+          <li>Select your pickup time using the calendar.</li>
           <li>Delivery fees are automatically calculated at checkout based on your location.</li>
         </ol>
       </div>
@@ -1406,12 +1406,12 @@
       </div>
     </div>
 
-    <div class="product-card fade-up delay-4" onclick="openProduct('Individual Favor Boxes')">
-      <div class="product-thumb"><img src="photos%20and%20videos/individual%20pack.jfif" alt="Individual Favor Boxes" /></div>
+    <div class="product-card fade-up delay-4" onclick="openProduct('Diet: Regular')">
+      <div class="product-thumb"><img src="photos%20and%20videos/individual%20pack.jfif" alt="Diet: Regular" /></div>
       <div class="product-body-wrap">
         <div>
           <div class="product-num">04</div>
-          <div class="product-name">Individual Favor Boxes</div>
+          <div class="product-name">Diet: Regular</div>
           <div class="product-desc">Single cupcakes in individual gift boxes — perfect as wedding or party favors.</div>
         </div>
         <div class="product-footer">
@@ -1700,6 +1700,63 @@
       </div>
     </div>
 
+    <div class="faq-category fade-up delay-4">
+      <div class="faq-cat-title">📋 Policies &amp; Terms</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Made fresh to order<span class="faq-icon">+</span></button>
+          <div class="faq-a">All our cupcakes are made fresh to order. We do not pre-make or store cupcakes in advance.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Flavors<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Storage instructions<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Serving instructions<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How to order<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What is included in the full price of a cupcake bouquet<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Delivery and fee<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Set up requirements<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Our cupcakes cannot be shipped<span class="faq-icon">+</span></button>
+          <div class="faq-a">For quality and freshness, we do not ship cupcakes. All orders are available for local pickup or bouquet delivery only.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Changes and cancellations<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Disclaimers<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Design differences<span class="faq-icon">+</span></button>
+          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
+        </div>
+        <div class="faq-item faq-terms-notice">
+          <p style="font-size:0.82rem;color:var(--text-mid);padding:1rem 0;font-style:italic;">By placing an order, you agree to these terms and conditions above.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1733,7 +1790,7 @@
           <option>Standard Dozen</option>
           <option>Standard Half Dozen</option>
           <option>Standard Box of 4</option>
-          <option>Individual Favor Boxes</option>
+          <option>Diet: Regular</option>
           <option>Mini 24 Cupcakes</option>
           <option>Number Box</option>
           <option>Lux Bouquet</option>
@@ -2007,7 +2064,7 @@
     'Standard Dozen':      ['photos%20and%20videos/dozen%201.jfif', '', '', ''],
     'Standard Half Dozen': ['photos%20and%20videos/half%20dozen.jfif', '', '', ''],
     'Standard Box of 4':   ['', '', '', ''],
-    'Individual Favor Boxes': ['photos%20and%20videos/individual%20pack.jfif', '', '', ''],
+    'Diet: Regular': ['photos%20and%20videos/individual%20pack.jfif', '', '', ''],
     'Mini 24 Cupcakes':    ['', '', '', ''],
     'Number Box':          ['', '', '', ''],
     'Lux Bouquet':         ['', '', '', ''],
@@ -2195,7 +2252,7 @@
   var PRODUCT_THUMB_MAP = {
     'Standard Dozen':      'photos%20and%20videos/dozen%201.jfif',
     'Standard Half Dozen': 'photos%20and%20videos/half%20dozen.jfif',
-    'Individual Favor Boxes': 'photos%20and%20videos/individual%20pack.jfif',
+    'Diet: Regular': 'photos%20and%20videos/individual%20pack.jfif',
     'Cupcake Bouquet':     'photos%20and%20videos/cupcake%20boq.jfif',
   };
 
