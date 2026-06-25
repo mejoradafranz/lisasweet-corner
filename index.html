@@ -902,6 +902,30 @@
       background: var(--bg-dark); color: rgba(255,255,255,0.6);
       font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.7rem 1rem;
     }
+    .about-terms {
+      margin-top: 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      background: var(--bg-warm);
+    }
+    .about-terms ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 0.45rem;
+    }
+    .about-terms ul li {
+      font-size: 0.8rem; color: var(--text-mid);
+      padding-left: 1rem; position: relative; line-height: 1.5;
+    }
+    .about-terms ul li::before {
+      content: '—'; position: absolute; left: 0; color: var(--accent);
+    }
+    .about-terms .terms-footer {
+      margin-top: 0.8rem; padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem; color: var(--text-faint);
+      font-style: italic; line-height: 1.5;
+    }
 
     .about-content .section-body { max-width: 100%; margin-bottom: 1rem; }
 
@@ -1490,6 +1514,23 @@
     <div class="about-image fade-up">
       <img src="photos%20and%20videos/SnapInsta.to_707309344_17927662641299968_8306903138312463458_n.jpg" alt="Lisa Sweet Corner creations" />
       <div class="about-image-caption">Handcrafted with love</div>
+      <div class="about-terms">
+        <ul>
+          <li>Made fresh to order</li>
+          <li>Flavors</li>
+          <li>Storage instructions</li>
+          <li>Serving instructions</li>
+          <li>How to order</li>
+          <li>What is included in the full price of a cupcake bouquet</li>
+          <li>Delivery and fee</li>
+          <li>Set up requirements</li>
+          <li>Our cupcake cannot be shipped</li>
+          <li>Changes and cancellations</li>
+          <li>Disclaimers</li>
+          <li>Design differences</li>
+        </ul>
+        <p class="terms-footer">By placing an order, you agree to these terms and conditions above.</p>
+      </div>
     </div>
     <div class="about-content">
       <div class="section-header fade-up">
@@ -1700,62 +1741,6 @@
       </div>
     </div>
 
-    <div class="faq-category fade-up delay-4">
-      <div class="faq-cat-title">📋 Policies &amp; Terms</div>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Made fresh to order<span class="faq-icon">+</span></button>
-          <div class="faq-a">All our cupcakes are made fresh to order. We do not pre-make or store cupcakes in advance.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Flavors<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Storage instructions<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Serving instructions<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">How to order<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">What is included in the full price of a cupcake bouquet<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Delivery and fee<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Set up requirements<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Our cupcakes cannot be shipped<span class="faq-icon">+</span></button>
-          <div class="faq-a">For quality and freshness, we do not ship cupcakes. All orders are available for local pickup or bouquet delivery only.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Changes and cancellations<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Disclaimers<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">Design differences<span class="faq-icon">+</span></button>
-          <div class="faq-a">Details coming soon. Please contact us for more information.</div>
-        </div>
-        <div class="faq-item faq-terms-notice">
-          <p style="font-size:0.82rem;color:var(--text-mid);padding:1rem 0;font-style:italic;">By placing an order, you agree to these terms and conditions above.</p>
-        </div>
-      </div>
-    </div>
 
   </div>
 </section>
