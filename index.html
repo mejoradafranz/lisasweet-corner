@@ -862,6 +862,20 @@
     .flavor-pill:hover { border-color: var(--accent); color: var(--text); }
     .flavor-pill.selected { border-color: var(--accent); background: var(--accent); color: var(--white); font-weight: 500; }
 
+    /* Number picker (Number Box only) */
+    #overlayNumberSection { display: none; margin-bottom: 1.4rem; }
+    .number-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+    .number-btn {
+      border: 1.5px solid var(--border); padding: 0.6rem 0.3rem;
+      cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s;
+      font-family: 'DM Sans', sans-serif; background: none;
+    }
+    .number-btn:hover { border-color: var(--accent); background: #FFF8F3; }
+    .number-btn.selected { border-color: var(--accent); background: var(--accent); color: var(--white); }
+    .number-btn.selected .num-price { color: rgba(255,255,255,0.85); }
+    .num-digit { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+    .num-price { display: block; font-size: 0.68rem; color: var(--text-mid); margin-top: 0.2rem; letter-spacing: 0.5px; }
+
     /* Size selector (Cupcake Bouquet only) */
     #overlaySizeSection { display: none; margin-bottom: 1.4rem; }
     .size-options { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -1418,6 +1432,23 @@
       </div>
       <label class="overlay-label" for="overlayColor">2 Colors of Choice</label>
       <input class="overlay-color-input" id="overlayColor" type="text" placeholder="e.g. dusty rose, sage green..." />
+
+      <!-- Number picker — shown only for Number Box -->
+      <div id="overlayNumberSection">
+        <label class="overlay-label">Choose Your Number(s)</label>
+        <div class="number-grid">
+          <button class="number-btn" data-num="0" data-price="67" onclick="toggleNumber(this)"><span class="num-digit">0</span><span class="num-price">$67</span></button>
+          <button class="number-btn" data-num="1" data-price="61" onclick="toggleNumber(this)"><span class="num-digit">1</span><span class="num-price">$61</span></button>
+          <button class="number-btn" data-num="2" data-price="67" onclick="toggleNumber(this)"><span class="num-digit">2</span><span class="num-price">$67</span></button>
+          <button class="number-btn" data-num="3" data-price="61" onclick="toggleNumber(this)"><span class="num-digit">3</span><span class="num-price">$61</span></button>
+          <button class="number-btn" data-num="4" data-price="73" onclick="toggleNumber(this)"><span class="num-digit">4</span><span class="num-price">$73</span></button>
+          <button class="number-btn" data-num="5" data-price="67" onclick="toggleNumber(this)"><span class="num-digit">5</span><span class="num-price">$67</span></button>
+          <button class="number-btn" data-num="6" data-price="79" onclick="toggleNumber(this)"><span class="num-digit">6</span><span class="num-price">$79</span></button>
+          <button class="number-btn" data-num="7" data-price="55" onclick="toggleNumber(this)"><span class="num-digit">7</span><span class="num-price">$55</span></button>
+          <button class="number-btn" data-num="8" data-price="87" onclick="toggleNumber(this)"><span class="num-digit">8</span><span class="num-price">$87</span></button>
+          <button class="number-btn" data-num="9" data-price="67" onclick="toggleNumber(this)"><span class="num-digit">9</span><span class="num-price">$67</span></button>
+        </div>
+      </div>
 
       <!-- Size selector — shown only for Cupcake Bouquet -->
       <div id="overlaySizeSection">
@@ -2284,6 +2315,20 @@
     document.body.style.overflow = 'hidden';
   }
 
+  var selectedNumbers = [];
+
+  function toggleNumber(el) {
+    var num = el.dataset.num;
+    var idx = selectedNumbers.indexOf(num);
+    if (idx === -1) {
+      selectedNumbers.push(num);
+      el.classList.add('selected');
+    } else {
+      selectedNumbers.splice(idx, 1);
+      el.classList.remove('selected');
+    }
+  }
+
   function selectSize(el) {
     document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
     el.classList.add('selected');
@@ -2295,6 +2340,7 @@
     selectedFlavor = '';
     selectedDiet = 'Regular';
     selectedSize = '';
+    selectedNumbers = [];
     selectedQty = 1;
     document.getElementById('qtyVal').value = 1;
     document.getElementById('overlayColor').value = '';
@@ -2303,11 +2349,15 @@
       p.classList.toggle('selected', p.dataset.diet === 'Regular');
     });
     document.querySelectorAll('.size-option').forEach(function(o) { o.classList.remove('selected'); });
+    document.querySelectorAll('.number-btn').forEach(function(b) { b.classList.remove('selected'); });
     document.getElementById('overlayCustomizeProduct').textContent = name;
 
     // Show size selector only for Cupcake Bouquet
     document.getElementById('overlaySizeSection').style.display =
       (name === 'Cupcake Bouquet') ? 'block' : 'none';
+    // Show number picker only for Number Box
+    document.getElementById('overlayNumberSection').style.display =
+      (name === 'Number Box') ? 'block' : 'none';
 
     // Step 3 wording depends on product
     var step3 = document.getElementById('howToStep3');
@@ -2456,18 +2506,32 @@
     if (currentProductName === 'Cupcake Bouquet' && !selectedSize) {
       showToast('Please choose a size first.'); return;
     }
+    if (currentProductName === 'Number Box' && selectedNumbers.length === 0) {
+      showToast('Please choose at least one number.'); return;
+    }
 
     var thumbSrc = selectedPhotoSrc || PRODUCT_THUMB_MAP[currentProductName] || '';
-    var sizeLabel = selectedSize ? ' — ' + selectedSize : '';
-    var cartName = currentProductName + sizeLabel + ' (' + selectedDiet + ')';
 
-    var existing = cart.find(function(i) {
-      return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
-    });
-    if (existing) {
-      existing.qty += selectedQty;
+    // Number Box: add each selected number as its own cart item
+    if (currentProductName === 'Number Box') {
+      var NUMBER_PRICES = {'0':67,'1':61,'2':67,'3':61,'4':73,'5':67,'6':79,'7':55,'8':87,'9':67};
+      selectedNumbers.forEach(function(num) {
+        var price = NUMBER_PRICES[num];
+        var cartName = 'Number Box — #' + num + ' ($' + price + ')';
+        var existing = cart.find(function(i) {
+          return i.name === cartName && i.flavor === selectedFlavor;
+        });
+        if (existing) { existing.qty += selectedQty; }
+        else { cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc }); }
+      });
     } else {
-      cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc });
+      var sizeLabel = selectedSize ? ' — ' + selectedSize : '';
+      var cartName = currentProductName + sizeLabel + ' (' + selectedDiet + ')';
+      var existing = cart.find(function(i) {
+        return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
+      });
+      if (existing) { existing.qty += selectedQty; }
+      else { cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc }); }
     }
 
     updateCart();
