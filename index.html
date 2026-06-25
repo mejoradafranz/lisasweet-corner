@@ -1331,7 +1331,7 @@
         <ol>
           <li>Add your desired boxes to the cart.</li>
           <li>Use the Special Instructions box in the cart to include gift messages, delivery notes, and any additional notes for your order.</li>
-          <li>Select your pickup time using the calendar.</li>
+          <li id="howToStep3">Select your pickup time using the calendar.</li>
           <li>Delivery fees are automatically calculated at checkout based on your location.</li>
         </ol>
       </div>
@@ -2122,6 +2122,14 @@
     document.getElementById('overlayColor').value = '';
     document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
     document.getElementById('overlayCustomizeProduct').textContent = name;
+
+    // Step 3 wording depends on product
+    var step3 = document.getElementById('howToStep3');
+    if (step3) {
+      step3.textContent = (name === 'Cupcake Bouquet')
+        ? 'Select your delivery date and time using the calendar.'
+        : 'Select your pickup time using the calendar.';
+    }
 
     // Show selected photo or placeholder
     var visual = document.getElementById('overlaySelectedVisual');
