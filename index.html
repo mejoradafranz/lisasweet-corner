@@ -910,6 +910,21 @@
       line-height: 1.2;
     }
 
+    /* Product info highlight box */
+    .overlay-info-box {
+      display: none; margin-bottom: 1.4rem;
+      background: #FFF8F3; border: 1.5px solid var(--accent);
+      border-radius: 6px; padding: 1rem 1.2rem;
+    }
+    .overlay-info-box strong {
+      display: block; font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; color: var(--accent-dark);
+      margin-bottom: 0.4rem;
+    }
+    .overlay-info-box p {
+      font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; margin: 0;
+    }
+
     /* Quantity selector */
     .qty-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.6rem; display: block; }
     .qty-row { display: flex; align-items: center; gap: 0; margin-bottom: 1.4rem; }
@@ -1410,6 +1425,12 @@
       <button class="overlay-back" id="overlayBack">Back to designs</button>
       <div id="overlaySelectedVisual"></div>
       <div id="overlayCustomizeProduct"></div>
+      <!-- Individual Favor Boxes info -->
+      <div class="overlay-info-box" id="overlayFavorInfo">
+        <strong>Individually wrapped standard cupcakes — minimum order of 6</strong>
+        <p>Our individually wrapped cupcakes are beautiful edible floral gifts for your guests, presented in a clear display box.</p>
+      </div>
+
       <label class="overlay-label">Diet</label>
       <div class="flavor-pills" id="dietPills">
         <button class="flavor-pill selected" data-diet="Regular">Regular</button>
@@ -2346,6 +2367,9 @@
     // Show Luxe Bouquet size selector
     document.getElementById('overlayLuxeSizeSection').style.display =
       (name === 'Luxe Bouquet') ? 'block' : 'none';
+    // Show Individual Favor Boxes info
+    document.getElementById('overlayFavorInfo').style.display =
+      (name === 'Individual Favor Boxes') ? 'block' : 'none';
     // Show number picker only for Number Box
     document.getElementById('overlayNumberSection').style.display =
       (name === 'Number Box') ? 'block' : 'none';
