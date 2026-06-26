@@ -1111,7 +1111,7 @@
        ORDER / CONTACT
     ═══════════════════════════════════ */
     #order { background: var(--bg); }
-    .order-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; max-width: 1140px; margin: 0 auto; }
+    .order-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start; max-width: 640px; margin: 0 auto; }
     .contact-items { margin-top: 2rem; display: flex; flex-direction: column; }
     .contact-item { display: flex; align-items: flex-start; gap: 1.1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); }
     .contact-item:first-child { border-top: 1px solid var(--border); }
@@ -1509,7 +1509,7 @@
           <div class="product-desc">Includes 12 standard size cupcakes, each topped with beautiful edible floral, presented in a white chic box. Perfect for birthdays, events, and celebrations.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1524,7 +1524,7 @@
           <div class="product-desc">Includes 6 standard size cupcakes, each topped with beautiful edible floral, presented in a white chic box. Perfect for birthdays, events, and celebrations.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1539,7 +1539,7 @@
           <div class="product-desc">4 floral cupcakes elegantly boxed — ideal as a personal treat or a thoughtful gift.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1554,7 +1554,7 @@
           <div class="product-desc">Single cupcakes in individual gift boxes — perfect as wedding or party favors.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1569,7 +1569,7 @@
           <div class="product-desc">Mini cupcakes are sold with a 2 dozen minimum per flavor. All orders must be placed in even quantities.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1599,7 +1599,7 @@
           <div class="product-desc">Our luxe bouquet contains standard size cupcakes, each topped with pretty edible floral. Presented in a white chic box.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Price upon inquiry</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -1968,29 +1968,6 @@
         <div class="contact-item fade-up delay-4"><div class="contact-icon">🕐</div><div class="contact-info"><strong>Order Lead Time</strong><span>2–4 weeks in advance recommended</span></div></div>
       </div>
     </div>
-    <div class="fade-up delay-2">
-      <div class="form-title">Place Your Order</div>
-      <div class="form-row">
-        <div class="form-group half"><label>Your Name</label><input type="text" id="orderName" placeholder="e.g. Maria Santos" /></div>
-        <div class="form-group half"><label>Contact Number</label><input type="tel" id="orderPhone" placeholder="+1 (407) 000-0000" /></div>
-      </div>
-      <div class="form-group">
-        <label>What would you like to order?</label>
-        <select id="orderItem">
-          <option value="">— Select a product —</option>
-          <option>Standard Dozen</option>
-          <option>Standard Half Dozen</option>
-          <option>Standard Box of 4</option>
-          <option>Individual Favor Boxes</option>
-          <option>Mini 24 Cupcakes</option>
-          <option>Number Box</option>
-          <option>Lux Bouquet</option>
-          <option>Cupcake Bouquet</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Special Requests / Message</label><textarea id="orderNote" placeholder="e.g. theme color, event date, custom message..."></textarea></div>
-      <button class="btn-order" onclick="submitOrder()">Send Order Request</button>
-    </div>
   </div>
 </section>
 
@@ -2052,8 +2029,8 @@
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <p class="cart-footer-note">Fill in your details below to complete your order. A 50% deposit is required to secure your date.</p>
-      <button class="btn-cart-order" id="btnCartOrder" disabled>Send Order Request →</button>
+      <p class="cart-footer-note">Ready to order? Send us a message on Instagram with your cart details.</p>
+      <a class="btn-cart-order" href="https://www.instagram.com/lisasweetcorner" target="_blank" rel="noopener" id="btnCartOrder">Message Us on Instagram →</a>
     </div>
   </div>
 </div>
@@ -2546,7 +2523,8 @@
     badge.textContent = total;
     fab.classList.toggle('has-items', total > 0);
     document.getElementById('cartHeaderCount').textContent = total + (total === 1 ? ' item' : ' items');
-    document.getElementById('btnCartOrder').disabled = total === 0;
+    document.getElementById('btnCartOrder').style.opacity = total === 0 ? '0.4' : '1';
+    document.getElementById('btnCartOrder').style.pointerEvents = total === 0 ? 'none' : '';
     renderCartItems();
   }
 
@@ -2604,29 +2582,6 @@
     if (e.target === this) closeCart();
   });
 
-  document.getElementById('btnCartOrder').addEventListener('click', function() {
-    if (cart.length === 0) return;
-    // Build order summary and pre-fill form
-    var lines = cart.map(function(i) {
-      return '• ' + i.qty + 'x ' + i.name + ' (' + i.flavor + (i.color ? ', ' + i.color : '') + ')';
-    });
-    document.getElementById('orderNote').value = lines.join('\n');
-    document.getElementById('orderItem').value = cart[0].name;
-    closeCart();
-    showToast('Cart ready! Fill in your details below.');
-    document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
-  });
-
-  function submitOrder() {
-    var name  = document.getElementById('orderName').value.trim();
-    var phone = document.getElementById('orderPhone').value.trim();
-    var item  = document.getElementById('orderItem').value;
-    if (!name || !phone || !item) { showToast('Please fill in your name, number, and product selection.'); return; }
-    showToast('Order received! We\'ll contact you soon, ' + name + '.');
-    cart = [];
-    updateCart();
-    ['orderName','orderPhone','orderItem','orderNote'].forEach(function(id) { document.getElementById(id).value = ''; });
-  }
 
   // Init cart display
   updateCart();
