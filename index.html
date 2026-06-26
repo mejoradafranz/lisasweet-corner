@@ -2285,43 +2285,16 @@
 
   function openProduct(name) {
     currentProductName = name;
-    selectedFlavor = '';
-    selectedPhotoSrc = '';
-
-    // Set title
-    document.getElementById('overlayTitle').textContent = name;
-
-    // Build photo picker (Screen 1)
-    var photos = PRODUCT_PHOTOS[name] || [];
-    var realPhotos = photos.filter(function(s) { return s !== ''; });
-    var pickEl = document.getElementById('overlayPhotoPick');
-
-    // Set 1-col layout if only 1 photo
-    pickEl.className = 'overlay-photo-pick' + (realPhotos.length === 1 ? ' single' : '');
-
-    var slots = '';
-    if (realPhotos.length === 0) {
-      // No photos yet — single placeholder that goes straight to customize
-      slots = '<div class="pick-placeholder" onclick="selectPhoto(\'\', \'' + name + '\')">'
-        + '<div class="slot-icon">🌸</div>'
-        + '<div class="slot-label">Tap to customize your order</div>'
-        + '</div>';
-    } else {
-      realPhotos.forEach(function(src, i) {
-        slots += '<div class="pick-item" onclick="openLightboxForProduct(\'' + src + '\', \'' + name + '\')">'
-          + '<img src="' + src + '" alt="Design ' + (i+1) + '" />'
-          + '<div class="pick-item-label">Tap to view full photo</div>'
-          + '</div>';
-      });
-    }
-    pickEl.innerHTML = slots;
-
-    // Show Screen 1, hide Screen 2
-    document.getElementById('overlayScreenPhotos').style.display = 'block';
-    document.getElementById('overlayScreenCustomize').style.display = 'none';
-
     document.getElementById('productOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    // Get first available photo for this product
+    var photos = PRODUCT_PHOTOS[name] || [];
+    var firstPhoto = photos.find(function(s) { return s !== ''; }) || '';
+
+    // Go straight to Screen 2
+    document.getElementById('overlayBack').style.display = 'none';
+    selectPhoto(firstPhoto, name);
   }
 
   var selectedNumbers = [];
