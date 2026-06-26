@@ -1423,6 +1423,26 @@
       <div class="flavor-pills" id="dietPills">
         <button class="flavor-pill selected" data-diet="Regular">Regular</button>
       </div>
+
+      <!-- Luxe Bouquet size selector -->
+      <div id="overlayLuxeSizeSection" style="display:none; margin-bottom:1.4rem;">
+        <label class="overlay-label">Size</label>
+        <div class="size-options">
+          <div class="size-option" data-size="7 Standard" data-price="60" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">7 Standard</span>
+            </div>
+            <span class="size-option-price">$60</span>
+          </div>
+          <div class="size-option" data-size="12 Standard" data-price="85" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">12 Standard</span>
+            </div>
+            <span class="size-option-price">$85</span>
+          </div>
+        </div>
+      </div>
+
       <label class="overlay-label">Choose Your Flavor</label>
       <div class="flavor-pills">
         <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
@@ -1584,18 +1604,18 @@
           <div class="product-desc">Contains 7–13 standard cupcakes and comes beautifully packed in a white gift box.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">7 Standard — $60 &nbsp;·&nbsp; 12 Standard — $85</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
     </div>
 
-    <div class="product-card fade-up delay-3" onclick="openProduct('Lux Bouquet')">
-      <div class="product-thumb"><img src="photos%20and%20videos/Lux%20front%20photo.jfif" alt="Lux Bouquet" /></div>
+    <div class="product-card fade-up delay-3" onclick="openProduct('Luxe Bouquet')">
+      <div class="product-thumb"><img src="photos%20and%20videos/Lux%20front%20photo.jfif" alt="Luxe Bouquet" /></div>
       <div class="product-body-wrap">
         <div>
           <div class="product-num">07</div>
-          <div class="product-name">Lux Bouquet</div>
+          <div class="product-name">Luxe Bouquet</div>
           <div class="product-desc">Our luxe bouquet contains standard size cupcakes, each topped with pretty edible floral. Presented in a white chic box.</div>
         </div>
         <div class="product-footer">
@@ -1614,7 +1634,7 @@
           <div class="product-desc">A luxury cupcake bouquet — our most elegant arrangement, designed to impress. Delivered and professionally set up on-site for a seamless, picture-perfect presentation.</div>
         </div>
         <div class="product-footer">
-          <span class="product-price">Small · Medium · Large</span>
+          <span class="product-price"></span>
           <button class="view-btn">View Details</button>
         </div>
       </div>
@@ -2236,7 +2256,7 @@
     'Individual Favor Boxes': ['photos%20and%20videos/individual%20pack.jfif', '', '', ''],
     'Mini 24 Cupcakes':    ['photos%20and%20videos/mini%20cup.jfif', '', '', ''],
     'Number Box':          ['', '', '', ''],
-    'Lux Bouquet':         ['photos%20and%20videos/lux.jfif', '', '', ''],
+    'Luxe Bouquet':         ['photos%20and%20videos/lux.jfif', '', '', ''],
     'Cupcake Bouquet':     ['photos%20and%20videos/cupcake%20boq.jfif', 'photos%20and%20videos/cupcake%20bou.jfif', '', ''],
   };
 
@@ -2332,6 +2352,9 @@
     // Show size selector only for Cupcake Bouquet
     document.getElementById('overlaySizeSection').style.display =
       (name === 'Cupcake Bouquet') ? 'block' : 'none';
+    // Show Luxe Bouquet size selector
+    document.getElementById('overlayLuxeSizeSection').style.display =
+      (name === 'Luxe Bouquet') ? 'block' : 'none';
     // Show number picker only for Number Box
     document.getElementById('overlayNumberSection').style.display =
       (name === 'Number Box') ? 'block' : 'none';
@@ -2480,7 +2503,7 @@
   document.getElementById('overlayCta').addEventListener('click', function() {
     var color = document.getElementById('overlayColor').value.trim();
     if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
-    if (currentProductName === 'Cupcake Bouquet' && !selectedSize) {
+    if ((currentProductName === 'Cupcake Bouquet' || currentProductName === 'Luxe Bouquet') && !selectedSize) {
       showToast('Please choose a size first.'); return;
     }
     if (currentProductName === 'Number Box' && selectedNumbers.length === 0) {
