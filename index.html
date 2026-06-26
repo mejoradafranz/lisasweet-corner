@@ -1484,6 +1484,7 @@
       </div>
 
       <label class="overlay-label">Choose Your Flavor</label>
+      <p id="flavorHint" style="display:none; font-size:0.75rem; color:var(--text-mid); margin:-0.8rem 0 0.8rem; letter-spacing:0.3px;">Pick up to 3</p>
       <div class="flavor-pills">
         <button class="flavor-pill" data-flavor="Vanilla">Vanilla</button>
         <button class="flavor-pill" data-flavor="Chocolate">Chocolate</button>
@@ -2258,6 +2259,7 @@
 
   // ── Product overlay ──
   let selectedFlavor = '';
+  let selectedFlavors = [];
   let selectedDiet = 'Regular';
 
   // ✏️ Add up to 4 photo paths per product (leave slots empty for placeholders)
@@ -2320,6 +2322,7 @@
   function selectPhoto(src, name) {
     selectedPhotoSrc = src;
     selectedFlavor = '';
+    selectedFlavors = [];
     selectedDiet = 'Regular';
     selectedSize = '';
     selectedNumbers = [];
@@ -2343,6 +2346,9 @@
     // Show Individual Favor Boxes info
     document.getElementById('overlayFavorInfo').style.display =
       (name === 'Individual Favor Boxes') ? 'block' : 'none';
+    // Show "pick up to 3" hint only for Cupcake Bouquet
+    document.getElementById('flavorHint').style.display =
+      (name === 'Cupcake Bouquet') ? 'block' : 'none';
     // Show number picker only for Number Box
     document.getElementById('overlayNumberSection').style.display =
       (name === 'Number Box') ? 'block' : 'none';
@@ -2393,9 +2399,23 @@
 
   document.querySelectorAll('.flavor-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
-      document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
-      this.classList.add('selected');
-      selectedFlavor = this.dataset.flavor;
+      if (currentProductName === 'Cupcake Bouquet') {
+        var flavor = this.dataset.flavor;
+        var idx = selectedFlavors.indexOf(flavor);
+        if (idx !== -1) {
+          selectedFlavors.splice(idx, 1);
+          this.classList.remove('selected');
+        } else if (selectedFlavors.length < 3) {
+          selectedFlavors.push(flavor);
+          this.classList.add('selected');
+        } else {
+          showToast('You can pick up to 3 flavors only.');
+        }
+      } else {
+        document.querySelectorAll('.flavor-pill').forEach(function(p) { p.classList.remove('selected'); });
+        this.classList.add('selected');
+        selectedFlavor = this.dataset.flavor;
+      }
     });
   });
 
@@ -2490,7 +2510,10 @@
 
   document.getElementById('overlayCta').addEventListener('click', function() {
     var color = document.getElementById('overlayColor').value.trim();
-    if (!selectedFlavor) { showToast('Please choose a flavor first.'); return; }
+    var flavorLabel = (currentProductName === 'Cupcake Bouquet')
+      ? selectedFlavors.join(' / ')
+      : selectedFlavor;
+    if (!flavorLabel) { showToast('Please choose a flavor first.'); return; }
     if ((currentProductName === 'Cupcake Bouquet' || currentProductName === 'Luxe Bouquet') && !selectedSize) {
       showToast('Please choose a size first.'); return;
     }
@@ -2507,19 +2530,19 @@
         var price = NUMBER_PRICES[num];
         var cartName = 'Number Box — #' + num + ' ($' + price + ')';
         var existing = cart.find(function(i) {
-          return i.name === cartName && i.flavor === selectedFlavor;
+          return i.name === cartName && i.flavor === flavorLabel;
         });
         if (existing) { existing.qty += selectedQty; }
-        else { cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc }); }
+        else { cart.push({ id: cartIdCounter++, name: cartName, flavor: flavorLabel, color: color, qty: selectedQty, thumb: thumbSrc }); }
       });
     } else {
       var sizeLabel = selectedSize ? ' — ' + selectedSize : '';
       var cartName = currentProductName + sizeLabel + ' (' + selectedDiet + ')';
       var existing = cart.find(function(i) {
-        return i.name === cartName && i.flavor === selectedFlavor && i.color === color && i.thumb === thumbSrc;
+        return i.name === cartName && i.flavor === flavorLabel && i.color === color && i.thumb === thumbSrc;
       });
       if (existing) { existing.qty += selectedQty; }
-      else { cart.push({ id: cartIdCounter++, name: cartName, flavor: selectedFlavor, color: color, qty: selectedQty, thumb: thumbSrc }); }
+      else { cart.push({ id: cartIdCounter++, name: cartName, flavor: flavorLabel, color: color, qty: selectedQty, thumb: thumbSrc }); }
     }
 
     updateCart();
