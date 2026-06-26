@@ -1431,6 +1431,34 @@
         <p>Our individually wrapped cupcakes are beautiful edible floral gifts for your guests, presented in a clear display box.</p>
       </div>
 
+      <!-- Size selector — shown only for Cupcake Bouquet -->
+      <div id="overlaySizeSection">
+        <label class="overlay-label">Size</label>
+        <div class="size-options">
+          <div class="size-option" data-size="Small" data-price="450" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Small</span>
+              <span class="size-option-desc">36 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$450</span>
+          </div>
+          <div class="size-option" data-size="Medium" data-price="670" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Medium</span>
+              <span class="size-option-desc">60 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$670</span>
+          </div>
+          <div class="size-option" data-size="Large" data-price="890" onclick="selectSize(this)">
+            <div class="size-option-left">
+              <span class="size-option-name">Large</span>
+              <span class="size-option-desc">84 Standard Cupcakes</span>
+            </div>
+            <span class="size-option-price">$890</span>
+          </div>
+        </div>
+      </div>
+
       <label class="overlay-label">Diet</label>
       <div class="flavor-pills" id="dietPills">
         <button class="flavor-pill selected" data-diet="Regular">Regular</button>
@@ -1479,34 +1507,6 @@
           <button class="number-btn" data-num="7" data-price="55" onclick="toggleNumber(this)"><span class="num-digit">7</span><span class="num-price">$55</span></button>
           <button class="number-btn" data-num="8" data-price="87" onclick="toggleNumber(this)"><span class="num-digit">8</span><span class="num-price">$87</span></button>
           <button class="number-btn" data-num="9" data-price="67" onclick="toggleNumber(this)"><span class="num-digit">9</span><span class="num-price">$67</span></button>
-        </div>
-      </div>
-
-      <!-- Size selector — shown only for Cupcake Bouquet -->
-      <div id="overlaySizeSection">
-        <label class="overlay-label">Size</label>
-        <div class="size-options">
-          <div class="size-option" data-size="Small" data-price="450" onclick="selectSize(this)">
-            <div class="size-option-left">
-              <span class="size-option-name">Small</span>
-              <span class="size-option-desc">36 Standard Cupcakes</span>
-            </div>
-            <span class="size-option-price">$450</span>
-          </div>
-          <div class="size-option" data-size="Medium" data-price="670" onclick="selectSize(this)">
-            <div class="size-option-left">
-              <span class="size-option-name">Medium</span>
-              <span class="size-option-desc">60 Standard Cupcakes</span>
-            </div>
-            <span class="size-option-price">$670</span>
-          </div>
-          <div class="size-option" data-size="Large" data-price="890" onclick="selectSize(this)">
-            <div class="size-option-left">
-              <span class="size-option-name">Large</span>
-              <span class="size-option-desc">84 Standard Cupcakes</span>
-            </div>
-            <span class="size-option-price">$890</span>
-          </div>
         </div>
       </div>
 
