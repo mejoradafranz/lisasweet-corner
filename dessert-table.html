@@ -61,11 +61,21 @@
 
     /* ── Page header ── */
     .page-header {
-      background: var(--bg-dark);
-      padding: 3.5rem 5% 3rem;
+      position: relative;
+      padding: 5rem 5% 4rem;
       text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background-image: url('photos%20and%20videos/mini%20cup.jfif');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
     }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,9,3,0.72) 0%, rgba(15,9,3,0.6) 100%);
+    }
+    .page-header > * { position: relative; z-index: 1; }
     .page-eyebrow {
       font-size: 0.68rem;
       letter-spacing: 3px;
