@@ -190,10 +190,15 @@
       position: relative;
       overflow: hidden;
     }
+    @keyframes zoomOut {
+      from { transform: scale(1.15); }
+      to   { transform: scale(1); }
+    }
     .hero-bg {
       position: absolute; inset: 0;
       background-image: url('photos%20and%20videos/head.jpeg');
       background-size: cover; background-position: center top;
+      animation: zoomOut 8s ease-out forwards;
     }
     .hero-overlay { display: none; }
 
