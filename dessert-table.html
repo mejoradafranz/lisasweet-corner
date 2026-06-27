@@ -371,6 +371,15 @@
       color: var(--text-mid);
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s, color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .payment-option + label img {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
     }
     .payment-option:checked + label {
       border-color: var(--accent);
@@ -825,9 +834,9 @@
         <div style="margin-top:1.2rem;">
           <div class="payment-options">
             <input type="radio" name="payment_method" id="pay_zelle" value="Zelle" class="payment-option" required />
-            <label for="pay_zelle">💳 Zelle</label>
+            <label for="pay_zelle"><img src="photos%20and%20videos/ZELLE.png" alt="Zelle" />Zelle</label>
             <input type="radio" name="payment_method" id="pay_cashapp" value="Cash App" class="payment-option" />
-            <label for="pay_cashapp">💚 Cash App</label>
+            <label for="pay_cashapp"><img src="photos%20and%20videos/CASH%20APP.png" alt="Cash App" />Cash App</label>
           </div>
         </div>
       </div>
