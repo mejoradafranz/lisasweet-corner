@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dessert Table — Lisa Sweet Corner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:       #FFFFFF;
+      --bg:          #FAF8F5;
+      --bg-alt:      #F4F0EA;
+      --bg-dark:     #1A1209;
+      --text:        #1A1209;
+      --text-mid:    #6B5744;
+      --text-faint:  #9E8B7A;
+      --accent:      #B8926A;
+      --accent-dark: #8C6340;
+      --border:      rgba(139,106,64,0.15);
+      --radius:      6px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Top nav ── */
+    .top-nav {
+      background: var(--bg-dark);
+      padding: 1rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-nav a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .top-nav a:hover { color: var(--accent); }
+    .top-nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+    .top-nav-brand em { font-style: italic; font-weight: 300; color: var(--accent); }
+
+    /* ── Page header ── */
+    .page-header {
+      background: var(--bg-dark);
+      padding: 3.5rem 5% 3rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .page-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .page-title em { font-style: italic; font-weight: 300; color: var(--accent); }
+    .page-subtitle {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Form wrapper ── */
+    .form-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 5% 5rem;
+    }
+
+    /* ── Section block ── */
+    .form-section {
+      margin-bottom: 2.8rem;
+    }
+    .form-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-section-title span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-faint);
+      letter-spacing: 0.3px;
+      margin-left: 0.5rem;
+    }
+
+    /* ── Notice box ── */
+    .notice-box {
+      background: #FFF8F3;
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 2.2rem;
+    }
+    .notice-box p {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+    .notice-box p + p { margin-top: 0.6rem; }
+    .notice-box strong { color: var(--accent-dark); }
+
+    /* ── Form fields ── */
+    .field { margin-bottom: 1.4rem; }
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.5rem;
+    }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus { border-color: var(--accent); }
+    .field textarea { resize: vertical; min-height: 100px; }
+    .field-note {
+      font-size: 0.73rem;
+      color: var(--text-faint);
+      margin-top: 0.4rem;
+      line-height: 1.6;
+    }
+
+    /* ── Party packages ── */
+    .package-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/7;
+      background: var(--bg-alt);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+    }
+    .package-img-placeholder img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius);
+    }
+    .package-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+    }
+    .package-option { display: none; }
+    .package-option + label {
+      display: block;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .package-option:checked + label {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ── Menu items ── */
+    .menu-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.75rem;
+      background: var(--white);
+    }
+    .menu-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .menu-item-info { flex: 1; }
+    .menu-item-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .menu-item-desc {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      margin-top: 0.2rem;
+      line-height: 1.5;
+    }
+    .menu-item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    /* ── Qty stepper ── */
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .qty-stepper button {
+      width: 32px; height: 32px;
+      border: none;
+      background: var(--bg-alt);
+      color: var(--text-mid);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1;
+    }
+    .qty-stepper button:hover { background: var(--accent); color: var(--white); }
+    .qty-stepper input {
+      width: 40px; height: 32px;
+      border: none; border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+    }
+    .qty-label-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+    }
+    .qty-doz-label {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Flavor section (inside menu item) ── */
+    .item-flavors {
+      display: none;
+      margin-top: 0.9rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+    .item-flavors.visible { display: block; }
+    .flavor-label-small {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .flavor-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .flavor-check-label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .flavor-check-label:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--white);
+    }
+    .flavor-check-label input { display: none; }
+
+    /* Cheesecake shooter flavor rows */
+    .cheesecake-flavors { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--border); }
+    .cs-flavor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-flavor-row:last-child { border-bottom: none; }
+    .cs-flavor-name { font-size: 0.82rem; color: var(--text-mid); }
+
+    /* ── Payment options ── */
+    .payment-options {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .payment-option { display: none; }
+    .payment-option + label {
+      flex: 1;
+      padding: 0.9rem 1rem;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .payment-option:checked + label {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ── File upload ── */
+    .file-upload-wrap {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--bg-alt);
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .file-upload-wrap:hover { border-color: var(--accent); }
+    .file-upload-wrap input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .file-upload-icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .file-upload-text { font-size: 0.8rem; color: var(--text-mid); }
+    .file-upload-text strong { color: var(--accent-dark); }
+
+    /* ── Submit button ── */
+    .submit-wrap { text-align: center; margin-top: 2.5rem; }
+    .submit-btn {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 1rem 3.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .submit-btn:hover { background: var(--accent-dark); }
+    .submit-note {
+      font-size: 0.73rem;
+      color: var(--text-faint);
+      margin-top: 0.8rem;
+    }
+
+    /* ── Minimum order banner ── */
+    .menu-banner {
+      background: var(--bg-dark);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.78rem;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.3px;
+    }
+    .menu-banner strong { color: var(--accent); }
+
+    /* ── Divider ── */
+    .menu-divider {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 1.2rem 0 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .package-options { grid-template-columns: repeat(2, 1fr); }
+      .payment-options { flex-direction: column; }
+      .menu-item-header { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top nav -->
+  <nav class="top-nav">
+    <a href="index.html">&#8592; Back to Home</a>
+    <div class="top-nav-brand">Lisa <em>Sweet</em> Corner</div>
+  </nav>
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="page-eyebrow">Lisa Sweet Corner</div>
+    <h1 class="page-title">Dessert <em>Table</em></h1>
+    <p class="page-subtitle">Fill out the form below to request your custom dessert spread.</p>
+  </header>
+
+  <!-- Form -->
+  <div class="form-wrap">
+    <form
+      action="https://formsubmit.co/mejorada.franciscoiii@gmail.com"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <!-- Formsubmit config -->
+      <input type="hidden" name="_subject" value="New Dessert Table Order Request — Lisa Sweet Corner" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+
+      <!-- Terms & Conditions -->
+      <div class="notice-box">
+        <p>Filling out this form does not confirm your order. After submission, we will contact you to discuss pricing and availability before confirming.</p>
+        <p>Once we respond, your spot will be held for <strong>48 hours</strong>. To secure your order, a <strong>50% non-refundable deposit</strong> is required via Zelle or Cash App.</p>
+        <p>Your order will only be confirmed once the deposit is received. By placing an order, you agree to all policies.</p>
+      </div>
+
+      <!-- Personal Info -->
+      <div class="form-section">
+        <div class="form-section-title">Your Information</div>
+        <div style="margin-top:1.2rem;">
+          <div class="field">
+            <label for="full_name">First and Last Name</label>
+            <input type="text" id="full_name" name="full_name" placeholder="e.g. Maria Santos" required />
+          </div>
+          <div class="field">
+            <label for="mobile">Mobile Number</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="e.g. (321) 000-0000" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="e.g. you@email.com" required />
+            <p class="field-note">Please double-check that your information above is correct, as we will use it to contact you about your order request.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Party Packages -->
+      <div class="form-section">
+        <div class="form-section-title">Party Packages</div>
+        <div style="margin-top:1.2rem;">
+          <!-- Party package image — replace src below with your actual image -->
+          <div class="package-img-placeholder" id="packageImgWrap">
+            <span>Party package photo coming soon</span>
+          </div>
+          <div class="package-options">
+            <input type="radio" name="party_package" id="pkg_small" value="Small" class="package-option" />
+            <label for="pkg_small">Small</label>
+            <input type="radio" name="party_package" id="pkg_medium" value="Medium" class="package-option" />
+            <label for="pkg_medium">Medium</label>
+            <input type="radio" name="party_package" id="pkg_large" value="Large" class="package-option" />
+            <label for="pkg_large">Large</label>
+            <input type="radio" name="party_package" id="pkg_xlarge" value="Extra Large" class="package-option" />
+            <label for="pkg_xlarge">Extra Large</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="form-section">
+        <div class="form-section-title">Menu <span>Sold by Dozen</span></div>
+        <div style="margin-top:1.2rem;">
+          <div class="menu-banner">Minimum order of <strong>$150</strong></div>
+
+          <!-- Cheesecake Shooters -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Cheesecake Shooters</div>
+                <div class="menu-item-desc">3 oz · Select qty per flavor below</div>
+              </div>
+              <div class="menu-item-price">$45 / doz</div>
+            </div>
+            <div class="cheesecake-flavors">
+              <span class="flavor-label-small">Qty per flavor (dozen)</span>
+              <div class="cs-flavor-row">
+                <span class="cs-flavor-name">Oreo</span>
+                <div class="qty-stepper">
+                  <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                  <input type="number" name="cheesecake_oreo_doz" value="0" min="0" readonly />
+                  <button type="button" onclick="stepQty(this,1)">+</button>
+                </div>
+              </div>
+              <div class="cs-flavor-row">
+                <span class="cs-flavor-name">Strawberry</span>
+                <div class="qty-stepper">
+                  <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                  <input type="number" name="cheesecake_strawberry_doz" value="0" min="0" readonly />
+                  <button type="button" onclick="stepQty(this,1)">+</button>
+                </div>
+              </div>
+              <div class="cs-flavor-row">
+                <span class="cs-flavor-name">Biscoff</span>
+                <div class="qty-stepper">
+                  <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                  <input type="number" name="cheesecake_biscoff_doz" value="0" min="0" readonly />
+                  <button type="button" onclick="stepQty(this,1)">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cakesicles -->
+          <div class="menu-item" id="item_cakesicles">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Cakesicles</div>
+                <div class="menu-item-desc">Large size · 3" × 1.75"</div>
+              </div>
+              <div class="menu-item-price">$55 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQtyItem(this,'item_cakesicles',-1)">&#8722;</button>
+                <input type="number" name="cakesicles_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQtyItem(this,'item_cakesicles',1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+            <div class="item-flavors" id="flavors_cakesicles">
+              <span class="flavor-label-small">Choose Flavor(s)</span>
+              <div class="flavor-checks">
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Vanilla" />Vanilla</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Chocolate" />Chocolate</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Red Velvet" />Red Velvet</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Strawberry" />Strawberry</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Funfetti" />Funfetti</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakesicles_flavor" value="Chocolate Chip" />Chocolate Chip</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cake Pop Disc -->
+          <div class="menu-item" id="item_cakepop_disc">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Cake Pop Disc</div>
+                <div class="menu-item-desc">Medium size · 1.75" · ½" thick</div>
+              </div>
+              <div class="menu-item-price">$42 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQtyItem(this,'item_cakepop_disc',-1)">&#8722;</button>
+                <input type="number" name="cakepop_disc_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQtyItem(this,'item_cakepop_disc',1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+            <div class="item-flavors" id="flavors_cakepop_disc">
+              <span class="flavor-label-small">Choose Flavor(s)</span>
+              <div class="flavor-checks">
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Vanilla" />Vanilla</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Chocolate" />Chocolate</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Red Velvet" />Red Velvet</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Strawberry" />Strawberry</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Funfetti" />Funfetti</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cakepop_disc_flavor" value="Chocolate Chip" />Chocolate Chip</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Round Cakepops -->
+          <div class="menu-item" id="item_round_cakepops">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Round Cakepops</div>
+              </div>
+              <div class="menu-item-price">$50 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQtyItem(this,'item_round_cakepops',-1)">&#8722;</button>
+                <input type="number" name="round_cakepops_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQtyItem(this,'item_round_cakepops',1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+            <div class="item-flavors" id="flavors_round_cakepops">
+              <span class="flavor-label-small">Choose Flavor(s)</span>
+              <div class="flavor-checks">
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Vanilla" />Vanilla</label>
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Chocolate" />Chocolate</label>
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Red Velvet" />Red Velvet</label>
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Strawberry" />Strawberry</label>
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Funfetti" />Funfetti</label>
+                <label class="flavor-check-label"><input type="checkbox" name="round_cakepops_flavor" value="Chocolate Chip" />Chocolate Chip</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cake Cone Pops -->
+          <div class="menu-item" id="item_cake_cone_pops">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Cake Cone Pops</div>
+              </div>
+              <div class="menu-item-price">$55 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQtyItem(this,'item_cake_cone_pops',-1)">&#8722;</button>
+                <input type="number" name="cake_cone_pops_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQtyItem(this,'item_cake_cone_pops',1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+            <div class="item-flavors" id="flavors_cake_cone_pops">
+              <span class="flavor-label-small">Choose Flavor(s)</span>
+              <div class="flavor-checks">
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Vanilla" />Vanilla</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Chocolate" />Chocolate</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Red Velvet" />Red Velvet</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Strawberry" />Strawberry</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Funfetti" />Funfetti</label>
+                <label class="flavor-check-label"><input type="checkbox" name="cake_cone_pops_flavor" value="Chocolate Chip" />Chocolate Chip</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-divider">No Flavor Selection Needed</div>
+
+          <!-- Rice Krispies -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Rice Krispies</div>
+              </div>
+              <div class="menu-item-price">$40 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="rice_krispies_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Strawberries -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Strawberries</div>
+              </div>
+              <div class="menu-item-price">$40 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="strawberries_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Pretzel Twists -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Pretzel Twists</div>
+              </div>
+              <div class="menu-item-price">$35 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="pretzel_twists_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Coated Oreos -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Coated Oreos</div>
+                <div class="menu-item-desc">Simply dipped in chocolate</div>
+              </div>
+              <div class="menu-item-price">$35 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="coated_oreos_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Covered Oreos -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Covered Oreos</div>
+                <div class="menu-item-desc">Made using a mold for a smooth and even finish</div>
+              </div>
+              <div class="menu-item-price">$40 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="covered_oreos_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Coated Oreo Pops -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Coated Oreo Pops</div>
+                <div class="menu-item-desc">Oreos on a stick, dipped in chocolate</div>
+              </div>
+              <div class="menu-item-price">$35 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="coated_oreo_pops_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+          <!-- Covered Mallow Pops -->
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <div class="menu-item-info">
+                <div class="menu-item-name">Covered Mallow Pops</div>
+              </div>
+              <div class="menu-item-price">$40 / doz</div>
+            </div>
+            <div class="qty-label-row">
+              <div class="qty-stepper">
+                <button type="button" onclick="stepQty(this,-1)">&#8722;</button>
+                <input type="number" name="covered_mallow_pops_doz" value="0" min="0" readonly />
+                <button type="button" onclick="stepQty(this,1)">+</button>
+              </div>
+              <span class="qty-doz-label">dozen</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Preferred Payment -->
+      <div class="form-section">
+        <div class="form-section-title">Preferred Payment for Deposit</div>
+        <div style="margin-top:1.2rem;">
+          <div class="payment-options">
+            <input type="radio" name="payment_method" id="pay_zelle" value="Zelle" class="payment-option" required />
+            <label for="pay_zelle">💳 Zelle</label>
+            <input type="radio" name="payment_method" id="pay_cashapp" value="Cash App" class="payment-option" />
+            <label for="pay_cashapp">💚 Cash App</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design Preferences -->
+      <div class="form-section">
+        <div class="form-section-title">Design Preferences</div>
+        <div style="margin-top:1.2rem;">
+          <div class="field">
+            <label for="color_scheme">Desired Color Scheme</label>
+            <input type="text" id="color_scheme" name="color_scheme" placeholder="e.g. dusty rose, sage green, gold..." />
+          </div>
+          <div class="notice-box" style="margin-bottom:1.4rem;">
+            <p>Base party pack pricing includes your choice of <strong>1–2 colors</strong> for up to 6 dozen, and <strong>2–3 colors</strong> for up to 10 dozen, drizzle, and either sprinkles or gold dust.</p>
+            <p>Custom themes or designs will have an additional charge.</p>
+          </div>
+          <div class="field">
+            <label for="custom_theme">Custom Theme or Design Description</label>
+            <textarea id="custom_theme" name="custom_theme" placeholder="Describe your theme or design idea here..."></textarea>
+          </div>
+          <div class="field">
+            <label>Inspiration Photos</label>
+            <div class="file-upload-wrap">
+              <input type="file" name="inspiration_photos" accept="image/*" multiple />
+              <div class="file-upload-icon">⬆️</div>
+              <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop your inspiration photos here</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Notes -->
+      <div class="form-section">
+        <div class="form-section-title">Additional Information</div>
+        <div style="margin-top:1.2rem;">
+          <div class="field">
+            <label for="additional_notes">Notes, Questions, or Special Requests</label>
+            <textarea id="additional_notes" name="additional_notes" placeholder="e.g. pickup time requests outside of regular hours, allergies, special instructions..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn">Submit Order Request</button>
+        <p class="submit-note">We will contact you within 24–48 hours to confirm availability and pricing.</p>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    // Simple qty stepper (no flavor reveal)
+    function stepQty(btn, delta) {
+      var input = btn.parentElement.querySelector('input[type="number"]');
+      input.value = Math.max(0, (parseInt(input.value) || 0) + delta);
+    }
+
+    // Qty stepper that also shows/hides flavor section
+    function stepQtyItem(btn, itemId, delta) {
+      var item = document.getElementById(itemId);
+      var input = btn.parentElement.querySelector('input[type="number"]');
+      var newVal = Math.max(0, (parseInt(input.value) || 0) + delta);
+      input.value = newVal;
+      var flavors = item.querySelector('.item-flavors');
+      if (flavors) {
+        flavors.classList.toggle('visible', newVal > 0);
+      }
+    }
+  </script>
+
+</body>
+</html>
